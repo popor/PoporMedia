@@ -133,12 +133,16 @@
 }
 
 - (void)addViews {
+    NSString * (^ bundleImageBlock)(NSString *) = ^(NSString *imageName){
+        return [NSString stringWithFormat:@"Frameworks/SKFCamera.framework/SKFCamera.bundle/%@", imageName];
+    };
+
     //拍照按钮
     if (!self.snapButton) {
         self.snapButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.snapButton.clipsToBounds = YES;
         self.snapButton.layer.cornerRadius =75 / 2.0f;
-        [self.snapButton setImage:[UIImage imageNamed:@"SKFCamera.bundle/cameraButton"] forState:UIControlStateNormal];
+        [self.snapButton setImage:[UIImage imageNamed:bundleImageBlock(@"cameraButton")] forState:UIControlStateNormal];
         [self.snapButton addTarget:self action:@selector(snapButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.snapButton];
     }
@@ -148,22 +152,22 @@
         self.flashButton = [UIButton buttonWithType:UIButtonTypeSystem];
         
         self.flashButton.tintColor = [UIColor whiteColor];
-        //     UIImage *image = [UIImage imageNamed:@"SKFCamera.bundle/camera-flash.png"];
-        [self.flashButton setImage:[UIImage imageNamed:@"SKFCamera.bundle/camera-flash"] forState:UIControlStateNormal];
+        
+        [self.flashButton setImage:[UIImage imageNamed:bundleImageBlock(@"camera-flash")] forState:UIControlStateNormal];
         self.flashButton.imageEdgeInsets = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         [self.flashButton addTarget:self action:@selector(flashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.flashButton];
         
         
     }
-    UIImage * backImage = [UIImage imageNamed:@"SKFCamera.bundle/closeButton"];
+    UIImage * backImage = [UIImage imageNamed:bundleImageBlock(@"closeButton")];
     if (!self.backButton) {
         if([LLSimpleCamera isFrontCameraAvailable] && [LLSimpleCamera isRearCameraAvailable]) {
             //摄像头转换按钮
             self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
             
             //        self.switchButton.tintColor = [UIColor whiteColor];
-            [self.switchButton setImage:[UIImage imageNamed:@"SKFCamera.bundle/swapButton"] forState:UIControlStateNormal];
+            [self.switchButton setImage:[UIImage imageNamed:bundleImageBlock(@"swapButton")] forState:UIControlStateNormal];
             [self.switchButton addTarget:self action:@selector(switchButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:self.switchButton];
             //返回按钮

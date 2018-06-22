@@ -1,6 +1,6 @@
 {
   "name": "PoporMedia",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "summary": "Contain select image video;play video;display image",
   "homepage": "https://github.com/popor/PoporMedia",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporMedia.git",
-    "tag": "0.0.2"
+    "tag": "0.0.4"
   },
   "platforms": {
     "ios": "8.0"
@@ -20,10 +20,24 @@
   "subspecs": [
     {
       "name": "UIImageView",
+      "ios": {
+        "dependencies": {
+          "PoporSDWebImage": [
+
+          ]
+        }
+      },
       "source_files": "PoporMedia/Classes/UIImageView/*.{h,m}"
     },
     {
       "name": "Entity",
+      "ios": {
+        "dependencies": {
+          "PoporSDWebImage": [
+
+          ]
+        }
+      },
       "source_files": "PoporMedia/Classes/Entity/*.{h,m}"
     },
     {
@@ -56,9 +70,6 @@
           ],
           "PoporMedia/ImageDisplaySV": [
 
-          ],
-          "PoporSDWebImage": [
-
           ]
         }
       },
@@ -71,19 +82,25 @@
           "Masonry": [
 
           ],
+          "PoporFoundation/prefix": [
+
+          ],
           "PoporUI/UIView": [
+
+          ],
+          "PoporUI/IToast": [
+
+          ],
+          "PoporUI/ProgressView": [
+
+          ],
+          "PoporUI/Tool": [
 
           ],
           "PoporMedia/Entity": [
 
           ],
           "PoporMedia/UIImageView": [
-
-          ],
-          "PoporUI/ProgressView": [
-
-          ],
-          "PoporFoundation/prefix": [
 
           ]
         }

@@ -3,31 +3,34 @@ PODS:
   - PoporFoundation/NSString (0.0.2):
     - PoporFoundation/prefix
   - PoporFoundation/prefix (0.0.2)
-  - PoporMedia (0.0.2):
-    - PoporMedia/Entity (= 0.0.2)
-    - PoporMedia/ImageDisplaySV (= 0.0.2)
-    - "PoporMedia/NSObject+PickImage (= 0.0.2)"
-    - PoporMedia/UIImageView (= 0.0.2)
-  - PoporMedia/Entity (0.0.2)
-  - PoporMedia/ImageDisplaySV (0.0.2):
+  - PoporMedia (0.0.4):
+    - PoporMedia/Entity (= 0.0.4)
+    - PoporMedia/ImageDisplaySV (= 0.0.4)
+    - "PoporMedia/NSObject+PickImage (= 0.0.4)"
+    - PoporMedia/UIImageView (= 0.0.4)
+  - PoporMedia/Entity (0.0.4):
+    - PoporSDWebImage
+  - PoporMedia/ImageDisplaySV (0.0.4):
     - Masonry
     - PoporFoundation/prefix
     - PoporMedia/Entity
     - PoporMedia/UIImageView
+    - PoporUI/IToast
     - PoporUI/ProgressView
+    - PoporUI/Tool
     - PoporUI/UIView
-  - "PoporMedia/NSObject+PickImage (0.0.2)":
+  - "PoporMedia/NSObject+PickImage (0.0.4)":
     - Masonry
     - PoporMedia/Entity
     - PoporMedia/ImageDisplaySV
-    - PoporSDWebImage
     - PoporUI/IToast
     - PoporUI/Tool
     - PoporUI/UIImage
     - PoporUI/UIView
     - SKFCamera
     - TZImagePickerController
-  - PoporMedia/UIImageView (0.0.2)
+  - PoporMedia/UIImageView (0.0.4):
+    - PoporSDWebImage
   - PoporSDWebImage (0.0.1):
     - SDWebImage
   - PoporUI/BlockView (0.0.6)
@@ -66,7 +69,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   PoporFoundation: 286a81ac282014e13b1b874840de7f1f1d852d5e
-  PoporMedia: 3cb6d2ddaec263660f55f1d14565b1e1bf6479bc
+  PoporMedia: 255466588b774fa58d2c492a272ffeb0d85c103b
   PoporSDWebImage: f6ec8ab3fa498cefa84c5ff2ffefdc4f8bafb716
   PoporUI: 2aa3b7f6716b96d87ce1fc1f6fb139bcdb33181e
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4

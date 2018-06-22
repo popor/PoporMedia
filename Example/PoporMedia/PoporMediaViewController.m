@@ -8,22 +8,32 @@
 
 #import "PoporMediaViewController.h"
 
+#import <PoporMedia/NSObject+PickImage.h>
+
 @interface PoporMediaViewController ()
+
+
 
 @end
 
 @implementation PoporMediaViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	
+    self.title = @"media";
+    
+    {
+        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(addImageAction)];
+        self.navigationItem.rightBarButtonItems = @[item1];
+    }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)addImageAction {
+    [self showImageACTitle:@"添加图片" message:nil vc:self maxCount:9 origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
+        
+    }];
+    
 }
 
 @end
