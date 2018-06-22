@@ -1,0 +1,87 @@
+{
+  "name": "PoporMedia",
+  "version": "0.0.1",
+  "summary": "Contain select image video;play video;display image",
+  "homepage": "https://github.com/popor/PoporMedia",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "popor": "908891024@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/popor/PoporMedia.git",
+    "tag": "0.0.1"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "subspecs": [
+    {
+      "name": "Entity",
+      "source_files": "PoporMedia/Classes/Entity/*.{h,m}"
+    },
+    {
+      "name": "NSObject+PickImage",
+      "ios": {
+        "dependencies": {
+          "Masonry": [
+
+          ],
+          "TZImagePickerController": [
+
+          ],
+          "SKFCamera": [
+
+          ],
+          "PoporUI/Tool": [
+
+          ],
+          "PoporUI/UIView": [
+
+          ],
+          "PoporUI/UIImage": [
+
+          ],
+          "PoporUI/IToast": [
+
+          ],
+          "PoporMedia/Entity": [
+
+          ],
+          "PoporMedia/ImageDisplaySV": [
+
+          ],
+          "PoporSDWebImage": [
+
+          ]
+        }
+      },
+      "source_files": "PoporMedia/Classes/NSObject+PickImage/*.{h,m}"
+    },
+    {
+      "name": "ImageDisplaySV",
+      "ios": {
+        "dependencies": {
+          "Masonry": [
+
+          ],
+          "PoporUI/UIView": [
+
+          ],
+          "PoporMedia/Entity": [
+
+          ],
+          "PoporUI/ProgressView": [
+
+          ],
+          "PoporFoundation/prefix": [
+
+          ]
+        }
+      },
+      "source_files": "PoporMedia/Classes/ImageDisplaySV/*.{h,m}"
+    }
+  ]
+}

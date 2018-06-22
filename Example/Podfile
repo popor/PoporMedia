@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PoporMedia_Example' do
+  pod 'PoporMedia', :path => '../'
+
+  target 'PoporMedia_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

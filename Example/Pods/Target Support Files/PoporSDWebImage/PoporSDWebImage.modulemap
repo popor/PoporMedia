@@ -1,0 +1,6 @@
+framework module PoporSDWebImage {
+  umbrella header "PoporSDWebImage-umbrella.h"
+
+  export *
+  module * { export * }
+}
