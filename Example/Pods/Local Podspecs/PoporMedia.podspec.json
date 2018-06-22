@@ -19,6 +19,10 @@
   },
   "subspecs": [
     {
+      "name": "UIImageView",
+      "source_files": "PoporMedia/Classes/UIImageView/*.{h,m}"
+    },
+    {
       "name": "Entity",
       "source_files": "PoporMedia/Classes/Entity/*.{h,m}"
     },

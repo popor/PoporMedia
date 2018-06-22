@@ -7,6 +7,7 @@ PODS:
     - PoporMedia/Entity (= 0.0.1)
     - PoporMedia/ImageDisplaySV (= 0.0.1)
     - "PoporMedia/NSObject+PickImage (= 0.0.1)"
+    - PoporMedia/UIImageView (= 0.0.1)
   - PoporMedia/Entity (0.0.1)
   - PoporMedia/ImageDisplaySV (0.0.1):
     - Masonry
@@ -25,6 +26,7 @@ PODS:
     - PoporUI/UIView
     - SKFCamera
     - TZImagePickerController
+  - PoporMedia/UIImageView (0.0.1)
   - PoporSDWebImage (0.0.1):
     - SDWebImage
   - PoporUI/BlockView (0.0.6)
@@ -63,7 +65,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   PoporFoundation: 286a81ac282014e13b1b874840de7f1f1d852d5e
-  PoporMedia: 072fba3216d0b15c011527b59c3de8cb4b4cbe84
+  PoporMedia: 4a72d4373f7a7e0272c9340a9494ca53b299739c
   PoporSDWebImage: f6ec8ab3fa498cefa84c5ff2ffefdc4f8bafb716
   PoporUI: 2aa3b7f6716b96d87ce1fc1f6fb139bcdb33181e
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4

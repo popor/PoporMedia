@@ -22,6 +22,7 @@
 #import "NSObject+PickImage.h"
 #import "PHAsset+data.h"
 #import "VPImageCropperVC.h"
+#import "UIImageView+sdWebImage.h"
 
 FOUNDATION_EXPORT double PoporMediaVersionNumber;
 FOUNDATION_EXPORT const unsigned char PoporMediaVersionString[];

@@ -20,6 +20,12 @@ Pod::Spec.new do |s|
     
     s.ios.deployment_target = '8.0'
     
+    
+    s.subspec 'UIImageView' do |ss|
+        ss.source_files = 'PoporMedia/Classes/UIImageView/*.{h,m}'
+        
+    end
+    
     s.subspec 'Entity' do |ss|
         
         ss.source_files = 'PoporMedia/Classes/Entity/*.{h,m}'
@@ -27,6 +33,7 @@ Pod::Spec.new do |s|
     end
     
     s.subspec 'NSObject+PickImage' do |ss|
+        
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'
         ss.ios.dependency 'SKFCamera'
@@ -48,6 +55,7 @@ Pod::Spec.new do |s|
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporMedia/Entity'
+        ss.ios.dependency 'PoporMedia/UIImageView'
         ss.ios.dependency 'PoporUI/ProgressView'
         ss.ios.dependency 'PoporFoundation/prefix'
         
