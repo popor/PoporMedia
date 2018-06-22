@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.3'
+    s.version          = '0.0.4'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -22,18 +22,17 @@ Pod::Spec.new do |s|
     
     
     s.subspec 'UIImageView' do |ss|
+        ss.ios.dependency 'PoporSDWebImage'
         ss.source_files = 'PoporMedia/Classes/UIImageView/*.{h,m}'
         
     end
     
     s.subspec 'Entity' do |ss|
-        
         ss.source_files = 'PoporMedia/Classes/Entity/*.{h,m}'
         
     end
     
     s.subspec 'NSObject+PickImage' do |ss|
-        
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'
         ss.ios.dependency 'SKFCamera'
@@ -44,7 +43,6 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'PoporUI/IToast'
         ss.ios.dependency 'PoporMedia/Entity'
         ss.ios.dependency 'PoporMedia/ImageDisplaySV'
-        ss.ios.dependency 'PoporSDWebImage'
         
         ss.source_files = 'PoporMedia/Classes/NSObject+PickImage/*.{h,m}'
         

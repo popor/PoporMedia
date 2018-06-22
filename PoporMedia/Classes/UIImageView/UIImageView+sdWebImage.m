@@ -8,7 +8,7 @@
 
 #import "UIImageView+sdWebImage.h"
 
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation UIImageView (sdWebImage)
 
