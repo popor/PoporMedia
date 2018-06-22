@@ -14,7 +14,6 @@
 #import "ImageDisplayTagVC.h"
 #import "ImageDisplayVC.h"
 #import "ImageDisplayView.h"
-#import "UIImageView+sdWebImage.h"
 #import "BurstShotImagePickerVC.h"
 #import "BurstShotImagePreviewCC.h"
 #import "BurstShotImagePreviewVC.h"
