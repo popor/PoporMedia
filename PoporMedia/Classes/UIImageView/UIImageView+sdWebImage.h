@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "SDWebImageCompat.h"
 
 typedef NS_ENUM(NSUInteger, UploadFileTyp) {
     UploadFileType_Normal,
