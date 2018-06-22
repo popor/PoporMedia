@@ -23,13 +23,14 @@ Pod::Spec.new do |s|
     
     s.subspec 'UIImageView' do |ss|
         ss.ios.dependency 'PoporSDWebImage'
-        ss.source_files = 'PoporMedia/Classes/UIImageView/*.{h,m}'
         
+        ss.source_files = 'PoporMedia/Classes/UIImageView/*.{h,m}'
     end
     
     s.subspec 'Entity' do |ss|
-        ss.source_files = 'PoporMedia/Classes/Entity/*.{h,m}'
+        ss.ios.dependency 'PoporSDWebImage'
         
+        ss.source_files = 'PoporMedia/Classes/Entity/*.{h,m}'
     end
     
     s.subspec 'NSObject+PickImage' do |ss|
@@ -45,23 +46,22 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'PoporMedia/ImageDisplaySV'
         
         ss.source_files = 'PoporMedia/Classes/NSObject+PickImage/*.{h,m}'
-        
     end
     
     s.subspec 'ImageDisplaySV' do |ss|
         ss.ios.dependency 'Masonry'
         
-        ss.ios.dependency 'PoporUI/UIView'
-        ss.ios.dependency 'PoporMedia/Entity'
-        ss.ios.dependency 'PoporMedia/UIImageView'
-        ss.ios.dependency 'PoporUI/ProgressView'
         ss.ios.dependency 'PoporFoundation/prefix'
         
-        ss.source_files = 'PoporMedia/Classes/ImageDisplaySV/*.{h,m}'
+        ss.ios.dependency 'PoporUI/UIView'
+        ss.ios.dependency 'PoporUI/IToast'
+        ss.ios.dependency 'PoporUI/ProgressView'
+        ss.ios.dependency 'PoporUI/Tool'
         
+        ss.ios.dependency 'PoporMedia/Entity'
+        ss.ios.dependency 'PoporMedia/UIImageView'
+        
+        ss.source_files = 'PoporMedia/Classes/ImageDisplaySV/*.{h,m}'
     end
-    
-    
-    
     
 end
