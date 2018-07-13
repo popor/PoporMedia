@@ -302,8 +302,8 @@
         entity.thumbnailImageBounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
     }
     
-    [vc showInNC:self.navigationController push:NO atFrame:selectEntity.thumbnailImageRect offsetOpenY:0
-    offsetCloseY:20 entity:selectEntity array:self.imageArray openBlock:^{
+    [vc showInNC:self.navigationController push:NO fromFrame:selectEntity.thumbnailImageRect offsetOpenY:0
+    offsetCloseY:20 entity:selectEntity entityArray:self.imageArray openBlock:^{
         //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
     } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
         [weakSelf.previewCV reloadData];

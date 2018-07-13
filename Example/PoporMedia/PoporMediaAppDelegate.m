@@ -12,6 +12,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#if TARGET_IPHONE_SIMULATOR//模拟器
+    NSString * iosInjectionPath = @"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle";
+    if ([[NSFileManager defaultManager] fileExistsAtPath:iosInjectionPath]) {
+        [[NSBundle bundleWithPath:iosInjectionPath] load];
+    }
+#endif
+    
     // Override point for customization after application launch.
     return YES;
 }

@@ -64,4 +64,22 @@ Pod::Spec.new do |s|
         ss.source_files = 'PoporMedia/Classes/ImageDisplaySV/*.{h,m}'
     end
     
+    s.subspec 'PoporImageBrowseVC' do |ss|
+        ss.ios.dependency 'Masonry'
+        ss.ios.dependency 'SDWebImage'
+        
+        ss.ios.dependency 'PoporFoundation/prefix'
+        ss.ios.dependency 'PoporFoundation/NSAssistant'
+        
+        ss.ios.dependency 'PoporUI/UIView'
+        ss.ios.dependency 'PoporUI/IToast'
+        ss.ios.dependency 'PoporUI/ProgressView'
+        ss.ios.dependency 'PoporUI/Tool'
+        
+        ss.ios.dependency 'PoporMedia/Entity'
+        ss.ios.dependency 'PoporMedia/UIImageView'
+        
+        ss.source_files = 'PoporMedia/Classes/PoporImageBrowseVC/*.{h,m}'
+    end
+
 end

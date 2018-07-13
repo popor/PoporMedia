@@ -10,12 +10,14 @@
 #endif
 #endif
 
+#import "NSAssistant.h"
 #import "NSString+email.h"
 #import "NSString+format.h"
 #import "NSString+IDCard.h"
 #import "NSString+MD5.h"
 #import "NSString+Size.h"
 #import "NSString+Tool.h"
+#import "PrefixOs.h"
 #import "BlockMacroDefines.h"
 #import "ColorPrefix.h"
 #import "FontPrefix.h"

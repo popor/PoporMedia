@@ -16,12 +16,25 @@
 #import <PoporFoundation/SizePrefix.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
+#import <PoporMedia/ImageDisplayVC.h>
+
+#import <PoporMedia/PoporImageBrowseVCRouter.h>
+
+#import <PoporFoundation/FunctionPrefix.h>
+
+//#define NSLogRect0(rect0)  NSLog(@"CGRect: = %@", NSStringFromCGRect(rect0))
+
+//#define NSLogRect1(rect) NSLog(@"CGRect:%s = {(%f,%f),(%f,%f)}", #rect, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+//#define NSLogRect2(rect2)  NSLog(@"CGRect:%s = %@", #rect2, NSStringFromRect(rect2))
+//#define NSLogRect(rect)  NSLog(@"CGRect:%s = %@", #rect, NSStringFromRect(rect))
 
 @interface PoporMediaViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * cv;
 @property (nonatomic, strong) NSMutableArray * imageArray;
 @property (nonatomic        ) CGSize         ccSize;
+@property (nonatomic, strong) NSMutableArray * imageDisplaySVEntityArray;
+@property (nonatomic, weak  ) ImageDisplayEntity * lastPhotoEntity;
 
 @end
 
@@ -29,20 +42,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+    
+    CGRect rect = self.view.frame;
+
+    NSLogRect(self.view.frame);
+    NSLogSize(self.view.size);
+    NSLogPoint(self.view.origin);
+    
+    NSLogRange(NSMakeRange(12, 21));
+
+    
     self.title = @"media";
     
     {
-        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(addImageAction)];
-        self.navigationItem.rightBarButtonItems = @[item1];
+        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"多张" style:UIBarButtonItemStylePlain target:self action:@selector(addImageNAction)];
+        UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"单张" style:UIBarButtonItemStylePlain target:self action:@selector(addImage1Action)];
+        self.navigationItem.rightBarButtonItems = @[item1, item2];
     }
     self.imageArray = [NSMutableArray new];
-    self.cv = [self addCV];
+    self.cv         = [self addCV];
 }
 
-- (void)addImageAction {
+- (void)addImage1Action {
+    [self addImageNum:1];
+}
+
+- (void)addImageNAction {
+    [self addImageNum:9];
+}
+
+- (void)addImageNum:(int)num {
+    if (num <= 0) {
+        num = 1;
+    }
     __weak typeof(self) weakSelf = self;
-    [self showImageACTitle:@"添加图片" message:nil vc:self maxCount:9 origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
+    [self showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
         if (assets) {
             // 可以使用原图上传的情况
             for (int i = 0; i<images.count; i++) {
@@ -141,7 +175,7 @@
     return self.ccSize;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 10, 0, 10);
+    return UIEdgeInsetsMake(10, 10, 0, 10);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
@@ -153,38 +187,59 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    __weak typeof(self) weakSelf = self;
+    [self showImageDisplayVC:collectionView indexPath:indexPath];
+}
+
+- (void)showImageDisplayVC:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath {
     
-//    BurstShotImagePreviewVC * vc = [BurstShotImagePreviewVC new];
-//    vc.weakImageArray = self.imageArray;
-//    vc.completeBlock = ^{
-//        [weakSelf multiImageCompleteEvent];
-//    };
-//    ImageDisplayEntity * selectEntity = self.imageArray[indexPath.row];
-//
-//    for (int i = 0; i<self.imageArray.count; i++) {
-//        ImageDisplayEntity * entity = self.imageArray[i];
-//        UICollectionViewCell *tempCC = [collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//        CGRect frame = CGRectOffset(tempCC.frame, -collectionView.contentOffset.x, collectionView.y-20);
-//
-//        entity.thumbnailImageRect   = frame;
-//        entity.thumbnailImageBounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
-//    }
-//
-//    [vc showInNC:self.navigationController push:NO atFrame:selectEntity.thumbnailImageRect offsetOpenY:0
-//    offsetCloseY:20 entity:selectEntity array:self.imageArray openBlock:^{
+    //BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[collectionView cellForItemAtIndexPath:indexPath];
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    
+    float y = [collectionView convertPoint:collectionView.frame.origin toView:window].y;
+
+    self.imageDisplaySVEntityArray = [NSMutableArray new];
+    
+    for (int i = 0; i < self.imageArray.count; i++) {
+        BurstShotImagePreviewCC * tempCC = (BurstShotImagePreviewCC *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        
+        ImageDisplayEntity * ccEntity = self.imageArray[i];
+        
+        CGRect frame = CGRectOffset(tempCC.frame, 0, y);
+        ImageDisplayEntity *entity = [[ImageDisplayEntity alloc] initWithUrl:nil originImage:ccEntity.originImage rect:frame];
+        [self.imageDisplaySVEntityArray addObject:entity];
+        if (indexPath.row == i) {
+            self.lastPhotoEntity = entity;
+        }
+    }
+    
+    ImageDisplayVC * oneVC = [[ImageDisplayVC alloc] init];
+    //oneVC.needHiddenNVBar = @(YES);
+    
+    UIViewController *vc = self;
+    
+//    CGPoint center = [cell convertPoint:cell.frame.origin toView:vc.view];
+//    center.y += 20;
+//    __weak typeof(self) weakSelf = self;
+//    [oneVC showInNC:vc.navigationController push:NO fromFrame:self.lastPhotoEntity.thumbnailImageRect offsetOpenY:100 offsetCloseY:0 entity:self.lastPhotoEntity entityArray:self.imageDisplaySVEntityArray openBlock:^{
 //        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
 //    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
-//        [weakSelf.previewCV reloadData];
+//        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
 //    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
-//        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        //            [weakSelf.previewCV reloadData];
-//        //        });
-//        //        dispatch_async(dispatch_get_main_queue(), ^{
-//        //            //[weakSelf.view.vc.navigationController setNavigationBarHidden:NO animated:NO];
-//        //
-//        //        });
+//
 //    }];
+    
+    __weak typeof(self) weakSelf = self;
+    ImageDisplayVCWillCloseBlock willCloseBlock = ^(BOOL isAtFirstChatView,int currentIndex) {
+        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
+    };
+    
+    NSDictionary * dic = @{@"baseNC":self.navigationController,
+                           @"startImageFrame":@(self.lastPhotoEntity.thumbnailImageRect),
+                           @"currentImageEntity":self.lastPhotoEntity,
+                           @"imageEntityArray":self.imageDisplaySVEntityArray,
+                           @"willCloseBlock":willCloseBlock,
+                           };
+    [PoporImageBrowseVCRouter vcWithDic:dic];
 }
 
 @end

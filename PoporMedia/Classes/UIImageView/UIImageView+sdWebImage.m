@@ -89,28 +89,6 @@
                 completedBlock(nil, NO);
             }
         }else{
-            //            if (IsDebugVersion) {
-            //                if (image.size.width>ABCSdImageAlertWidth) {
-            //                    {
-            //                        NSString * alertInfo = [NSString stringWithFormat:@"IV 图片太大: %i - %i, 已经复制到粘贴板中", (int)image.size.width, (int)image.size.height];
-            //                        AlertToastTitle(alertInfo);
-            //                        NSLog(@"图片太大警告: %@, url:%@", alertInfo, url);
-            //
-            //                        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-            //                        [pasteboard setString:url];
-            //                    }
-            //                    //                    {
-            //                    //                        UIAlertView * oneAV = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"IV 图片太大: %i - %i", (int)image.size.width, (int)image.size.height] message:url delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            //                    //                        [oneAV showWithBlock:^(NSInteger buttonIndex) {
-            //                    //                            NSLog(@"\n!!!!!\n\n\n图片网址是: %@\n\n\n!!!!!", url);
-            //                    //
-            //                    //                            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-            //                    //                            [pasteboard setString:url];
-            //                    //                            AlertToastTitle(@"已经将网址复制到粘贴板");
-            //                    //                        }];
-            //                    //                    }
-            //                }
-            //            }
             if (completedBlock) {
                 completedBlock(self.image, YES);
             }

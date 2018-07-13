@@ -63,12 +63,12 @@ typedef void(^BlockPVoid) (void);
 
 - (void)showInNC:(UINavigationController *)nc
             push:(BOOL)isPush
-         atFrame:(CGRect)StartImageFrame
+       fromFrame:(CGRect)StartImageFrame
 // 启动的frame下移20个像素,假如为-1的话,非铺满屏幕的界面会在隐藏状态栏的时候发生位移
      offsetOpenY:(CGFloat)offsetOpenY
     offsetCloseY:(CGFloat)offsetCloseY
           entity:(ImageDisplayEntity *)startEntity
-           array:(NSMutableArray *)imageEntityArray
+     entityArray:(NSMutableArray *)imageEntityArray
        openBlock:(ImageDisplayVCOpenBlock)openBlock
   willCloseBlock:(ImageDisplayVCWillCloseBlock)willCloseBlock
    didCloseBlock:(ImageDisplayVCDidCloseBlock)didCloseBlock;

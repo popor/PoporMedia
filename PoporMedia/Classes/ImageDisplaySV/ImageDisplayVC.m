@@ -39,12 +39,12 @@
 
 - (void)showInNC:(UINavigationController *)nc
             push:(BOOL)isPush
-         atFrame:(CGRect)StartImageFrame
+         fromFrame:(CGRect)StartImageFrame
 // 启动的frame下移20个像素,假如为-1的话,非铺满屏幕的界面会在隐藏状态栏的时候发生位移
      offsetOpenY:(CGFloat)offsetOpenY
     offsetCloseY:(CGFloat)offsetCloseY
           entity:(ImageDisplayEntity *)startEntity
-           array:(NSMutableArray *)imageEntityArray
+           entityArray:(NSMutableArray *)imageEntityArray
        openBlock:(ImageDisplayVCOpenBlock)openBlock
   willCloseBlock:(ImageDisplayVCWillCloseBlock)willCloseBlock
    didCloseBlock:(ImageDisplayVCDidCloseBlock)didCloseBlock
@@ -91,13 +91,13 @@
         }
     }
     
-    int starIndex         = (int)[self.imageEntityArray indexOfObject:startEntity];
-    self.currentIndex     = starIndex;
-    self.imageSV.contentSize      = CGSizeMake(ScreenSize.width * self.imageEntityArray.count, ScreenSize.height);
-    self.imageSV.contentOffset    = CGPointMake(ScreenSize.width * starIndex, 0);
+    int starIndex                  = (int)[self.imageEntityArray indexOfObject:startEntity];
+    self.currentIndex              = starIndex;
+    self.imageSV.contentSize       = CGSizeMake(ScreenSize.width * self.imageEntityArray.count, ScreenSize.height);
+    self.imageSV.contentOffset     = CGPointMake(ScreenSize.width * starIndex, 0);
     for (int i = 0; i<self.imageEntityArray.count; i++) {
-        CGRect oneSVFrame = CGRectMake(ScreenSize.width*i + 1, 0, ScreenSize.width - 2, ScreenSize.height);
-        ImageDisplayView * oneSV = [[ImageDisplayView alloc] initWithFrame:oneSVFrame];
+        CGRect oneSVFrame          = CGRectMake(ScreenSize.width*i + 1, 0, ScreenSize.width - 2, ScreenSize.height);
+        ImageDisplayView * oneSV   = [[ImageDisplayView alloc] initWithFrame:oneSVFrame];
         oneSV.superSV              = self.imageSV;
         oneSV.missDelegate         = self;
         oneSV.myImageDisplayEntity = self.imageEntityArray[i];
@@ -105,8 +105,8 @@
             // MARK:往下移20, 是因为隐藏状态栏的时候,superVC的高度会上移self.offsetOpenY个像素,在非铺满屏幕的情况下.
             [oneSV setImageIVDefaultShowFrame:CGRectOffset(StartImageFrame, 0, self.offsetOpenY)];
             
-            self.startImageSV          = oneSV;
-            self.currentImageSV        = oneSV;
+            self.startImageSV      = oneSV;
+            self.currentImageSV    = oneSV;
         }else{
             [oneSV setImageIVDefaultShowFrame:oneSV.myImageDisplayEntity.thumbnailImageRect];
         }

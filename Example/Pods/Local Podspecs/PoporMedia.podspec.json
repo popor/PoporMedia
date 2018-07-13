@@ -106,6 +106,44 @@
         }
       },
       "source_files": "PoporMedia/Classes/ImageDisplaySV/*.{h,m}"
+    },
+    {
+      "name": "PoporImageBrowseVC",
+      "ios": {
+        "dependencies": {
+          "Masonry": [
+
+          ],
+          "SDWebImage": [
+
+          ],
+          "PoporFoundation/prefix": [
+
+          ],
+          "PoporFoundation/NSAssistant": [
+
+          ],
+          "PoporUI/UIView": [
+
+          ],
+          "PoporUI/IToast": [
+
+          ],
+          "PoporUI/ProgressView": [
+
+          ],
+          "PoporUI/Tool": [
+
+          ],
+          "PoporMedia/Entity": [
+
+          ],
+          "PoporMedia/UIImageView": [
+
+          ]
+        }
+      },
+      "source_files": "PoporMedia/Classes/PoporImageBrowseVC/*.{h,m}"
     }
   ]
 }

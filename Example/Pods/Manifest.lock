@@ -1,12 +1,17 @@
 PODS:
   - Masonry (1.1.0)
-  - PoporFoundation/NSString (0.0.2):
+  - PoporFoundation/NSAssistant (0.0.12):
     - PoporFoundation/prefix
-  - PoporFoundation/prefix (0.0.2)
+  - PoporFoundation/NSString (0.0.12):
+    - PoporFoundation/PrefixOs
+  - PoporFoundation/prefix (0.0.12):
+    - PoporFoundation/PrefixOs
+  - PoporFoundation/PrefixOs (0.0.12)
   - PoporMedia (0.0.4):
     - PoporMedia/Entity (= 0.0.4)
     - PoporMedia/ImageDisplaySV (= 0.0.4)
     - "PoporMedia/NSObject+PickImage (= 0.0.4)"
+    - PoporMedia/PoporImageBrowseVC (= 0.0.4)
     - PoporMedia/UIImageView (= 0.0.4)
   - PoporMedia/Entity (0.0.4):
     - PoporSDWebImage
@@ -29,25 +34,36 @@ PODS:
     - PoporUI/UIView
     - SKFCamera
     - TZImagePickerController
+  - PoporMedia/PoporImageBrowseVC (0.0.4):
+    - Masonry
+    - PoporFoundation/NSAssistant
+    - PoporFoundation/prefix
+    - PoporMedia/Entity
+    - PoporMedia/UIImageView
+    - PoporUI/IToast
+    - PoporUI/ProgressView
+    - PoporUI/Tool
+    - PoporUI/UIView
+    - SDWebImage
   - PoporMedia/UIImageView (0.0.4):
     - PoporSDWebImage
   - PoporSDWebImage (0.0.1):
     - SDWebImage
-  - PoporUI/BlockView (0.0.6)
-  - PoporUI/IToast (0.0.6):
+  - PoporUI/BlockView (0.0.7)
+  - PoporUI/IToast (0.0.7):
     - PoporFoundation/NSString
-  - PoporUI/ProgressView (0.0.6)
-  - PoporUI/Tool (0.0.6):
+  - PoporUI/ProgressView (0.0.7)
+  - PoporUI/Tool (0.0.7):
     - PoporFoundation/NSString
     - PoporUI/BlockView
     - PoporUI/IToast
-  - PoporUI/UIImage (0.0.6)
-  - PoporUI/UIView (0.0.6)
+  - PoporUI/UIImage (0.0.7)
+  - PoporUI/UIView (0.0.7)
   - SDWebImage (4.4.1):
     - SDWebImage/Core (= 4.4.1)
   - SDWebImage/Core (4.4.1)
   - SKFCamera (1.3.2)
-  - TZImagePickerController (2.1.6)
+  - TZImagePickerController (2.2.1)
 
 DEPENDENCIES:
   - PoporMedia (from `../`)
@@ -68,13 +84,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporFoundation: 286a81ac282014e13b1b874840de7f1f1d852d5e
-  PoporMedia: 255466588b774fa58d2c492a272ffeb0d85c103b
+  PoporFoundation: d3acb352802d0fbf6ac673685d80ca3a8be84b21
+  PoporMedia: 4e7121eabf2ab513809b8de8dfa4d3c42dfaf295
   PoporSDWebImage: f6ec8ab3fa498cefa84c5ff2ffefdc4f8bafb716
-  PoporUI: 2aa3b7f6716b96d87ce1fc1f6fb139bcdb33181e
+  PoporUI: 22d654ee371bfdb02d5529084f20ccca2dd286e3
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SKFCamera: d63fa8ca23eb5ec51ade911fcbe736ffc5b37b4d
-  TZImagePickerController: bc25e933c9d970a622d052f0d4de16202bbcd863
+  TZImagePickerController: edb68e0bc00bc9d48e99c3e1c8c03990f3f80de2
 
 PODFILE CHECKSUM: 7614794d58cd85b9fd81899241b50b01b1072ae5
 
