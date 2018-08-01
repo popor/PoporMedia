@@ -34,7 +34,7 @@
 
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
-#import <PoporFoundation/SizePrefix.h>
+#import <PoporFoundation/PrefixSize.h>
 
 @import CoreMotion;
 

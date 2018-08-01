@@ -10,11 +10,12 @@
 #import "UIDevice+Tool.h"
 #import "UIDevice+Permission.h"
 #import "UIDevice+SaveImage.h"
-#import <PoporFoundation/SizePrefix.h>
+#import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/BlockActionSheet.h>
 #import <PoporUI/IToastKeyboard.h>
 #import <PoporSDWebImage/UIImageView+PoporSDWebImage.h>
+#import <PoporFoundation/PrefixFun.h>
 
 #define SingleTapEventTime 0.2
 
@@ -58,7 +59,8 @@
     if (!self.imageIV) {
         self.imageIV = [[UIImageView alloc] initWithFrame:showFrame];
         self.imageIV.userInteractionEnabled = YES;
-        self.imageIV.backgroundColor        = [UIColor blackColor];
+        //self.imageIV.backgroundColor        = [UIColor blackColor];
+        self.imageIV.backgroundColor        = [UIColor clearColor];
         
         [self addSubview:self.imageIV];
     }
@@ -98,13 +100,19 @@
     }
     float imageWScale = showW/self.frame.size.width;
     float imageHScale = showH/self.frame.size.height;
-    //    NSLog(@"\r\n");
-    //    NSLog(@"CellW: %f, CellH:%f", self.longImageFrame.size.width, self.longImageFrame.size.height);
-    //    NSLog(@"imageW: %f, imageH:%f", showW, showH);
-    //    NSLog(@"imageWScale: %f, imageHScale:%f", imageWScale, imageHScale);
-    //    NSLog(@"%f - %f", self.longImageFrame.size.width/showW, self.longImageFrame.size.height/showH);
+    
+    
+    //NSLog(@"\r\n");
+    //NSLog(@"CellW: %f, CellH:%f", self.longImageFrame.size.width, self.longImageFrame.size.height);
+    //NSLog(@"imageW: %f, imageH:%f", showW, showH);
+    //NSLog(@"imageWScale: %f, imageHScale:%f", imageWScale, imageHScale);
+    //NSLog(@"%f - %f", self.longImageFrame.size.width/showW, self.longImageFrame.size.height/showH);
+    
     //maxImageScale = MAX(imageWScale, imageHScale);
     self.imageIV.frame= CGRectMake(0, 0, showW, showH);
+    
+    NSLogRect(self.longImageFrame);
+    
     
     float whScale = showW/showH;
     if (whScale > self.longImageMaxScale || whScale < self.longImageMinScale) {
@@ -135,6 +143,7 @@
         }
         self.zoomScale        = self.minimumZoomScale;
         
+        NSLogRect(self.imageIV.frame);
         //NSLog(@"长图 frame: %@", NSStringFromCGRect(self.imageIV.frame));
         // 计算长条图片关闭时候,用到的longImageFrame.
         if (!self.isSetScaleBefore) {
@@ -178,7 +187,7 @@
         }
     }
     //NSLog(@"- mini:%f, max:%f", self.minimumZoomScale, self.maximumZoomScale);
-    //NSLog(@"frame: %@", NSStringFromCGRect(self.imageIV.frame));
+    NSLog(@"frame: %@", NSStringFromCGRect(self.imageIV.frame));
     
     if (isAnimation) {
         if (self.imageIV.image) {

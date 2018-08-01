@@ -18,7 +18,7 @@
 #import "UIDevice+Permission.h"
 #import "UIDevice+SaveImage.h"
 
-#import <PoporFoundation/SizePrefix.h>
+#import <PoporFoundation/PrefixSize.h>
 
 @interface ImageProvider ()
 <

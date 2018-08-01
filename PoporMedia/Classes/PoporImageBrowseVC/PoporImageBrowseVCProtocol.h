@@ -14,7 +14,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <PoporFoundation/NSAssistant.h>
 #import <PoporSDWebImage/UIImageView+PoporSDWebImage.h>
-#import <PoporFoundation/SizePrefix.h>
+#import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/IToastKeyboard.h>
 #import <PoporUI/UIView+Extension.h>
 

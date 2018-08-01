@@ -114,7 +114,16 @@
 - (void)removeSelfEvent {
     [self.view.imageSV removeFromSuperview];
     [self.view.window addSubview:self.view.imageSV];
-    [self.view.baseNC popViewControllerAnimated:NO];
+    
+    {
+        // 转移self.view.vc位置
+        NSMutableArray * vcArray = [self.view.baseNC.viewControllers mutableCopy];
+        [vcArray exchangeObjectAtIndex:vcArray.count-1 withObjectAtIndex:vcArray.count - 2];
+        [self.view.baseNC setViewControllers:vcArray];
+        
+        // 直接pop的话,会是的self.view = nil,因为是若属性.
+        // [self.view.baseNC popViewControllerAnimated:NO];
+    }
     self.view.isColseAnimation = YES;
     
     if (!self.view.isPush) {
@@ -124,7 +133,6 @@
         [self removeAnimations];
     } completion:^(BOOL finished) {
         [self removeCompletion];
-        
     }];
 }
 
@@ -161,8 +169,15 @@
     for (ImageDisplayView * oneSV in self.view.imageSVArray) {
         oneSV.imageIV.image = nil;
     }
+    
     [self.view.imageSV removeFromSuperview];
     self.view.imageSV = nil;
+    
+    // 真正的移除self.view.vc
+    NSMutableArray * vcArray = [self.view.baseNC.viewControllers mutableCopy];
+    [vcArray removeObjectAtIndex:vcArray.count - 2];
+    [self.view.baseNC setViewControllers:vcArray];
+    
 }
 
 //------

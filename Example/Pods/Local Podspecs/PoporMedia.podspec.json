@@ -82,7 +82,7 @@
           "Masonry": [
 
           ],
-          "PoporFoundation/prefix": [
+          "PoporFoundation/PrefixCore": [
 
           ],
           "PoporUI/UIView": [
@@ -117,7 +117,7 @@
           "SDWebImage": [
 
           ],
-          "PoporFoundation/prefix": [
+          "PoporFoundation/PrefixCore": [
 
           ],
           "PoporFoundation/NSAssistant": [

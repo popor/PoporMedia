@@ -13,14 +13,14 @@
 #import <PoporMedia/NSObject+PickImage.h>
 
 #import <PoporMedia/BurstShotImagePreviewCC.h>
-#import <PoporFoundation/SizePrefix.h>
+#import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
 #import <PoporMedia/ImageDisplayVC.h>
 
 #import <PoporMedia/PoporImageBrowseVCRouter.h>
 
-#import <PoporFoundation/FunctionPrefix.h>
+#import <PoporFoundation/PrefixFun.h>
 
 //#define NSLogRect0(rect0)  NSLog(@"CGRect: = %@", NSStringFromCGRect(rect0))
 
@@ -43,14 +43,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGRect rect = self.view.frame;
-
-    NSLogRect(self.view.frame);
-    NSLogSize(self.view.size);
-    NSLogPoint(self.view.origin);
+    //    CGRect rect = self.view.frame;
+    //
+    //    NSLogRect(self.view.frame);
+    //    NSLogSize(self.view.size);
+    //    NSLogPoint(self.view.origin);
+    //
+    //    NSLogRange(NSMakeRange(12, 21));
     
-    NSLogRange(NSMakeRange(12, 21));
-
     
     self.title = @"media";
     
@@ -196,7 +196,7 @@
     UIWindow *window = [UIApplication sharedApplication].delegate.window;
     
     float y = [collectionView convertPoint:collectionView.frame.origin toView:window].y;
-
+    
     self.imageDisplaySVEntityArray = [NSMutableArray new];
     
     for (int i = 0; i < self.imageArray.count; i++) {
@@ -212,21 +212,21 @@
         }
     }
     
-    ImageDisplayVC * oneVC = [[ImageDisplayVC alloc] init];
+    //    ImageDisplayVC * oneVC = [[ImageDisplayVC alloc] init];
     //oneVC.needHiddenNVBar = @(YES);
     
-    UIViewController *vc = self;
+    //    UIViewController *vc = self;
     
-//    CGPoint center = [cell convertPoint:cell.frame.origin toView:vc.view];
-//    center.y += 20;
-//    __weak typeof(self) weakSelf = self;
-//    [oneVC showInNC:vc.navigationController push:NO fromFrame:self.lastPhotoEntity.thumbnailImageRect offsetOpenY:100 offsetCloseY:0 entity:self.lastPhotoEntity entityArray:self.imageDisplaySVEntityArray openBlock:^{
-//        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
-//    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
-//        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
-//    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
-//
-//    }];
+    //    CGPoint center = [cell convertPoint:cell.frame.origin toView:vc.view];
+    //    center.y += 20;
+    //    __weak typeof(self) weakSelf = self;
+    //    [oneVC showInNC:vc.navigationController push:NO fromFrame:self.lastPhotoEntity.thumbnailImageRect offsetOpenY:100 offsetCloseY:0 entity:self.lastPhotoEntity entityArray:self.imageDisplaySVEntityArray openBlock:^{
+    //        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
+    //    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
+    //        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
+    //    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
+    //
+    //    }];
     
     __weak typeof(self) weakSelf = self;
     ImageDisplayVCWillCloseBlock willCloseBlock = ^(BOOL isAtFirstChatView,int currentIndex) {

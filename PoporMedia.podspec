@@ -51,7 +51,7 @@ Pod::Spec.new do |s|
     s.subspec 'ImageDisplaySV' do |ss|
         ss.ios.dependency 'Masonry'
         
-        ss.ios.dependency 'PoporFoundation/prefix'
+        ss.ios.dependency 'PoporFoundation/PrefixCore'
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/IToast'
@@ -68,7 +68,7 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'SDWebImage'
         
-        ss.ios.dependency 'PoporFoundation/prefix'
+        ss.ios.dependency 'PoporFoundation/PrefixCore'
         ss.ios.dependency 'PoporFoundation/NSAssistant'
         
         ss.ios.dependency 'PoporUI/UIView'

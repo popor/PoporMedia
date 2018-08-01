@@ -9,7 +9,7 @@
 #import "PoporImageBrowseVCPresenter.h"
 #import "PoporImageBrowseVCRouter.h"
 
-#import <PoporFoundation/FunctionPrefix.h>
+#import <PoporFoundation/PrefixFun.h>
 
 @interface PoporImageBrowseVC ()
 
@@ -49,10 +49,10 @@
         // do Nothing.
     }else{
         // pop关闭
-        self.willCloseBlock = nil;
+        // self.willCloseBlock = nil;
         if (self.didCloseBlock) {
             self.didCloseBlock(NO, self.imageEntityArray);
-            self.didCloseBlock = nil;
+            // self.didCloseBlock = nil;
         }
     }
     [self setImageVCNCBarColor:NO];
@@ -60,7 +60,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
     
     self.baseNC.interactivePopGestureRecognizer.enabled = YES;
     if (self.isColseAnimation) {
@@ -109,7 +108,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (!self.title) {
-        self.title = @"PoporImageBrowseVC";
+        self.title = @"图片浏览";
     }
     self.view.backgroundColor = [UIColor whiteColor];
     if (!self.present) {
@@ -188,14 +187,16 @@
             [self.window addSubview:self.imageSV];
         }
     }
-    CGRect rect = self.view.frame;
+    //CGRect rect = self.view.frame;
     //NSLogRect(rect);
+    CGFloat screenW = ScreenSize.width;
+    CGFloat screenH = ScreenSize.height;
     int starIndex                  = (int)[self.imageEntityArray indexOfObject:self.currentImageEntity];
     self.currentIndex              = starIndex;
-    self.imageSV.contentSize       = CGSizeMake(ScreenSize.width * self.imageEntityArray.count, ScreenSize.height);
-    self.imageSV.contentOffset     = CGPointMake(ScreenSize.width * starIndex, 0);
+    self.imageSV.contentSize       = CGSizeMake(screenW * self.imageEntityArray.count, screenH);
+    self.imageSV.contentOffset     = CGPointMake(screenW * starIndex, 0);
     for (int i = 0; i<self.imageEntityArray.count; i++) {
-        CGRect oneSVFrame          = CGRectMake(ScreenSize.width*i + 1, 0, ScreenSize.width - 2, ScreenSize.height);
+        CGRect oneSVFrame          = CGRectMake(screenW*i + 1, 0, screenW - 2, screenH);
         ImageDisplayView * oneSV   = [[ImageDisplayView alloc] initWithFrame:oneSVFrame];
         oneSV.superSV              = self.imageSV;
         oneSV.missDelegate         = self;
@@ -289,7 +290,8 @@
         }
         
         [UIView animateWithDuration:PushVCDelayTime animations:^{
-            self.imageSV.backgroundColor = [UIColor blackColor];
+            //self.imageSV.backgroundColor = [UIColor blackColor];
+            self.imageSV.backgroundColor = [UIColor clearColor];
         } completion:^(BOOL finished) {
             if (self.openBlock) {
                 self.openBlock();
