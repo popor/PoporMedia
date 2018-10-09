@@ -142,16 +142,6 @@
  *  @return 渐变色的UIImage
  */
 + (UIImage*)gradientImageWithBounds:(CGRect)bounds andColors:(NSArray*)colors gradientHorizon:(BOOL)gradientHorizon {
-    NSMutableArray *ar = [NSMutableArray array];
-    
-    for(UIColor *c in colors) {
-        [ar addObject:(id)c.CGColor];
-    }
-    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors lastObject] CGColor]);
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef)ar, NULL);
     CGPoint start;
     CGPoint end;
     
@@ -162,7 +152,24 @@
         start = CGPointMake(0.0, 0.0);
         end = CGPointMake(0.0, bounds.size.height);
     }
-    CGContextDrawLinearGradient(context, gradient, start, end, kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
+    
+    UIImage *image = [self gradientImageWithBounds:bounds andColors:colors addStartPoint:start addEndPoint:end];
+    return image;
+}
+
++ (UIImage*)gradientImageWithBounds:(CGRect)bounds andColors:(NSArray*)colors addStartPoint:(CGPoint)startPoint addEndPoint:(CGPoint)endPoint {
+    NSMutableArray *ar = [NSMutableArray array];
+    
+    for(UIColor *c in colors) {
+        [ar addObject:(id)c.CGColor];
+    }
+    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors lastObject] CGColor]);
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef)ar, NULL);
+
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     CGGradientRelease(gradient);
     CGContextRestoreGState(context);
@@ -172,20 +179,21 @@
 }
 
 
+
 //+ (UIImage *)imageInSize:(CGSize)size image:(UIImage *)image imagePoint:(CGPoint)imagePoint text:(NSString *)text textPoint:(CGPoint)textPoint
 //{
 //    UIGraphicsBeginImageContextWithOptions (size, NO, [UIScreen mainScreen].scale);
-//    
+//
 //    [image drawAtPoint:imagePoint];
-//    
+//
 //    // 获得一个位图图形上下文
 //    CGContextRef context= UIGraphicsGetCurrentContext ();
 //    CGContextDrawPath (context, kCGPathStroke);
-//    
+//
 //    [text drawAtPoint:textPoint withAttributes:dic];
 //    UIImage *newImage= UIGraphicsGetImageFromCurrentImageContext ();
 //    UIGraphicsEndImageContext ();
-//    
+//
 //    return newImage;
 //}
 
@@ -280,7 +288,7 @@
     // 设置背景色
     [color set];
     UIRectFill(CGRectMake(0, 0, size.width, size.height));
-
+    
     [image drawAtPoint:CGPointMake (0 ,0)];
     // 获得一个位图图形上下文
     CGContextRef context= UIGraphicsGetCurrentContext ();
@@ -364,15 +372,15 @@
         return [twoI stretchableImageWithLeftCapWidth:thePoint.x
                                          topCapHeight:thePoint.y];
     }
-    //	if (leftOrRight) {
-    //		return [oneI stretchableImageWithLeftCapWidth:thePoint.x
-    //										 topCapHeight:thePoint.y];
-    //	}else {
-    //		UIImage * twoI=[UIImage imageWithCGImage:oneI.CGImage scale:1.0
-    //									 orientation:direction];
-    //		return [twoI stretchableImageWithLeftCapWidth:thePoint.x
-    //										 topCapHeight:thePoint.y];
-    //	}
+    //    if (leftOrRight) {
+    //        return [oneI stretchableImageWithLeftCapWidth:thePoint.x
+    //                                         topCapHeight:thePoint.y];
+    //    }else {
+    //        UIImage * twoI=[UIImage imageWithCGImage:oneI.CGImage scale:1.0
+    //                                     orientation:direction];
+    //        return [twoI stretchableImageWithLeftCapWidth:thePoint.x
+    //                                         topCapHeight:thePoint.y];
+    //    }
 }
 
 
@@ -400,7 +408,7 @@
 
 + (BOOL)saveImage:(UIImage *)image To:(NSString *)imagePath
 {
-   return [UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES];
+    return [UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES];
 }
 
 + (NSString *)getAppLaunchImage
@@ -418,7 +426,7 @@
 
 -(UIImage *)scale:(CGFloat)scale {
     CGSize size = CGSizeMake(self.size.width*scale, self.size.height*scale);
-
+    
     CGImageRef imgRef = self.CGImage;
     CGSize originSize = CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef)); // 原始大小
     if (CGSizeEqualToSize(originSize, size)) {
@@ -443,6 +451,57 @@
 
 -(UIImage *)scaleW:(CGFloat)width {
     return [self scale:(width / self.size.width)];
+}
+
+/*
+作者：ITCodeShare
+链接：https://www.jianshu.com/p/99c3e6a6c033
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+*/
+#pragma mark - 图片压缩
+- (NSData *)compressWithMaxLength:(NSUInteger)maxLength {
+    // Compress by quality
+    CGFloat compression = 1;
+    NSData *data = UIImageJPEGRepresentation(self, compression);
+    //NSLog(@"Before compressing quality, image size = %ld KB",data.length/1024);
+    if (data.length < maxLength) return data;
+    
+    CGFloat max = 1;
+    CGFloat min = 0;
+    for (int i = 0; i < 6; ++i) {
+        compression = (max + min) / 2;
+        data = UIImageJPEGRepresentation(self, compression);
+        //NSLog(@"Compression = %.1f", compression);
+        //NSLog(@"In compressing quality loop, image size = %ld KB", data.length / 1024);
+        if (data.length < maxLength * 0.9) {
+            min = compression;
+        } else if (data.length > maxLength) {
+            max = compression;
+        } else {
+            break;
+        }
+    }
+    //NSLog(@"After compressing quality, image size = %ld KB", data.length / 1024);
+    if (data.length < maxLength) return data;
+    UIImage *resultImage = [UIImage imageWithData:data];
+    // Compress by size
+    NSUInteger lastDataLength = 0;
+    while (data.length > maxLength && data.length != lastDataLength) {
+        lastDataLength = data.length;
+        CGFloat ratio = (CGFloat)maxLength / data.length;
+        //NSLog(@"Ratio = %.1f", ratio);
+        CGSize size = CGSizeMake((NSUInteger)(resultImage.size.width * sqrtf(ratio)),
+                                 (NSUInteger)(resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
+        UIGraphicsBeginImageContext(size);
+        [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+        resultImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        data = UIImageJPEGRepresentation(resultImage, compression);
+        //NSLog(@"In compressing size loop, image size = %ld KB", data.length / 1024);
+    }
+    //NSLog(@"After compressing size loop, image size = %ld KB", data.length / 1024);
+    return data;
 }
 
 @end

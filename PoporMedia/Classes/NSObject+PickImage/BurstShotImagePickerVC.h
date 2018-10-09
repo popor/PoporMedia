@@ -1,9 +1,9 @@
 //
 //  BurstShotImagePickerVC.h
-//  linRunShengPi
+//  PoporMedia
 //
-//  Created by apple on 2018/2/27.
-//  Copyright © 2018年 艾慧勇. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

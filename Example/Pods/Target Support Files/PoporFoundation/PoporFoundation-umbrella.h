@@ -11,6 +11,7 @@
 #endif
 
 #import "NSAssistant.h"
+#import "NSFileManager+Tool.h"
 #import "NSString+email.h"
 #import "NSString+format.h"
 #import "NSString+IDCard.h"

@@ -1,9 +1,10 @@
 //
 //  PoporImageBrowseVC.m
-//  Pods
+//  PoporMedia
 //
-//  Created by apple on 2018/7/12.
-//  
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
+//
 
 #import "PoporImageBrowseVC.h"
 #import "PoporImageBrowseVCPresenter.h"
@@ -79,7 +80,7 @@
         //            // 字体颜色
         //            NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
         //            [dict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
-        //            [dict setObject:WanziNCBarTitleFont forKey:NSFontAttributeName];
+        //            [dict setObject:PoporMediaNCBarTitleFont forKey:NSFontAttributeName];
         //            self.baseNC.navigationBar.titleTextAttributes = dict;
         //
         //            // 背景色
@@ -90,8 +91,8 @@
         //        {
         //            // 字体颜色
         //            NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-        //            [dict setObject:WanziNCBarTitleColor forKey:NSForegroundColorAttributeName];
-        //            [dict setObject:WanziNCBarTitleFont forKey:NSFontAttributeName];
+        //            [dict setObject:PoporMediaNCBarTitleColor forKey:NSForegroundColorAttributeName];
+        //            [dict setObject:PoporMediaNCBarTitleFont forKey:NSFontAttributeName];
         //            self.baseNC.navigationBar.titleTextAttributes = dict;
         //
         //            // 背景色

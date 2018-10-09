@@ -1,9 +1,9 @@
 //
 //  ImageDisplayEntity.m
-//  Wanzi
+//  PoporMedia
 //
-//  Created by 王凯庆 on 2017/1/3.
-//  Copyright © 2017年 wanzi. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import "ImageDisplayEntity.h"

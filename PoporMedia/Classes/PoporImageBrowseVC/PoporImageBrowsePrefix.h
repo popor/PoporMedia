@@ -1,15 +1,16 @@
 //
 //  PoporImageBrowsePrefix.h
-//  Pods
+//  PoporMedia
 //
-//  Created by apple on 2018/7/12.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #ifndef PoporImageBrowsePrefix_h
 #define PoporImageBrowsePrefix_h
 
-#define WanziNCBarTitleColor  RGBA(60, 60, 60, 1)           // NCbartitle 颜色
-#define WanziNCBarTitleFont   [UIFont systemFontOfSize:18]    //NCbartitle fontfont
+#define PoporMediaNCBarTitleColor  RGBA(60, 60, 60, 1)           // NCbartitle 颜色
+#define PoporMediaNCBarTitleFont   [UIFont systemFontOfSize:18]    //NCbartitle fontfont
 
 #define OpenDurationTime       0.15
 #define CloseSelfAnimationTime 0.15

@@ -1,6 +1,7 @@
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/PoporMedia
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Masonry" "${PODS_CONFIGURATION_BUILD_DIR}/PoporFoundation" "${PODS_CONFIGURATION_BUILD_DIR}/PoporSDWebImage" "${PODS_CONFIGURATION_BUILD_DIR}/PoporUI" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage" "${PODS_CONFIGURATION_BUILD_DIR}/SKFCamera" "${PODS_CONFIGURATION_BUILD_DIR}/TZImagePickerController"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+OTHER_LDFLAGS = $(inherited) -framework "Foundation" -framework "ImageIO" -framework "Masonry" -framework "Photos" -framework "PoporFoundation" -framework "PoporSDWebImage" -framework "PoporUI" -framework "SDWebImage" -framework "SKFCamera" -framework "TZImagePickerController" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}

@@ -1,9 +1,9 @@
 //
-//  ImagePickerVC.m
-//  linRunShengPi
+//  BurstShotImagePickerVC.m
+//  PoporMedia
 //
-//  Created by apple on 2018/2/27.
-//  Copyright © 2018年 艾慧勇. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 // 本M基本上是复制的SKFCamera.m文件,需要在此基础上修改程序.

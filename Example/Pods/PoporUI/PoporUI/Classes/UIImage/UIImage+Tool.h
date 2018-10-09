@@ -26,6 +26,7 @@
 
 // 渐变色
 + (UIImage*)gradientImageWithBounds:(CGRect)bounds andColors:(NSArray*)colors gradientHorizon:(BOOL)gradientHorizon;
++ (UIImage*)gradientImageWithBounds:(CGRect)bounds andColors:(NSArray*)colors addStartPoint:(CGPoint)startPoint addEndPoint:(CGPoint)endPoint;
 
 #pragma mark - 根据图片
 + (UIImage *)imageFromImage:(UIImage *)image size:(CGSize)size;
@@ -49,7 +50,7 @@
 + (UIImage *)createWithImageName:(NSString *)imageName;
 + (UIImage *)createWithAbsImageName:(NSString *)imageName;
 
-+ (BOOL)saveImage:(UIImage *)image 	To:(NSString *)imagePath;
++ (BOOL)saveImage:(UIImage *)image     To:(NSString *)imagePath;
 
 + (NSString *)getAppLaunchImage;
 
@@ -61,6 +62,14 @@
 -(UIImage *)scaleSize:(CGSize)size;
 -(UIImage *)scaleW:(CGFloat)width;
 
+/*
+ 作者：ITCodeShare
+ 链接：https://www.jianshu.com/p/99c3e6a6c033
+ 來源：简书
+ 简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+ */
+#pragma mark - 图片压缩
+- (NSData *)compressWithMaxLength:(NSUInteger)maxLength;
 
 @end
 

@@ -1,9 +1,9 @@
 //
 //  NSObject+PickImage.m
-//  linRunShengPi
+//  PoporMedia
 //
-//  Created by apple on 2018/1/9.
-//  Copyright © 2018年 艾慧勇. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import "NSObject+PickImage.h"
@@ -34,11 +34,15 @@
     
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * camerAction = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+#if TARGET_IPHONE_SIMULATOR//模拟器
+        AlertToastTitle(@"禁止启动");
+#elif TARGET_OS_IPHONE//真机
         BurstShotImagePickerVC * vc=[[BurstShotImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
         UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
         [weakVC presentViewController:nc animated:YES completion:nil];
+#endif
     }];
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"使用相册");
@@ -121,7 +125,9 @@
     }];
     
     UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"拍摄");
+#if TARGET_IPHONE_SIMULATOR//模拟器
+        AlertToastTitle(@"禁止启动");
+#elif TARGET_OS_IPHONE//真机
         if (!weakSelf.imageProvider) {
             ImageProvider * imageProvider = [[ImageProvider alloc] init];
             //imageProvider.isAutoImageFrame = YES;
@@ -131,12 +137,13 @@
                     NSLog(@"拍摄 videoPath: %@", videoPath);
                     UIImage * image = [NSObject thumbnailImageForVideo:[NSURL fileURLWithPath:videoPath] atTime:0.1];
                     [weakSelf feedbackVideoUrl:videoPath imageData:nil image:image phAsset:nil block:block];
-                });                
+                });
             }];
             weakSelf.imageProvider = imageProvider;
         }
         
         [weakSelf.imageProvider takeVideoFromCamera];
+#endif
     }];
     
     [oneAC addAction:cancleAction];

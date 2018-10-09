@@ -12,11 +12,9 @@ Pod::Spec.new do |s|
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
-    # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.author           = { 'popor' => '908891024@qq.com' }
     s.source           = { :git => 'https://github.com/popor/PoporMedia.git', :tag => s.version.to_s }
-    # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
     
     s.ios.deployment_target = '8.0'
     
@@ -38,10 +36,13 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'TZImagePickerController'
         ss.ios.dependency 'SKFCamera'
         
-        ss.ios.dependency 'PoporUI/Tool'
+        ss.ios.dependency 'PoporFoundation/NSFileManager'
+        
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/UIImage'
         ss.ios.dependency 'PoporUI/IToast'
+        ss.ios.dependency 'PoporUI/Tool'
+        
         ss.ios.dependency 'PoporMedia/Entity'
         ss.ios.dependency 'PoporMedia/ImageDisplaySV'
         
@@ -52,6 +53,7 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'Masonry'
         
         ss.ios.dependency 'PoporFoundation/PrefixCore'
+        ss.ios.dependency 'PoporFoundation/NSFileManager'
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/IToast'
@@ -70,6 +72,7 @@ Pod::Spec.new do |s|
         
         ss.ios.dependency 'PoporFoundation/PrefixCore'
         ss.ios.dependency 'PoporFoundation/NSAssistant'
+        ss.ios.dependency 'PoporFoundation/NSFileManager'
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/IToast'
@@ -78,6 +81,7 @@ Pod::Spec.new do |s|
         
         ss.ios.dependency 'PoporMedia/Entity'
         ss.ios.dependency 'PoporMedia/UIImageView'
+        ss.ios.dependency 'PoporMedia/ImageDisplaySV'
         
         ss.source_files = 'PoporMedia/Classes/PoporImageBrowseVC/*.{h,m}'
     end

@@ -1,12 +1,14 @@
 PODS:
   - Masonry (1.1.0)
-  - PoporFoundation/NSAssistant (0.0.15):
+  - PoporFoundation/NSAssistant (0.0.23):
     - PoporFoundation/PrefixCore
-  - PoporFoundation/NSString (0.0.15):
     - PoporFoundation/PrefixOs
-  - PoporFoundation/PrefixCore (0.0.15):
+  - PoporFoundation/NSFileManager (0.0.23)
+  - PoporFoundation/NSString (0.0.23):
     - PoporFoundation/PrefixOs
-  - PoporFoundation/PrefixOs (0.0.15)
+  - PoporFoundation/PrefixCore (0.0.23):
+    - PoporFoundation/PrefixOs
+  - PoporFoundation/PrefixOs (0.0.23)
   - PoporMedia (0.0.4):
     - PoporMedia/Entity (= 0.0.4)
     - PoporMedia/ImageDisplaySV (= 0.0.4)
@@ -17,6 +19,7 @@ PODS:
     - PoporSDWebImage
   - PoporMedia/ImageDisplaySV (0.0.4):
     - Masonry
+    - PoporFoundation/NSFileManager
     - PoporFoundation/PrefixCore
     - PoporMedia/Entity
     - PoporMedia/UIImageView
@@ -26,6 +29,7 @@ PODS:
     - PoporUI/UIView
   - "PoporMedia/NSObject+PickImage (0.0.4)":
     - Masonry
+    - PoporFoundation/NSFileManager
     - PoporMedia/Entity
     - PoporMedia/ImageDisplaySV
     - PoporUI/IToast
@@ -37,8 +41,10 @@ PODS:
   - PoporMedia/PoporImageBrowseVC (0.0.4):
     - Masonry
     - PoporFoundation/NSAssistant
+    - PoporFoundation/NSFileManager
     - PoporFoundation/PrefixCore
     - PoporMedia/Entity
+    - PoporMedia/ImageDisplaySV
     - PoporMedia/UIImageView
     - PoporUI/IToast
     - PoporUI/ProgressView
@@ -49,21 +55,21 @@ PODS:
     - PoporSDWebImage
   - PoporSDWebImage (0.0.1):
     - SDWebImage
-  - PoporUI/BlockView (0.0.8)
-  - PoporUI/IToast (0.0.8):
+  - PoporUI/BlockView (0.0.17)
+  - PoporUI/IToast (0.0.17):
     - PoporFoundation/NSString
-  - PoporUI/ProgressView (0.0.8)
-  - PoporUI/Tool (0.0.8):
+  - PoporUI/ProgressView (0.0.17)
+  - PoporUI/Tool (0.0.17):
     - PoporFoundation/NSString
     - PoporUI/BlockView
     - PoporUI/IToast
-  - PoporUI/UIImage (0.0.8)
-  - PoporUI/UIView (0.0.8)
+  - PoporUI/UIImage (0.0.17)
+  - PoporUI/UIView (0.0.17)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
   - SKFCamera (1.3.2)
-  - TZImagePickerController (2.2.3)
+  - TZImagePickerController (3.0.9)
 
 DEPENDENCIES:
   - PoporMedia (from `../`)
@@ -84,14 +90,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporFoundation: 0293bddbd32f0c12b80c6149105e2804ae79b16c
-  PoporMedia: 769d0c23689fc733dadca2fd2863c8feaa6ed0b8
+  PoporFoundation: 317477aeb0fcd06b3fe933c856fc86b6f9c924ed
+  PoporMedia: 3093f3a26667e0f159007018a60bdce531d92881
   PoporSDWebImage: f6ec8ab3fa498cefa84c5ff2ffefdc4f8bafb716
-  PoporUI: 09366ba0d18b7099d7b3a37aaf7cac84a4954980
+  PoporUI: b40fb458852b79482616afec8b7d0bf997a22487
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SKFCamera: d63fa8ca23eb5ec51ade911fcbe736ffc5b37b4d
-  TZImagePickerController: 5374a30df056b33428802c8112ed44011fe2596a
+  TZImagePickerController: ea3e906af8caa7088f612ad673feb73cc6aa6bfc
 
 PODFILE CHECKSUM: 7614794d58cd85b9fd81899241b50b01b1072ae5
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1

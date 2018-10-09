@@ -1,9 +1,9 @@
 //
 //  VPImageCropperVC.m
-//  VPolor
+//  PoporMedia
 //
-//  Created by Vinson.D.Warm on 12/30/13.
-//  Copyright (c) 2013 Huang Vinson. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import "VPImageCropperVC.h"

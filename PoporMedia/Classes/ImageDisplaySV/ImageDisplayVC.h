@@ -1,9 +1,9 @@
 //
 //  ImageDisplayVC.h
-//  WanziTG
+//  PoporMedia
 //
-//  Created by 王凯庆 on 2017/1/4.
-//  Copyright © 2017年 wanzi. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,8 +11,8 @@
 @class ImageDisplayView;
 
 //TabBar
-#define WanziNCBarTitleColor  RGBA(60, 60, 60, 1)           // NCbartitle 颜色
-#define WanziNCBarTitleFont   [UIFont systemFontOfSize:18]	//NCbartitle fontfont
+#define PoporMediaNCBarTitleColor  RGBA(60, 60, 60, 1)           // NCbartitle 颜色
+#define PoporMediaNCBarTitleFont   [UIFont systemFontOfSize:18]	//NCbartitle fontfont
 
 typedef void(^ImageDisplayVCOpenBlock) (void);
 typedef void(^ImageDisplayVCWillCloseBlock) (BOOL isAtFirstChatView,int currentIndex);

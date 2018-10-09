@@ -1,9 +1,9 @@
 //
 //  UIImageView+sdWebImage.m
-//  Wanzi
+//  PoporMedia
 //
-//  Created by 王凯庆 on 2016/12/16.
-//  Copyright © 2016年 wanzi. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import "UIImageView+sdWebImage.h"

@@ -53,7 +53,7 @@
           "SKFCamera": [
 
           ],
-          "PoporUI/Tool": [
+          "PoporFoundation/NSFileManager": [
 
           ],
           "PoporUI/UIView": [
@@ -63,6 +63,9 @@
 
           ],
           "PoporUI/IToast": [
+
+          ],
+          "PoporUI/Tool": [
 
           ],
           "PoporMedia/Entity": [
@@ -83,6 +86,9 @@
 
           ],
           "PoporFoundation/PrefixCore": [
+
+          ],
+          "PoporFoundation/NSFileManager": [
 
           ],
           "PoporUI/UIView": [
@@ -123,6 +129,9 @@
           "PoporFoundation/NSAssistant": [
 
           ],
+          "PoporFoundation/NSFileManager": [
+
+          ],
           "PoporUI/UIView": [
 
           ],
@@ -139,6 +148,9 @@
 
           ],
           "PoporMedia/UIImageView": [
+
+          ],
+          "PoporMedia/ImageDisplaySV": [
 
           ]
         }

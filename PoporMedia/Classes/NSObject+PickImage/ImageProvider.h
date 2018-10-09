@@ -1,9 +1,9 @@
 //
-//  ImageFromIphone.h
-//  WanziTG
+//  ImageProvider.h
+//  PoporMedia
 //
-//  Created by popor on 15/4/9.
-//  Copyright (c) 2015年 wanzi. All rights reserved.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
