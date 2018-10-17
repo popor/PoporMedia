@@ -18,72 +18,23 @@ Pod::Spec.new do |s|
     
     s.ios.deployment_target = '8.0'
     
-    
-    s.subspec 'UIImageView' do |ss|
-        ss.ios.dependency 'PoporSDWebImage'
+    s.subspec 'PoporMedia' do |ss|
+        ss.source_files = 'PoporMedia/Classes/*.{h,m}'
         
-        ss.source_files = 'PoporMedia/Classes/UIImageView/*.{h,m}'
-    end
-    
-    s.subspec 'Entity' do |ss|
-        ss.ios.dependency 'PoporSDWebImage'
-        
-        ss.source_files = 'PoporMedia/Classes/Entity/*.{h,m}'
-    end
-    
-    s.subspec 'NSObject+PickImage' do |ss|
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'
         ss.ios.dependency 'SKFCamera'
         
         ss.ios.dependency 'PoporFoundation/NSFileManager'
+        ss.ios.dependency 'PoporFoundation/PrefixCore'
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/UIImage'
         ss.ios.dependency 'PoporUI/IToast'
         ss.ios.dependency 'PoporUI/Tool'
         
-        ss.ios.dependency 'PoporMedia/Entity'
-        ss.ios.dependency 'PoporMedia/ImageDisplaySV'
+        ss.ios.dependency 'PoporImageBrower'
         
-        ss.source_files = 'PoporMedia/Classes/NSObject+PickImage/*.{h,m}'
-    end
-    
-    s.subspec 'ImageDisplaySV' do |ss|
-        ss.ios.dependency 'Masonry'
-        
-        ss.ios.dependency 'PoporFoundation/PrefixCore'
-        ss.ios.dependency 'PoporFoundation/NSFileManager'
-        
-        ss.ios.dependency 'PoporUI/UIView'
-        ss.ios.dependency 'PoporUI/IToast'
-        ss.ios.dependency 'PoporUI/ProgressView'
-        ss.ios.dependency 'PoporUI/Tool'
-        
-        ss.ios.dependency 'PoporMedia/Entity'
-        ss.ios.dependency 'PoporMedia/UIImageView'
-        
-        ss.source_files = 'PoporMedia/Classes/ImageDisplaySV/*.{h,m}'
-    end
-    
-    s.subspec 'PoporImageBrowseVC' do |ss|
-        ss.ios.dependency 'Masonry'
-        ss.ios.dependency 'SDWebImage'
-        
-        ss.ios.dependency 'PoporFoundation/PrefixCore'
-        ss.ios.dependency 'PoporFoundation/NSAssistant'
-        ss.ios.dependency 'PoporFoundation/NSFileManager'
-        
-        ss.ios.dependency 'PoporUI/UIView'
-        ss.ios.dependency 'PoporUI/IToast'
-        ss.ios.dependency 'PoporUI/ProgressView'
-        ss.ios.dependency 'PoporUI/Tool'
-        
-        ss.ios.dependency 'PoporMedia/Entity'
-        ss.ios.dependency 'PoporMedia/UIImageView'
-        ss.ios.dependency 'PoporMedia/ImageDisplaySV'
-        
-        ss.source_files = 'PoporMedia/Classes/PoporImageBrowseVC/*.{h,m}'
     end
 
 end

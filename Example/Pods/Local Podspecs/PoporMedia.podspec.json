@@ -19,29 +19,8 @@
   },
   "subspecs": [
     {
-      "name": "UIImageView",
-      "ios": {
-        "dependencies": {
-          "PoporSDWebImage": [
-
-          ]
-        }
-      },
-      "source_files": "PoporMedia/Classes/UIImageView/*.{h,m}"
-    },
-    {
-      "name": "Entity",
-      "ios": {
-        "dependencies": {
-          "PoporSDWebImage": [
-
-          ]
-        }
-      },
-      "source_files": "PoporMedia/Classes/Entity/*.{h,m}"
-    },
-    {
-      "name": "NSObject+PickImage",
+      "name": "PoporMedia",
+      "source_files": "PoporMedia/Classes/*.{h,m}",
       "ios": {
         "dependencies": {
           "Masonry": [
@@ -56,6 +35,9 @@
           "PoporFoundation/NSFileManager": [
 
           ],
+          "PoporFoundation/PrefixCore": [
+
+          ],
           "PoporUI/UIView": [
 
           ],
@@ -68,94 +50,11 @@
           "PoporUI/Tool": [
 
           ],
-          "PoporMedia/Entity": [
-
-          ],
-          "PoporMedia/ImageDisplaySV": [
+          "PoporImageBrower": [
 
           ]
         }
-      },
-      "source_files": "PoporMedia/Classes/NSObject+PickImage/*.{h,m}"
-    },
-    {
-      "name": "ImageDisplaySV",
-      "ios": {
-        "dependencies": {
-          "Masonry": [
-
-          ],
-          "PoporFoundation/PrefixCore": [
-
-          ],
-          "PoporFoundation/NSFileManager": [
-
-          ],
-          "PoporUI/UIView": [
-
-          ],
-          "PoporUI/IToast": [
-
-          ],
-          "PoporUI/ProgressView": [
-
-          ],
-          "PoporUI/Tool": [
-
-          ],
-          "PoporMedia/Entity": [
-
-          ],
-          "PoporMedia/UIImageView": [
-
-          ]
-        }
-      },
-      "source_files": "PoporMedia/Classes/ImageDisplaySV/*.{h,m}"
-    },
-    {
-      "name": "PoporImageBrowseVC",
-      "ios": {
-        "dependencies": {
-          "Masonry": [
-
-          ],
-          "SDWebImage": [
-
-          ],
-          "PoporFoundation/PrefixCore": [
-
-          ],
-          "PoporFoundation/NSAssistant": [
-
-          ],
-          "PoporFoundation/NSFileManager": [
-
-          ],
-          "PoporUI/UIView": [
-
-          ],
-          "PoporUI/IToast": [
-
-          ],
-          "PoporUI/ProgressView": [
-
-          ],
-          "PoporUI/Tool": [
-
-          ],
-          "PoporMedia/Entity": [
-
-          ],
-          "PoporMedia/UIImageView": [
-
-          ],
-          "PoporMedia/ImageDisplaySV": [
-
-          ]
-        }
-      },
-      "source_files": "PoporMedia/Classes/PoporImageBrowseVC/*.{h,m}"
+      }
     }
   ]
 }

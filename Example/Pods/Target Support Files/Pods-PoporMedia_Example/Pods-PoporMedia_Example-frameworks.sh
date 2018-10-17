@@ -148,20 +148,22 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporFoundation/PoporFoundation.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PoporImageBrower/PoporImageBrower.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporMedia/PoporMedia.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PoporSDWebImage/PoporSDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SKFCamera/SKFCamera.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporFoundation/PoporFoundation.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PoporImageBrower/PoporImageBrower.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporMedia/PoporMedia.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PoporSDWebImage/PoporSDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SKFCamera/SKFCamera.framework"

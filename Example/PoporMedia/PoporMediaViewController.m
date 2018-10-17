@@ -16,10 +16,6 @@
 #import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
-#import <PoporMedia/ImageDisplayVC.h>
-
-#import <PoporMedia/PoporImageBrowseVCRouter.h>
-
 #import <PoporFoundation/PrefixFun.h>
 
 //#define NSLogRect0(rect0)  NSLog(@"CGRect: = %@", NSStringFromCGRect(rect0))
@@ -28,13 +24,13 @@
 //#define NSLogRect2(rect2)  NSLog(@"CGRect:%s = %@", #rect2, NSStringFromRect(rect2))
 //#define NSLogRect(rect)  NSLog(@"CGRect:%s = %@", #rect, NSStringFromRect(rect))
 
+#import <PoporImageBrower/PoporImageBrower.h>
+
 @interface PoporMediaViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * cv;
-@property (nonatomic, strong) NSMutableArray * imageArray;
+@property (nonatomic, strong) NSMutableArray<PoporMediaImageEntity *> * imageArray;
 @property (nonatomic        ) CGSize         ccSize;
-@property (nonatomic, strong) NSMutableArray * imageDisplaySVEntityArray;
-@property (nonatomic, weak  ) ImageDisplayEntity * lastPhotoEntity;
 
 @end
 
@@ -87,9 +83,9 @@
                     imageData = data;
                 }];
                 
-                ImageDisplayEntity * entity = [ImageDisplayEntity new];
-                entity.originImage = image;
-                entity.iconImage   = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
+                entity.bigImage    = image;
+                entity.normalImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
                 
                 [weakSelf.imageArray addObject:entity];
@@ -97,9 +93,9 @@
         }else{
             for (UIImage * image in images) {
                 // somecode
-                ImageDisplayEntity * entity = [ImageDisplayEntity new];
-                entity.originImage = image;
-                entity.iconImage   = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
+                entity.bigImage    = image;
+                entity.normalImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
                 
                 [weakSelf.imageArray addObject:entity];
@@ -164,7 +160,7 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
-    ImageDisplayEntity * entity = self.imageArray[indexPath.row];
+    PoporMediaImageEntity * entity = self.imageArray[indexPath.row];
     NSLog(@"cell index: %i", (int)indexPath.row);
     [cell setImageEntity:entity];
     return cell;
@@ -192,54 +188,31 @@
 
 - (void)showImageDisplayVC:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath {
     
-    //BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[collectionView cellForItemAtIndexPath:indexPath];
-    UIWindow *window = [UIApplication sharedApplication].delegate.window;
-    
-    float y = [collectionView convertPoint:collectionView.frame.origin toView:window].y;
-    
-    self.imageDisplaySVEntityArray = [NSMutableArray new];
-    
+    NSMutableArray * imageArray = [NSMutableArray new];
     for (int i = 0; i < self.imageArray.count; i++) {
-        BurstShotImagePreviewCC * tempCC = (BurstShotImagePreviewCC *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        PoporMediaImageEntity * ccEntity = self.imageArray[i];
+        PoporImageBrowerEntity * entity = [PoporImageBrowerEntity new];
+        //entity.normalImage = ccEntity.originImage;
+        entity.bigImage = ccEntity.bigImage;
         
-        ImageDisplayEntity * ccEntity = self.imageArray[i];
-        
-        CGRect frame = CGRectOffset(tempCC.frame, 0, y);
-        ImageDisplayEntity *entity = [[ImageDisplayEntity alloc] initWithUrl:nil originImage:ccEntity.originImage rect:frame];
-        [self.imageDisplaySVEntityArray addObject:entity];
-        if (indexPath.row == i) {
-            self.lastPhotoEntity = entity;
-        }
+        [imageArray addObject:entity];
     }
+    //__weak typeof(self) weakSelf = self;
+    __weak typeof(collectionView) weakCC = collectionView;
+    PoporImageBrower *photoBrower = [[PoporImageBrower alloc] initWithIndex:indexPath.item imageArray:imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
+        BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[weakCC cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        return cell.iconIV;
+        
+    } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {
+        [weakCC scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        //collectionView必须要layoutIfNeeded，否则cellForItemAtIndexPath,有可能获取到的是nil，
+        [weakCC layoutIfNeeded];
+        
+    } placeholderImageBlock:^UIImage *(PoporImageBrower *browerController) {
+        //return [UIImage imageNamed:@"placeholder"];
+        return nil;
+    }];
     
-    //    ImageDisplayVC * oneVC = [[ImageDisplayVC alloc] init];
-    //oneVC.needHiddenNVBar = @(YES);
-    
-    //    UIViewController *vc = self;
-    
-    //    CGPoint center = [cell convertPoint:cell.frame.origin toView:vc.view];
-    //    center.y += 20;
-    //    __weak typeof(self) weakSelf = self;
-    //    [oneVC showInNC:vc.navigationController push:NO fromFrame:self.lastPhotoEntity.thumbnailImageRect offsetOpenY:100 offsetCloseY:0 entity:self.lastPhotoEntity entityArray:self.imageDisplaySVEntityArray openBlock:^{
-    //        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
-    //    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
-    //        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
-    //    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
-    //
-    //    }];
-    
-    __weak typeof(self) weakSelf = self;
-    ImageDisplayVCWillCloseBlock willCloseBlock = ^(BOOL isAtFirstChatView,int currentIndex) {
-        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
-    };
-    
-    NSDictionary * dic = @{@"baseNC":self.navigationController,
-                           @"startImageFrame":@(self.lastPhotoEntity.thumbnailImageRect),
-                           @"currentImageEntity":self.lastPhotoEntity,
-                           @"imageEntityArray":self.imageDisplaySVEntityArray,
-                           @"willCloseBlock":willCloseBlock,
-                           };
-    [PoporImageBrowseVCRouter vcWithDic:dic];
+    [photoBrower show];
 }
-
 @end

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -24,12 +29,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PoporMedia.xcscheme</key>
+		<key>PoporImageBrower.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PoporSDWebImage.xcscheme</key>
+		<key>PoporMedia.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
