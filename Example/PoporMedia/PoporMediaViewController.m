@@ -10,7 +10,7 @@
 
 #import <Masonry/Masonry.h>
 
-#import <PoporMedia/NSObject+PickImage.h>
+#import <PoporMedia/PoporMedia.h>
 
 #import <PoporMedia/BurstShotImagePreviewCC.h>
 #import <PoporFoundation/PrefixSize.h>
@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSMutableArray<PoporMediaImageEntity *> * imageArray;
 @property (nonatomic        ) CGSize         ccSize;
 
+@property (nonatomic, strong) PoporMedia * poporMedia;
 @end
 
 @implementation PoporMediaViewController
@@ -71,8 +72,9 @@
     if (num <= 0) {
         num = 1;
     }
+    self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
-    [self showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
+    [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
         if (assets) {
             // 可以使用原图上传的情况
             for (int i = 0; i<images.count; i++) {
@@ -84,8 +86,8 @@
                 }];
                 
                 PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
-                entity.bigImage    = image;
-                entity.normalImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                entity.bigImage   = image;
+                entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
                 
                 [weakSelf.imageArray addObject:entity];
@@ -94,8 +96,8 @@
             for (UIImage * image in images) {
                 // somecode
                 PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
-                entity.bigImage    = image;
-                entity.normalImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                entity.bigImage   = image;
+                entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
                 
                 [weakSelf.imageArray addObject:entity];

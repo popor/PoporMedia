@@ -1,5 +1,5 @@
 //
-//  NSObject+PickImage.h
+//  PoporMedia.h
 //  PoporMedia
 //
 //  Created by popor on 2017/1/4.
@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "PHAsset+data.h"
-//#import "UIView+UploadStatus.h"
 
 @class PHAsset;
 
@@ -17,7 +16,7 @@ typedef void(^PickVideoFinishBlock)(NSString * videoPath, NSData *imageData, UII
 
 @class ImageProvider;
 
-@interface NSObject (PickImage)
+@interface PoporMedia : NSObject
 
 @property (nonatomic, copy  ) PickImageFinishBlock pickImageFinishBlock;
 @property (nonatomic, strong) ImageProvider * imageProvider;

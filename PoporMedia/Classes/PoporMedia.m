@@ -1,13 +1,12 @@
 //
-//  NSObject+PickImage.m
+//  PoporMedia.m
 //  PoporMedia
 //
 //  Created by popor on 2017/1/4.
 //  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
-#import "NSObject+PickImage.h"
-#import <objc/runtime.h>
+#import "PoporMedia.h"
 
 #import "ImageProvider.h"
 #import "BurstShotImagePickerVC.h"
@@ -16,9 +15,7 @@
 #import "NSFileManager+Tool.h"
 #import <PoporUI/IToastKeyboard.h>
 
-@implementation NSObject (PickImage)
-
-@dynamic pickImageFinishBlock;
+@implementation PoporMedia
 
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PickImageFinishBlock)block {
     [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil block:block];
@@ -102,7 +99,7 @@
         [imagePickerVC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
             NSLog(@"1");
             
-            [NSObject iosVideoUrlWithPHAsset:asset block:^(NSString *fileUrl, NSString *fileTitle) {
+            [PoporMedia iosVideoUrlWithPHAsset:asset block:^(NSString *fileUrl, NSString *fileTitle) {
                 NSLog(@"2");
                 NSLog(@"fileUrl:%@, fileTitle:%@", fileUrl, fileTitle);
                 
@@ -135,7 +132,7 @@
             [imageProvider setHasTakeVideo:^(NSString *videoPath) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"拍摄 videoPath: %@", videoPath);
-                    UIImage * image = [NSObject thumbnailImageForVideo:[NSURL fileURLWithPath:videoPath] atTime:0.1];
+                    UIImage * image = [PoporMedia thumbnailImageForVideo:[NSURL fileURLWithPath:videoPath] atTime:0.1];
                     [weakSelf feedbackVideoUrl:videoPath imageData:nil image:image phAsset:nil block:block];
                 });
             }];
@@ -216,23 +213,6 @@
     UIImage*thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
     
     return thumbnailImage;
-}
-
-#pragma mark - set get
-- (void)setPickImageFinishBlock:(PickImageFinishBlock)pickImageFinishBlock {
-    objc_setAssociatedObject(self, @"pickImageFinishBlock", pickImageFinishBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (PickImageFinishBlock)pickImageFinishBlock {
-    return objc_getAssociatedObject(self, @"pickImageFinishBlock");
-}
-
-- (void)setImageProvider:(ImageProvider *)imageProvider {
-    objc_setAssociatedObject(self, @"imageProvider", imageProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (ImageProvider *)imageProvider {
-    return objc_getAssociatedObject(self, @"imageProvider");
 }
 
 @end

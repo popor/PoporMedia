@@ -136,7 +136,7 @@
     NSString * (^ bundleImageBlock)(NSString *) = ^(NSString *imageName){
         return [NSString stringWithFormat:@"Frameworks/SKFCamera.framework/SKFCamera.bundle/%@", imageName];
     };
-
+    
     //拍照按钮
     if (!self.snapButton) {
         self.snapButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -219,7 +219,7 @@
     //layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 20);
     //该方法也可以设置itemSize
     //layout.itemSize =CGSizeMake(110, 150);
-
+    
     //2.初始化collectionView
     UICollectionView * cv = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.ccSize.height+ 12) collectionViewLayout:layout];
     cv.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
@@ -228,24 +228,24 @@
     
     [self.view addSubview:cv];
     //cv.backgroundColor = [UIColor clearColor];
-
+    
     //3.注册collectionViewCell
     //注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
     [cv registerClass:[BurstShotImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
-
+    
     //注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
     //[cv registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView"];
-
+    
     //4.设置代理
     cv.delegate   = self;
     cv.dataSource = self;
-
+    
     //    __weak typeof (self) weakSelf = self;
     //    [cv mas_makeConstraints:^(MASConstraintMaker *make) {
     //        make.center.equalTo(weakSelf.view);
     //        make.edges.mas_offset(UIEdgeInsetsMake(0, 0, 0, 0));
     //    }];
-
+    
     return cv;
 }
 
@@ -283,44 +283,7 @@
     return 1;
 }
 
-//- (void)collectionView1:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    __weak typeof(self) weakSelf = self;
-//
-//    BurstShotImagePreviewVC * vc = [BurstShotImagePreviewVC new];
-//    vc.weakImageArray = self.imageArray;
-//    vc.completeBlock = ^{
-//        [weakSelf multiImageCompleteEvent];
-//    };
-//    ImageDisplayEntity * selectEntity = self.imageArray[indexPath.row];
-//
-//    for (int i = 0; i<self.imageArray.count; i++) {
-//        ImageDisplayEntity * entity = self.imageArray[i];
-//        UICollectionViewCell *tempCC = [collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//        CGRect frame = CGRectOffset(tempCC.frame, -collectionView.contentOffset.x, collectionView.y-20);
-//
-//        entity.thumbnailImageRect   = frame;
-//        entity.thumbnailImageBounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
-//    }
-//
-//    [vc showInNC:self.navigationController push:NO fromFrame:selectEntity.thumbnailImageRect offsetOpenY:0
-//    offsetCloseY:20 entity:selectEntity entityArray:self.imageArray openBlock:^{
-//        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
-//    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
-//        [weakSelf.previewCV reloadData];
-//    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
-//        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        //            [weakSelf.previewCV reloadData];
-//        //        });
-//        //        dispatch_async(dispatch_get_main_queue(), ^{
-//        //            //[weakSelf.view.vc.navigationController setNavigationBarHidden:NO animated:NO];
-//        //
-//        //        });
-//    }];
-//}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    __weak typeof(self) weakSelf = self;
-    
     
     __weak typeof(collectionView) weakCV = collectionView;
     
@@ -341,38 +304,6 @@
     }];
     
     [photoBrower show];
-    
-    
-//    BurstShotImagePreviewVC * vc = [BurstShotImagePreviewVC new];
-//    vc.weakImageArray = self.imageArray;
-//    vc.completeBlock = ^{
-//        [weakSelf multiImageCompleteEvent];
-//    };
-//    ImageDisplayEntity * selectEntity = self.imageArray[indexPath.row];
-//
-//    for (int i = 0; i<self.imageArray.count; i++) {
-//        ImageDisplayEntity * entity = self.imageArray[i];
-//        UICollectionViewCell *tempCC = [collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//        CGRect frame = CGRectOffset(tempCC.frame, -collectionView.contentOffset.x, collectionView.y-20);
-//
-//        entity.thumbnailImageRect   = frame;
-//        entity.thumbnailImageBounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
-//    }
-//
-//    [vc showInNC:self.navigationController push:NO fromFrame:selectEntity.thumbnailImageRect offsetOpenY:0
-//    offsetCloseY:20 entity:selectEntity entityArray:self.imageArray openBlock:^{
-//        //[weakSelf.view.vc.navigationController setNavigationBarHidden:YES animated:NO];
-//    } willCloseBlock:^(BOOL isAtFirstChatView,int currentIndex) {
-//        [weakSelf.previewCV reloadData];
-//    } didCloseBlock:^(BOOL isEditText, NSMutableArray *imageEntityArray) {
-//        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        //            [weakSelf.previewCV reloadData];
-//        //        });
-//        //        dispatch_async(dispatch_get_main_queue(), ^{
-//        //            //[weakSelf.view.vc.navigationController setNavigationBarHidden:NO animated:NO];
-//        //
-//        //        });
-//    }];
 }
 
 #pragma mark   ------------- 初始化相机--------------
@@ -497,9 +428,9 @@
                 image = [weakSelf correctImageOritation:image];
                 
                 PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
-                entity.bigImage    = image;
-                entity.normalImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
-                entity.ignore = NO;
+                entity.bigImage   = image;
+                entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                entity.ignore     = NO;
                 
                 [weakSelf.imageArray addObject:entity];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -522,7 +453,7 @@
     //NSLog(@"oritation: %i", (int)orientation);
     UIImageOrientation imageOritation;
     switch (orientation) {
-        
+            
         case UIDeviceOrientationLandscapeLeft:
             imageOritation = UIImageOrientationUp;
             break;

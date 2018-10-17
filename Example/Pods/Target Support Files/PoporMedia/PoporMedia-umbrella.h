@@ -14,8 +14,8 @@
 #import "BurstShotImagePreviewCC.h"
 #import "BurstShotImagePreviewVC.h"
 #import "ImageProvider.h"
-#import "NSObject+PickImage.h"
 #import "PHAsset+data.h"
+#import "PoporMedia.h"
 #import "PoporMediaImageEntity.h"
 #import "VPImageCropperVC.h"
 
