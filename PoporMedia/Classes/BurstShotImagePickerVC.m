@@ -8,13 +8,13 @@
 
 // 本M基本上是复制的SKFCamera.m文件,需要在此基础上修改程序.
 
-#define KScreenSize [UIScreen mainScreen].bounds.size
-#define KScreenwidth [UIScreen mainScreen].bounds.size.width
+#define KScreenSize   [UIScreen mainScreen].bounds.size
+#define KScreenwidth  [UIScreen mainScreen].bounds.size.width
 #define KScreenheight [UIScreen mainScreen].bounds.size.height
-#define IsIphone6P KScreenSize.width==414
-#define IsIphone6 KScreenSize.width==375
-#define IsIphone5S KScreenSize.height==568
-#define IsIphone5 KScreenSize.height==568
+#define IsIphone6P    KScreenSize.width==414
+#define IsIphone6     KScreenSize.width==375
+#define IsIphone5S    KScreenSize.height==568
+#define IsIphone5     KScreenSize.height==568
 //456字体大小
 #define KIOS_Iphone456(iphone6p,iphone6,iphone5s,iphone5,iphone4s) (IsIphone6P?iphone6p:(IsIphone6?iphone6:((IsIphone5S||IsIphone5)?iphone5s:iphone4s)))
 //宽高
@@ -28,7 +28,6 @@
 #import "UIDevice+Tool.h"
 #import "UIDevice+SaveImage.h"
 #import "UIDevice+Permission.h"
-//#import <TZImagePickerController/TZPhotoPickerController.h>
 #import "BurstShotImagePreviewCC.h"
 #import "BurstShotImagePreviewVC.h"
 
@@ -39,20 +38,19 @@
 @import CoreMotion;
 
 @interface BurstShotImagePickerVC ()<TOCropViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
-@property (strong, nonatomic) LLSimpleCamera *camera;
-@property (strong, nonatomic) UILabel        *errorLabel;
-@property (strong, nonatomic) UIButton       *snapButton;
-@property (strong, nonatomic) UIButton       *switchButton;
-@property (strong, nonatomic) UIButton       *flashButton;
-@property (strong, nonatomic) UIButton       *backButton;
+@property (strong, nonatomic) LLSimpleCamera   *camera;
+@property (strong, nonatomic) UILabel          *errorLabel;
+@property (strong, nonatomic) UIButton         *snapButton;
+@property (strong, nonatomic) UIButton         *switchButton;
+@property (strong, nonatomic) UIButton         *flashButton;
+@property (strong, nonatomic) UIButton         *backButton;
 
-@property (nonatomic, strong) UIButton       *completeBT;
+@property (nonatomic, strong) UIButton         *completeBT;
 
-@property (nonatomic, strong) NSMutableArray *imageArray; // 针对连拍图片数组
-//@property (nonatomic, strong) NSMutableArray *iconArray;  // 针对连拍缩略图片数组
-@property (nonatomic        ) int            maxNum;
+@property (nonatomic, strong) NSMutableArray   *imageArray;// 针对连拍图片数组
+@property (nonatomic        ) int              maxNum;
 @property (nonatomic, strong) UICollectionView *previewCV;
-@property (nonatomic        ) CGSize         ccSize;
+@property (nonatomic        ) CGSize           ccSize;
 
 // 获取当前设备方向
 @property (nonatomic, strong) CMMotionManager * motionManager;
@@ -80,12 +78,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.view.backgroundColor = [UIColor blackColor];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    // snap button to capture image
     
-    //判断前后摄像头是否可用
-    
-    // start the camera
     [self.camera start];
 }
 
@@ -165,7 +158,7 @@
             //摄像头转换按钮
             self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
             
-            //        self.switchButton.tintColor = [UIColor whiteColor];
+            // self.switchButton.tintColor = [UIColor whiteColor];
             [self.switchButton setImage:[UIImage imageNamed:bundleImageBlock(@"swapButton")] forState:UIControlStateNormal];
             [self.switchButton addTarget:self action:@selector(switchButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:self.switchButton];
@@ -268,7 +261,6 @@
 #pragma layout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return self.ccSize;
-    //return CGSizeMake(150, 150);
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 10, 0, 10);
@@ -283,19 +275,20 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+#pragma mark - 打开图片大图
     __weak typeof(collectionView) weakCV = collectionView;
-    
-    NSMutableArray * array = [NSMutableArray new];
-    for (PoporMediaImageEntity * entity in self.imageArray) {
-        PoporMediaImageEntity * newE = [PoporMediaImageEntity new];
-        newE.bigImage = entity.bigImage;
-        
-        [array addObject:newE];
-    }
-    
+    __weak typeof(self) weakSelf = self;
     BurstShotImagePreviewVC *photoBrower = [[BurstShotImagePreviewVC alloc] initWithIndex:indexPath.item copyImageArray:nil weakImageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
-        BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[weakCV cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        __strong typeof(weakCV) strongCV = weakCV;
+        
+        NSIndexPath * ip = [NSIndexPath indexPathForItem:index inSection:0];
+        //[strongCV scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[strongCV cellForItemAtIndexPath:ip];
+        //NSLog(@"weakSelf %@", weakSelf);
+        //NSLog(@"weakCV %@", weakCV);
+        //NSLog(@"cell %@", cell);
+        //NSLog(@"");
+        
         return cell.iconIV;
         
     } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {
@@ -303,12 +296,15 @@
         [weakCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
         //collectionView必须要layoutIfNeeded，否则cellForItemAtIndexPath,有可能获取到的是nil，
         [weakCV layoutIfNeeded];
+        [weakCV reloadData];
         
     } placeholderImageBlock:^UIImage *(PoporImageBrower *browerController) {
         //return [UIImage imageNamed:@"placeholder"];
         return nil;
     }];
-    
+    photoBrower.completeBlock = ^{
+        [weakSelf multiImageCompleteEvent];
+    };
     [photoBrower show];
 }
 
@@ -327,28 +323,23 @@
     // take the required actions on a device change
     __weak typeof(self) weakSelf = self;
     [self.camera setOnDeviceChange:^(LLSimpleCamera *camera, AVCaptureDevice * device) {
-        
-        NSLog(@"Device changed.");
-        
+        //NSLog(@"Device changed.");
         // device changed, check if flash is available
         if([camera isFlashAvailable]) {
             weakSelf.flashButton.hidden = NO;
             
             if(camera.flash == LLCameraFlashOff) {
                 weakSelf.flashButton.selected = NO;
-            }
-            else {
+            } else {
                 weakSelf.flashButton.selected = YES;
             }
-        }
-        else {
+        } else {
             weakSelf.flashButton.hidden = YES;
         }
     }];
     
     [self.camera setOnError:^(LLSimpleCamera *camera, NSError *error) {
         NSLog(@"Camera error: %@", error);
-        
         if([error.domain isEqualToString:LLSimpleCameraErrorDomain]) {
             if(error.code == LLSimpleCameraErrorCodeCameraPermission) {
                 if(weakSelf.errorLabel) {
@@ -538,22 +529,22 @@
         }
     }
 }
-
 //作者：redihd
 //链接：https://www.jianshu.com/p/692e7a490747
 //來源：简书
 //著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 - (void)multiImageCompleteEvent {
-    if (self.finishBlock) {
-        NSMutableArray * array = [NSMutableArray new];
-        for (PoporMediaImageEntity * entity in self.imageArray) {
-            if (!entity.isIgnore) {
-                [array addObject:entity.bigImage];
-            }
-        }
-        self.finishBlock(array);
-    }
     [self dismissViewControllerAnimated:NO completion:^{
+        if (self.finishBlock) {
+            NSMutableArray * array = [NSMutableArray new];
+            for (PoporMediaImageEntity * entity in self.imageArray) {
+                if (!entity.isIgnore) {
+                    [array addObject:entity.bigImage];
+                }
+            }
+            self.finishBlock(array);
+        }
     }];
 }
 
@@ -565,11 +556,8 @@
     }
     
     // !!! 需要修改,单张的和多张的处理方式不一样.
-    [self dismissViewControllerAnimated:NO completion:^{
-    }];
-    
-    [self dismissViewControllerAnimated:NO completion:^{
-    }];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (BOOL)prefersStatusBarHidden {

@@ -41,7 +41,12 @@
     [super viewDidLoad];
     
     self.title = @"media";
-    
+    self.view.backgroundColor = [UIColor whiteColor];
+    {
+        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"self" style:UIBarButtonItemStylePlain target:self action:@selector(presentSelf)];
+        UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"close" style:UIBarButtonItemStylePlain target:self action:@selector(closeSelf)];
+        self.navigationItem.leftBarButtonItems = @[item1, item2];
+    }
     {
         UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"多张" style:UIBarButtonItemStylePlain target:self action:@selector(addImageNAction)];
         UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"单张" style:UIBarButtonItemStylePlain target:self action:@selector(addImage1Action)];
@@ -54,6 +59,14 @@
     //    iv.backgroundColor = [UIColor redColor];
     //    iv.frame = CGRectMake(100, 100, 40, 40);
     //    [self.view addSubview:iv];
+}
+
+- (void)presentSelf {
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[PoporMediaViewController new]] animated:YES completion:nil];
+}
+
+- (void)closeSelf {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)addImage1Action {
@@ -158,6 +171,8 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
+    cell.selectBT.hidden = YES;
+    
     PoporMediaImageEntity * entity = self.imageArray[indexPath.row];
     NSLog(@"cell index: %i", (int)indexPath.row);
     [cell setImageEntity:entity];

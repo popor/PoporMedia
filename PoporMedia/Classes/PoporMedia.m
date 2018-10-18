@@ -23,8 +23,8 @@
 
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PickImageFinishBlock)block
 {
-    __weak typeof(vc) weakVC = vc;
-    __weak typeof(self) weakSelf = self;
+    __weak typeof(vc) weakVC      = vc;
+    __weak typeof(self) weakSelf  = self;
     weakSelf.pickImageFinishBlock = block;
     
     UIAlertController * oneAC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
@@ -34,27 +34,27 @@
 #if TARGET_IPHONE_SIMULATOR//模拟器
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
-        BurstShotImagePickerVC * vc=[[BurstShotImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
+        BurstShotImagePickerVC * pickVC = [[BurstShotImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
-        UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        [weakVC presentViewController:nc animated:YES completion:nil];
+        
+        [weakVC presentViewController:pickVC animated:YES completion:nil];
 #endif
     }];
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"使用相册");
         
-        TZImagePickerController *vc = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
-        vc.allowPickingImage         = YES;
-        vc.allowPickingVideo         = NO;
-        vc.allowTakePicture          = NO;
-        vc.allowPickingOriginalPhoto = origin;
+        TZImagePickerController *imageVC = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
+        imageVC.allowPickingImage         = YES;
+        imageVC.allowPickingVideo         = NO;
+        imageVC.allowTakePicture          = NO;
+        imageVC.allowPickingOriginalPhoto = origin;
         
-        [vc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
+        [imageVC setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
             [weakSelf hasSelectImages:photos assets:assets origin:isSelectOriginalPhoto];
         }];
         
-        [weakVC presentViewController:vc animated:YES completion:nil];
+        [weakVC presentViewController:imageVC animated:YES completion:nil];
     }];
     
     [oneAC addAction:cancleAction];

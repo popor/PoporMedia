@@ -8,14 +8,13 @@
 
 #import <PoporImageBrower/PoporImageBrower.h>
 #import "PoporMediaImageEntity.h"
-
-typedef void(^BurstShotImagePreviewCompleteBlock) (void);
+#import <PoporFoundation/PrefixBlock.h>
 
 // 预览
 @interface BurstShotImagePreviewVC : PoporImageBrower
 @property (nonatomic, strong) UIColor * toolBarColor;
 
-@property (nonatomic, copy  ) BurstShotImagePreviewCompleteBlock completeBlock;
+@property (nonatomic, copy  ) BlockPVoid completeBlock; // 完成按钮事件
 
 
 @end

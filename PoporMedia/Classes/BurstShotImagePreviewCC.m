@@ -14,16 +14,15 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor whiteColor];
         
         [self addViews];
         [self layoutSubviewsCustom];
-        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
 - (void)layoutSubviewsCustom {
     
-    //__weak typeof(self) weakSelf = self;
     [self.iconIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
@@ -38,7 +37,6 @@
 - (void)addViews {
     self.iconIV = ({
         UIImageView * iv = [UIImageView new];
-        //iv.backgroundColor =  RGB16(0XFE8809);
         [self addSubview:iv];
         iv;
     });
@@ -46,9 +44,8 @@
     self.selectBT = ({
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        //NSBundle * imageBundle = [self imagePickerBundle];
-        UIImage *nImage = [UIImage imageNamed:@"TZImagePickerController.bundle/photo_def_previewVc"];
-        UIImage *sImage = [UIImage imageNamed:@"TZImagePickerController.bundle/photo_sel_photoPickerVc"];
+        UIImage *nImage = [UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"];
+        UIImage *sImage = [UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"];
         
         [button setImage:nImage forState:UIControlStateNormal];
         [button setImage:sImage forState:UIControlStateSelected];
@@ -57,7 +54,7 @@
         [self addSubview:button];
         
         [button addTarget:self action:@selector(selectBTAction) forControlEvents:UIControlEventTouchUpInside];
-        //button.userInteractionEnabled = NO;
+        
         button;
     });
 }
@@ -72,4 +69,5 @@
     self.iconIV.image      = entity.smallImage;
     self.selectBT.selected = !entity.isIgnore;
 }
+
 @end

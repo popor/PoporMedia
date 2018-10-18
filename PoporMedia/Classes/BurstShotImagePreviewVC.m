@@ -36,20 +36,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (!self.toolBarColor) {
-        CGFloat rgb = 34 / 255.0;
+        CGFloat rgb = 34.0/255.0;
         self.toolBarColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.7];
     }
     
-    NSLog(@"预览 1");
-    [self setupSingleTapBlock];
-   
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //[self setupBlockEvent];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self delaySetCustomeUI];
     });
 }
 
+// 自己设置了单击事件
+- (void)setupBlockEvent {
+    __weak typeof(self) weakSelf = self;
+    self.singleTapBlock = ^(PoporImageBrower *browerController, NSInteger index) {
+        [weakSelf customeSingleTapEventDuration:0.1];
+    };
+    self.scrollBlock = ^(PoporImageBrower *browerController, NSInteger index) {
+        PoporMediaImageEntity * entity = (PoporMediaImageEntity * )weakSelf.weakImageArray[index];
+        weakSelf.selectButton.selected = !entity.isIgnore;
+    };
+}
+
 - (void)delaySetCustomeUI {
-    NSLog(@"预览 2");
     [self configCustomNaviBar];
     [self configBottomToolBar];
     self.selectNum = 0;
@@ -63,9 +72,9 @@
     self.numberLabel.text       = [NSString stringWithFormat:@"%i", self.selectNum];
     
     {
-        self.showTopBottomBar = NO;
-        self.naviBar.y      = -self.naviBar.height;
-        self.toolBar.bottom = self.view.height;
+        self.showTopBottomBar   = NO;
+        self.naviBar.y          = -self.naviBar.height;
+        self.toolBar.bottom     = self.view.height;
         [self customeSingleTapEventDuration:0.1];
     }
     [self customeSvScrollBlockAction:self.index];
@@ -89,16 +98,6 @@
     self.doneButton.frame      = CGRectMake(self.view.width - 44 - 12, 0, 44, 44);
     self.numberImageView.frame = CGRectMake(self.view.width - 56 - 28, 7, 30, 30);
     self.numberLabel.frame     = self.numberImageView.frame;
-    
-    //    [self configCropView];
-}
-
-// 自己设置了单击事件
-- (void)setupSingleTapBlock {
-    __weak typeof(self) weakSelf = self;
-    self.singleTapBlock = ^(PoporImageBrower *browerController, NSInteger index) {
-        [weakSelf customeSingleTapEventDuration:0.1];
-    };
 }
 
 - (void)customeSingleTapEventDuration:(float)duration {
@@ -116,9 +115,9 @@
 }
 
 - (void)customeSvScrollBlockAction:(NSInteger)index {
-    PoporMediaImageEntity * entity = self.weakImageArray[index];
+    PoporMediaImageEntity * entity = (PoporMediaImageEntity *)self.weakImageArray[index];
     self.selectButton.selected = !entity.isIgnore;
-    NSLog(@"isIgnore:%li - %i", index, entity.isIgnore);
+    //NSLog(@"isIgnore:%li - %i", index, entity.isIgnore);
 }
 
 - (void)configCustomNaviBar {
@@ -131,9 +130,9 @@
     });
     self.backButton = ({
         UIButton * button = [[UIButton alloc] initWithFrame:CGRectZero];
-        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/navi_back"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/navi_back"] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
         
         [self.naviBar addSubview:button];
         
@@ -142,8 +141,8 @@
     
     self.selectButton = ({
         UIButton * button  = [[UIButton alloc] initWithFrame:CGRectZero];
-        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"] forState:UIControlStateSelected];
+        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"] forState:UIControlStateSelected];
         [button addTarget:self action:@selector(selectButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.naviBar addSubview:button];
@@ -173,7 +172,7 @@
     });
     
     self.numberImageView = ({
-        UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
+        UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
         iv.backgroundColor = [UIColor clearColor];
         
         [self.toolBar addSubview:iv];
@@ -192,18 +191,17 @@
     });
 }
 
-- (void)backButtonClick {
-    //[self singleTapViewEvent];
+- (void)backButtonAction {
     NSLog(@"WKQ 返回事件");
-    self.singleTapBlock(self, self.index);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self close];
+    });
 }
 
 - (void)doneButtonClick {
-    NSLog(@"WKQ 完成事件");
+    [self dismissViewControllerAnimated:NO completion:nil];
     if (self.completeBlock) {
         self.completeBlock();
-    }else{
-        [self backButtonClick];
     }
 }
 
