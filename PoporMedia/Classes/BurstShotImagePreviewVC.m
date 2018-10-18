@@ -10,28 +10,22 @@
 #import <TZImagePickerController/UIView+Layout.h>
 
 #import <PoporUI/UIView+Extension.h>
+#import <PoporUI/UIDeviceScreen.h>
 
-#define KIsiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+@interface BurstShotImagePreviewVC ()
 
-@interface BurstShotImagePreviewVC (){
-//    UICollectionView *_collectionView;
-//    UICollectionViewFlowLayout *_layout;
-//    NSArray *_photosTemp;
-//    NSArray *_assetsTemp;
-    
-    UIView *_naviBar;
-    UIButton *_backButton;
-    UIButton *_selectButton;
-    
-    UIView *_toolBar;
-    UIButton *_doneButton;
-    UIImageView *_numberImageView;
-    UILabel *_numberLabel;
-    UIButton *_originalPhotoButton;
-    UILabel *_originalPhotoLabel;
-    int _selectNum;
-//    CGFloat _offsetItemCount;
-}
+@property (nonatomic, strong) UIView      * naviBar;
+@property (nonatomic, strong) UIButton    * backButton;
+@property (nonatomic, strong) UIButton    * selectButton;
+@property (nonatomic, strong) UIView      * toolBar;
+@property (nonatomic, strong) UIButton    * doneButton;
+
+@property (nonatomic, strong) UIImageView * numberImageView;
+@property (nonatomic, strong) UILabel     * numberLabel;
+@property (nonatomic, strong) UIButton    * originalPhotoButton;
+@property (nonatomic, strong) UILabel     * originalPhotoLabel;
+@property (nonatomic        ) int         selectNum;
+
 
 @property (nonatomic, getter=isShowTopBottomBar) BOOL showTopBottomBar;
 
@@ -41,50 +35,60 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!self.toolBarColor) {
+        CGFloat rgb = 34 / 255.0;
+        self.toolBarColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.7];
+    }
     
+    NSLog(@"预览 1");
     [self setupSingleTapBlock];
+   
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self delaySetCustomeUI];
+    });
+}
+
+- (void)delaySetCustomeUI {
+    NSLog(@"预览 2");
     [self configCustomNaviBar];
     [self configBottomToolBar];
-    _selectNum = 0;
+    self.selectNum = 0;
     for (PoporMediaImageEntity * entity in self.weakImageArray) {
         if (!entity.isIgnore) {
-            _selectNum ++;
+            self.selectNum ++;
         }
     }
-    _numberLabel.hidden     = _selectNum <= 0;
-    _numberImageView.hidden = _selectNum <= 0;
-    _numberLabel.text       = [NSString stringWithFormat:@"%i", _selectNum];
-
+    self.numberLabel.hidden     = self.selectNum <= 0;
+    self.numberImageView.hidden = self.selectNum <= 0;
+    self.numberLabel.text       = [NSString stringWithFormat:@"%i", self.selectNum];
+    
     {
         self.showTopBottomBar = NO;
-        _naviBar.y      = -_naviBar.height;
-        _toolBar.bottom = self.view.height;
+        self.naviBar.y      = -self.naviBar.height;
+        self.toolBar.bottom = self.view.height;
         [self customeSingleTapEventDuration:0.1];
     }
     [self customeSvScrollBlockAction:self.index];
-    
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
+    NSLog(@"预览 3");
+    
+    CGFloat naviBarHeight      = [UIDeviceScreen isIphoneXScreen] ? 88:64;
 
-    CGFloat naviBarHeight = KIsiPhoneX ? 88:64;
-    
-    _naviBar.frame      = CGRectMake(0, 0, self.view.width, naviBarHeight);
-    _backButton.frame   = CGRectMake(10, naviBarHeight - 44, 44, 44);
-    _selectButton.frame = CGRectMake(self.view.width - 54, _backButton.y, 42, 42);
-    
-    CGFloat toolBarHeight = 44;
-    CGFloat toolBarTop = self.view.height - toolBarHeight;
-    _toolBar.frame = CGRectMake(0, toolBarTop, self.view.width, toolBarHeight);
-    //    if (_tzImagePickerVc.allowPickingOriginalPhoto) {
-    //        CGFloat fullImageWidth = [_tzImagePickerVc.fullImageBtnTitleStr tz_calculateSizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
-    //        _originalPhotoButton.frame = CGRectMake(0, 0, fullImageWidth + 56, 44);
-    //        _originalPhotoLabel.frame = CGRectMake(fullImageWidth + 42, 0, 80, 44);
-    //    }
-    _doneButton.frame = CGRectMake(self.view.width - 44 - 12, 0, 44, 44);
-    _numberImageView.frame = CGRectMake(self.view.width - 56 - 28, 7, 30, 30);
-    _numberLabel.frame = _numberImageView.frame;
+    self.naviBar.frame         = CGRectMake(0, 0, self.view.width, naviBarHeight);
+    self.backButton.frame      = CGRectMake(10, naviBarHeight - 44, 44, 44);
+    self.selectButton.frame    = CGRectMake(self.view.width - 54, self.backButton.y, 42, 42);
+
+    // ???:
+    CGFloat toolBarHeight      = 44;
+    CGFloat toolBarTop         = self.view.height - toolBarHeight;
+    self.toolBar.frame         = CGRectMake(0, toolBarTop, self.view.width, toolBarHeight);
+
+    self.doneButton.frame      = CGRectMake(self.view.width - 44 - 12, 0, 44, 44);
+    self.numberImageView.frame = CGRectMake(self.view.width - 56 - 28, 7, 30, 30);
+    self.numberLabel.frame     = self.numberImageView.frame;
     
     //    [self configCropView];
 }
@@ -102,91 +106,90 @@
     [[UIApplication sharedApplication] setStatusBarHidden:!self.isShowTopBottomBar withAnimation:UIStatusBarAnimationNone];
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         if (self.isShowTopBottomBar) {
-            _naviBar.y      = 0;
-            _toolBar.bottom = self.view.height;
+            self.naviBar.y      = 0;
+            self.toolBar.bottom = self.view.height;
         }else{
-            _naviBar.y      = -_naviBar.height;
-            _toolBar.y      = self.view.height;
+            self.naviBar.y      = -self.naviBar.height;
+            self.toolBar.y      = self.view.height;
         }
     } completion:nil];
 }
 
 - (void)customeSvScrollBlockAction:(NSInteger)index {
     PoporMediaImageEntity * entity = self.weakImageArray[index];
-    _selectButton.selected = !entity.isIgnore;
-    NSLog(@"isIgnore:%i - %i", index, entity.isIgnore);
+    self.selectButton.selected = !entity.isIgnore;
+    NSLog(@"isIgnore:%li - %i", index, entity.isIgnore);
 }
 
 - (void)configCustomNaviBar {
-    _naviBar = [[UIView alloc] initWithFrame:CGRectZero];
-    _naviBar.backgroundColor = [UIColor colorWithRed:(34/255.0) green:(34/255.0)  blue:(34/255.0) alpha:0.7];
+    self.naviBar = ({
+        UIView * view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.backgroundColor = self.toolBarColor;
+        
+        [self.view addSubview:view];
+        view;
+    });
+    self.backButton = ({
+        UIButton * button = [[UIButton alloc] initWithFrame:CGRectZero];
+        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/navi_back"] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.naviBar addSubview:button];
+        
+        button;
+    });
     
-    _backButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    [_backButton setImage:[UIImage imageNamed:@"TZImagePickerController.bundle/navi_back"] forState:UIControlStateNormal];
-    [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    _selectButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    [_selectButton setImage:[UIImage imageNamed:@"TZImagePickerController.bundle/photo_def_previewVc"] forState:UIControlStateNormal];
-    [_selectButton setImage:[UIImage imageNamed:@"TZImagePickerController.bundle/photo_sel_photoPickerVc"] forState:UIControlStateSelected];
-    [_selectButton addTarget:self action:@selector(_selectButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    //_selectButton.hidden = !tzImagePickerVc.showSelectBtn;
-    
-    [_naviBar addSubview:_selectButton];
-    [_naviBar addSubview:_backButton];
-    [self.view addSubview:_naviBar];
+    self.selectButton = ({
+        UIButton * button  = [[UIButton alloc] initWithFrame:CGRectZero];
+        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"] forState:UIControlStateSelected];
+        [button addTarget:self action:@selector(selectButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.naviBar addSubview:button];
+        
+        button;
+    });
 }
 
 - (void)configBottomToolBar {
-    _toolBar = [[UIView alloc] initWithFrame:CGRectZero];
-    static CGFloat rgb = 34 / 255.0;
-    _toolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.7];
+    self.toolBar = ({
+        UIView * view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.backgroundColor = self.toolBarColor;
+        
+        [self.view addSubview:view];
+        view;
+    });
+    self.doneButton = ({
+        UIButton * button  = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.titleLabel.font = [UIFont systemFontOfSize:16];
+        [button addTarget:self action:@selector(doneButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [button setTitle:@"完成" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithRed:(83/255.0) green:(179/255.0) blue:(17/255.0) alpha:1.0] forState:UIControlStateNormal];
+        
+        [self.toolBar addSubview:button];
+        
+        button;
+    });
     
-    // 暂且屏蔽了原图部分
-    //    TZImagePickerController *_tzImagePickerVc = (TZImagePickerController *)self.navigationController;
-    //    if (_tzImagePickerVc.allowPickingOriginalPhoto) {
-    //        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    //        _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
-    //        _originalPhotoButton.backgroundColor = [UIColor clearColor];
-    //        [_originalPhotoButton addTarget:self action:@selector(originalPhotoButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    //        _originalPhotoButton.titleLabel.font = [UIFont systemFontOfSize:13];
-    //        [_originalPhotoButton setTitle:_tzImagePickerVc.fullImageBtnTitleStr forState:UIControlStateNormal];
-    //        [_originalPhotoButton setTitle:_tzImagePickerVc.fullImageBtnTitleStr forState:UIControlStateSelected];
-    //        [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    //        [_originalPhotoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    //        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:_tzImagePickerVc.photoPreviewOriginDefImageName] forState:UIControlStateNormal];
-    //        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:_tzImagePickerVc.photoOriginSelImageName] forState:UIControlStateSelected];
-    //
-    //        _originalPhotoLabel = [[UILabel alloc] init];
-    //        _originalPhotoLabel.textAlignment = NSTextAlignmentLeft;
-    //        _originalPhotoLabel.font = [UIFont systemFontOfSize:13];
-    //        _originalPhotoLabel.textColor = [UIColor whiteColor];
-    //        _originalPhotoLabel.backgroundColor = [UIColor clearColor];
-    //        if (_isSelectOriginalPhoto) [self showPhotoBytes];
-    //    }
-    
-    _doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _doneButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_doneButton addTarget:self action:@selector(doneButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_doneButton setTitle:@"完成" forState:UIControlStateNormal];
-    [_doneButton setTitleColor:[UIColor colorWithRed:(83/255.0) green:(179/255.0) blue:(17/255.0) alpha:1.0] forState:UIControlStateNormal];
-    
-    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TZImagePickerController.bundle/photo_number_icon"]];
-    _numberImageView.backgroundColor = [UIColor clearColor];
-    
-    
-    _numberLabel = [[UILabel alloc] init];
-    _numberLabel.font = [UIFont systemFontOfSize:15];
-    _numberLabel.textColor = [UIColor whiteColor];
-    _numberLabel.textAlignment = NSTextAlignmentCenter;
-    _numberLabel.backgroundColor = [UIColor clearColor];
-    
-    //[_originalPhotoButton addSubview:_originalPhotoLabel];
-    [_toolBar addSubview:_doneButton];
-    //[_toolBar addSubview:_originalPhotoButton];
-    [_toolBar addSubview:_numberImageView];
-    [_toolBar addSubview:_numberLabel];
-    [self.view addSubview:_toolBar];
+    self.numberImageView = ({
+        UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
+        iv.backgroundColor = [UIColor clearColor];
+        
+        [self.toolBar addSubview:iv];
+        
+        iv;
+    });
+    self.numberLabel = ({
+        UILabel * l= [[UILabel alloc] init];
+        l.font = [UIFont systemFontOfSize:15];
+        l.textColor = [UIColor whiteColor];
+        l.textAlignment = NSTextAlignmentCenter;
+        l.backgroundColor = [UIColor clearColor];
+        
+        [self.toolBar addSubview:l];
+        l;
+    });
 }
 
 - (void)backButtonClick {
@@ -204,24 +207,24 @@
     }
 }
 
-- (void)_selectButtonAction:(UIButton *)selectButton {
-    PoporMediaImageEntity * entity = self.weakImageArray[self.index];
+- (void)selectButtonAction:(UIButton *)selectButton {
+    PoporMediaImageEntity * entity = (PoporMediaImageEntity * )self.weakImageArray[self.index];
     selectButton.selected = !selectButton.isSelected;
     entity.ignore = !selectButton.isSelected;
     if (selectButton.isSelected) {
-        _selectNum ++;
+        self.selectNum ++;
     }else{
-        _selectNum --;
+        self.selectNum --;
     }
     
-    _numberLabel.hidden     = _selectNum <= 0;
-    _numberImageView.hidden = _selectNum <= 0;
-    _numberLabel.text       = [NSString stringWithFormat:@"%i", _selectNum];
+    self.numberLabel.hidden     = self.selectNum <= 0;
+    self.numberImageView.hidden = self.selectNum <= 0;
+    self.numberLabel.text       = [NSString stringWithFormat:@"%i", self.selectNum];
     
     if (!entity.ignore) {
         [UIView showOscillatoryAnimationWithLayer:selectButton.imageView.layer type:TZOscillatoryAnimationToBigger];
     }
-    [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
+    [UIView showOscillatoryAnimationWithLayer:self.numberImageView.layer type:TZOscillatoryAnimationToSmaller];
 }
 
 

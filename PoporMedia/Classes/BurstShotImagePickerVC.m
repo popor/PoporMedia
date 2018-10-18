@@ -100,7 +100,6 @@
     [_motionManager stopDeviceMotionUpdates];
 }
 
-
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
@@ -287,8 +286,15 @@
     
     __weak typeof(collectionView) weakCV = collectionView;
     
-    PoporImageBrower *photoBrower = [[PoporImageBrower alloc] initWithIndex:indexPath.item imageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
+    NSMutableArray * array = [NSMutableArray new];
+    for (PoporMediaImageEntity * entity in self.imageArray) {
+        PoporMediaImageEntity * newE = [PoporMediaImageEntity new];
+        newE.bigImage = entity.bigImage;
         
+        [array addObject:newE];
+    }
+    
+    BurstShotImagePreviewVC *photoBrower = [[BurstShotImagePreviewVC alloc] initWithIndex:indexPath.item copyImageArray:nil weakImageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
         BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[weakCV cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
         return cell.iconIV;
         

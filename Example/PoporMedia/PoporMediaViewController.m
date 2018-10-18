@@ -40,15 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //    CGRect rect = self.view.frame;
-    //
-    //    NSLogRect(self.view.frame);
-    //    NSLogSize(self.view.size);
-    //    NSLogPoint(self.view.origin);
-    //
-    //    NSLogRange(NSMakeRange(12, 21));
-    
-    
     self.title = @"media";
     
     {
@@ -58,6 +49,11 @@
     }
     self.imageArray = [NSMutableArray new];
     self.cv         = [self addCV];
+    
+    //    UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
+    //    iv.backgroundColor = [UIColor redColor];
+    //    iv.frame = CGRectMake(100, 100, 40, 40);
+    //    [self.view addSubview:iv];
 }
 
 - (void)addImage1Action {
@@ -201,7 +197,7 @@
     }
     //__weak typeof(self) weakSelf = self;
     __weak typeof(collectionView) weakCC = collectionView;
-    PoporImageBrower *photoBrower = [[PoporImageBrower alloc] initWithIndex:indexPath.item imageArray:imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
+    PoporImageBrower *photoBrower = [[PoporImageBrower alloc] initWithIndex:indexPath.item copyImageArray:imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
         BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[weakCC cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
         return cell.iconIV;
         

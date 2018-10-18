@@ -19,6 +19,7 @@
 #import "UIDevice+Permission.h"
 #import "UIDevice+SaveImage.h"
 #import "UIDevice+Tool.h"
+#import "UIDeviceScreen.h"
 #import "UIImage+Tool.h"
 #import "UIView+Extension.h"
 #import "UIView+Tool.h"

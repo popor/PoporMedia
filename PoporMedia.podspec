@@ -32,6 +32,7 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'PoporUI/UIImage'
         ss.ios.dependency 'PoporUI/IToast'
         ss.ios.dependency 'PoporUI/Tool'
+        ss.ios.dependency 'PoporUI/UIDeviceScreen'
         
         ss.ios.dependency 'PoporImageBrower'
         

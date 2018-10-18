@@ -13,8 +13,7 @@ typedef void(^BurstShotImagePreviewCompleteBlock) (void);
 
 // 预览
 @interface BurstShotImagePreviewVC : PoporImageBrower
-
-@property (nonatomic, weak  ) NSMutableArray<PoporMediaImageEntity *> * weakImageArray;
+@property (nonatomic, strong) UIColor * toolBarColor;
 
 @property (nonatomic, copy  ) BurstShotImagePreviewCompleteBlock completeBlock;
 
