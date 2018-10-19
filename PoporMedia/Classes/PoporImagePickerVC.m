@@ -55,19 +55,19 @@
 // 获取当前设备方向
 @property (nonatomic, strong) CMMotionManager * motionManager;
 
-@property (nonatomic, copy  ) ImagePickerFinishBlock finishBlock;
+@property (nonatomic, copy  ) PoporImagePickerFinishBlock finishBlock;
 
 @end
 
 @implementation PoporImagePickerVC
 
 // 拍摄单张图片,开启了编辑图片功能
-- (id)initWithFinishBlock:(ImagePickerFinishBlock)block {
+- (id)initWithFinishBlock:(PoporImagePickerFinishBlock)block {
     return [self initWithMaxNum:1 finishBlock:block];
 }
 
 // 大于1张的话,不开启编辑图片功能.
-- (id)initWithMaxNum:(int)maxNum finishBlock:(ImagePickerFinishBlock)block {
+- (id)initWithMaxNum:(int)maxNum finishBlock:(PoporImagePickerFinishBlock)block {
     if (self = [super init]) {
         _maxNum      = maxNum;
         _finishBlock = block;

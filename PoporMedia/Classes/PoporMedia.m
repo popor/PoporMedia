@@ -17,15 +17,15 @@
 
 @implementation PoporMedia
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PickImageFinishBlock)block {
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PoporImageFinishBlock)block {
     [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil block:block];
 }
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PickImageFinishBlock)block
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PoporImageFinishBlock)block
 {
     __weak typeof(vc) weakVC      = vc;
     __weak typeof(self) weakSelf  = self;
-    weakSelf.pickImageFinishBlock = block;
+    weakSelf.PoporImageFinishBlock = block;
     
     UIAlertController * oneAC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -68,17 +68,17 @@
 
 #pragma mark 上传图片
 - (void)hasSelectImages:(NSArray *)images assets:(NSArray *)assets origin:(BOOL)origin {
-    if (self.pickImageFinishBlock) {
-        self.pickImageFinishBlock(images, assets, origin);
+    if (self.PoporImageFinishBlock) {
+        self.PoporImageFinishBlock(images, assets, origin);
     }
 }
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PickVideoFinishBlock)block {
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PoporVideoFinishBlock)block {
     [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil block:block];
 }
 
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PickVideoFinishBlock)block{
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PoporVideoFinishBlock)block{
     
     __weak typeof(vc) weakVC = vc;
     __weak typeof(self) weakSelf = self;
@@ -153,7 +153,7 @@
     [vc presentViewController:oneAC animated:YES completion:nil];
 }
 
-- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PickVideoFinishBlock)block{
+- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PoporVideoFinishBlock)block{
     if(block){
         if (!videoURL) {
             AlertToastTitle(@"获取视频信息出错");
