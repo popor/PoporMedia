@@ -10,12 +10,12 @@
 #endif
 #endif
 
-#import "BurstShotImagePickerVC.h"
-#import "BurstShotImagePreviewCC.h"
-#import "BurstShotImagePreviewVC.h"
 #import "PHAsset+data.h"
+#import "PoporImageEntity.h"
+#import "PoporImagePickerVC.h"
+#import "PoporImagePreviewCC.h"
+#import "PoporImagePreviewVC.h"
 #import "PoporMedia.h"
-#import "PoporMediaImageEntity.h"
 #import "PoporVideoProvider.h"
 
 FOUNDATION_EXPORT double PoporMediaVersionNumber;

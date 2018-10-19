@@ -9,7 +9,7 @@
 #import "PoporMedia.h"
 
 #import "PoporVideoProvider.h"
-#import "BurstShotImagePickerVC.h"
+#import "PoporImagePickerVC.h"
 #import <TZImagePickerController/TZImagePickerController.h>
 #import <Photos/Photos.h>
 #import "NSFileManager+Tool.h"
@@ -34,7 +34,7 @@
 #if TARGET_IPHONE_SIMULATOR//模拟器
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
-        BurstShotImagePickerVC * pickVC = [[BurstShotImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
+        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
         

@@ -13,7 +13,7 @@
 
 #import <PoporMedia/PoporMedia.h>
 
-#import <PoporMedia/BurstShotImagePreviewCC.h>
+#import <PoporMedia/PoporImagePreviewCC.h>
 #import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
@@ -93,7 +93,7 @@
     
     //3.注册collectionViewCell
     //注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-    [cv registerClass:[BurstShotImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
+    [cv registerClass:[PoporImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
     
     //注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
     //[cv registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView"];
@@ -119,7 +119,7 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
+    PoporImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
     cell.selectBT.hidden = YES;
     
     VideoEntity * entity = self.videoArray[indexPath.row];

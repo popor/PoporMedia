@@ -12,7 +12,7 @@
 
 #import <PoporMedia/PoporMedia.h>
 
-#import <PoporMedia/BurstShotImagePreviewCC.h>
+#import <PoporMedia/PoporImagePreviewCC.h>
 #import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
@@ -22,7 +22,7 @@
 @interface PoporImageVC () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * cv;
-@property (nonatomic, strong) NSMutableArray<PoporMediaImageEntity *> * imageArray;
+@property (nonatomic, strong) NSMutableArray<PoporImageEntity *> * imageArray;
 @property (nonatomic        ) CGSize         ccSize;
 
 @property (nonatomic, strong) PoporMedia * poporMedia;
@@ -69,7 +69,7 @@
                     imageData = data;
                 }];
                 
-                PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
+                PoporImageEntity * entity = [PoporImageEntity new];
                 entity.bigImage   = image;
                 entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
@@ -79,7 +79,7 @@
         }else{
             for (UIImage * image in images) {
                 // somecode
-                PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
+                PoporImageEntity * entity = [PoporImageEntity new];
                 entity.bigImage   = image;
                 entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore = NO;
@@ -119,7 +119,7 @@
     
     //3.注册collectionViewCell
     //注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-    [cv registerClass:[BurstShotImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
+    [cv registerClass:[PoporImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
     
     //注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
     //[cv registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView"];
@@ -145,10 +145,10 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
+    PoporImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
     cell.selectBT.hidden = YES;
     
-    PoporMediaImageEntity * entity = self.imageArray[indexPath.row];
+    PoporImageEntity * entity = self.imageArray[indexPath.row];
     NSLog(@"cell index: %i", (int)indexPath.row);
     [cell setImageEntity:entity];
     return cell;
@@ -178,7 +178,7 @@
     
     NSMutableArray * imageArray = [NSMutableArray new];
     for (int i = 0; i < self.imageArray.count; i++) {
-        PoporMediaImageEntity * ccEntity = self.imageArray[i];
+        PoporImageEntity * ccEntity = self.imageArray[i];
         PoporImageBrowerEntity * entity = [PoporImageBrowerEntity new];
         //entity.normalImage = ccEntity.originImage;
         entity.bigImage = ccEntity.bigImage;
@@ -188,7 +188,7 @@
     //__weak typeof(self) weakSelf = self;
     __weak typeof(collectionView) weakCC = collectionView;
     PoporImageBrower *photoBrower = [[PoporImageBrower alloc] initWithIndex:indexPath.item copyImageArray:imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
-        BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[weakCC cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        PoporImagePreviewCC *cell = (PoporImagePreviewCC *)[weakCC cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
         return cell.iconIV;
         
     } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {

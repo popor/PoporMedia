@@ -6,13 +6,13 @@
 //  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
-#import "BurstShotImagePreviewVC.h"
+#import "PoporImagePreviewVC.h"
 #import <TZImagePickerController/UIView+Layout.h>
 
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIDeviceScreen.h>
 
-@interface BurstShotImagePreviewVC ()
+@interface PoporImagePreviewVC ()
 
 @property (nonatomic, strong) UIView      * naviBar;
 @property (nonatomic, strong) UIButton    * backButton;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation BurstShotImagePreviewVC
+@implementation PoporImagePreviewVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,7 +53,7 @@
         [weakSelf customeSingleTapEventDuration:0.1];
     };
     self.scrollBlock = ^(PoporImageBrower *browerController, NSInteger index) {
-        PoporMediaImageEntity * entity = (PoporMediaImageEntity * )weakSelf.weakImageArray[index];
+        PoporImageEntity * entity = (PoporImageEntity * )weakSelf.weakImageArray[index];
         weakSelf.selectButton.selected = !entity.isIgnore;
     };
 }
@@ -62,7 +62,7 @@
     [self configCustomNaviBar];
     [self configBottomToolBar];
     self.selectNum = 0;
-    for (PoporMediaImageEntity * entity in self.weakImageArray) {
+    for (PoporImageEntity * entity in self.weakImageArray) {
         if (!entity.isIgnore) {
             self.selectNum ++;
         }
@@ -114,7 +114,7 @@
 }
 
 - (void)customeSvScrollBlockAction:(NSInteger)index {
-    PoporMediaImageEntity * entity = (PoporMediaImageEntity *)self.weakImageArray[index];
+    PoporImageEntity * entity = (PoporImageEntity *)self.weakImageArray[index];
     self.selectButton.selected = !entity.isIgnore;
     //NSLog(@"isIgnore:%li - %i", index, entity.isIgnore);
 }
@@ -205,7 +205,7 @@
 }
 
 - (void)selectButtonAction:(UIButton *)selectButton {
-    PoporMediaImageEntity * entity = (PoporMediaImageEntity * )self.weakImageArray[self.index];
+    PoporImageEntity * entity = (PoporImageEntity * )self.weakImageArray[self.index];
     selectButton.selected = !selectButton.isSelected;
     entity.ignore = !selectButton.isSelected;
     if (selectButton.isSelected) {

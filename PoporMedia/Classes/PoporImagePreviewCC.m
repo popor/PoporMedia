@@ -6,11 +6,11 @@
 //  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
-#import "BurstShotImagePreviewCC.h"
+#import "PoporImagePreviewCC.h"
 #import <Masonry/Masonry.h>
 #import <PoporUI/UIView+Extension.h>
 
-@implementation BurstShotImagePreviewCC
+@implementation PoporImagePreviewCC
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -64,7 +64,7 @@
     self.weakEntity.ignore = !self.selectBT.isSelected;;
 }
 
-- (void)setImageEntity:(PoporMediaImageEntity *)entity {
+- (void)setImageEntity:(PoporImageEntity *)entity {
     if (self.weakEntity != entity) {
         self.weakEntity        = entity;
         self.iconIV.image      = entity.smallImage;

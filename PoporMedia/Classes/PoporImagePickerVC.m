@@ -22,14 +22,14 @@
 #define KIphoneSize_Height(iphone6) (IsIphone6P?1.103*iphone6:(IsIphone6?iphone6:((IsIphone5S||IsIphone5)?0.851*iphone6:0.720*iphone6)))
 
 
-#import "BurstShotImagePickerVC.h"
+#import "PoporImagePickerVC.h"
 #import "TOCropViewController.h"
 #import "LLSimpleCamera.h"
 #import "UIDevice+Tool.h"
 #import "UIDevice+SaveImage.h"
 #import "UIDevice+Permission.h"
-#import "BurstShotImagePreviewCC.h"
-#import "BurstShotImagePreviewVC.h"
+#import "PoporImagePreviewCC.h"
+#import "PoporImagePreviewVC.h"
 
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
@@ -37,7 +37,7 @@
 
 @import CoreMotion;
 
-@interface BurstShotImagePickerVC ()<TOCropViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface PoporImagePickerVC ()<TOCropViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (strong, nonatomic) LLSimpleCamera   *camera;
 @property (strong, nonatomic) UILabel          *errorLabel;
 @property (strong, nonatomic) UIButton         *snapButton;
@@ -59,7 +59,7 @@
 
 @end
 
-@implementation BurstShotImagePickerVC
+@implementation PoporImagePickerVC
 
 // 拍摄单张图片,开启了编辑图片功能
 - (id)initWithFinishBlock:(ImagePickerFinishBlock)block {
@@ -223,7 +223,7 @@
     
     //3.注册collectionViewCell
     //注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
-    [cv registerClass:[BurstShotImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
+    [cv registerClass:[PoporImagePreviewCC class] forCellWithReuseIdentifier:@"cellId"];
     
     //注册headerView  此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致  均为reusableView
     //[cv registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"reusableView"];
@@ -251,8 +251,8 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
-    PoporMediaImageEntity * entity   = self.imageArray[indexPath.row];
+    PoporImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
+    PoporImageEntity * entity   = self.imageArray[indexPath.row];
     NSLog(@"cell index: %i, 小hash:%li, 大hash:%li", (int)indexPath.row, entity.smallImage.hash, entity.bigImage.hash);
     [cell setImageEntity:entity];
     return cell;
@@ -278,12 +278,12 @@
 #pragma mark - 打开图片大图
     __weak typeof(collectionView) weakCV = collectionView;
     __weak typeof(self) weakSelf = self;
-    BurstShotImagePreviewVC *photoBrower = [[BurstShotImagePreviewVC alloc] initWithIndex:indexPath.item copyImageArray:nil weakImageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
+    PoporImagePreviewVC *photoBrower = [[PoporImagePreviewVC alloc] initWithIndex:indexPath.item copyImageArray:nil weakImageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
         __strong typeof(weakCV) strongCV = weakCV;
         
         NSIndexPath * ip = [NSIndexPath indexPathForItem:index inSection:0];
         [strongCV scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[strongCV cellForItemAtIndexPath:ip];
+        PoporImagePreviewCC *cell = (PoporImagePreviewCC *)[strongCV cellForItemAtIndexPath:ip];
         // 这里的cell会在关闭的block中返回nil,找不到原因.
         return cell.iconIV;
         
@@ -432,7 +432,7 @@
                 // 修正屏幕方向
                 image = [weakSelf correctImageOritation:image];
                 
-                PoporMediaImageEntity * entity = [PoporMediaImageEntity new];
+                PoporImageEntity * entity = [PoporImageEntity new];
                 entity.bigImage   = image;
                 entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
                 entity.ignore     = NO;
@@ -546,7 +546,7 @@
     [self dismissViewControllerAnimated:NO completion:^{
         if (self.finishBlock) {
             NSMutableArray * array = [NSMutableArray new];
-            for (PoporMediaImageEntity * entity in self.imageArray) {
+            for (PoporImageEntity * entity in self.imageArray) {
                 if (!entity.isIgnore) {
                     [array addObject:entity.bigImage];
                 }

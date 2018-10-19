@@ -1,5 +1,5 @@
 //
-//  PoporMediaImageEntity.h
+//  PoporImageEntity.h
 //  Masonry
 //
 //  Created by apple on 2018/10/17.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PoporMediaImageEntity : PoporImageBrowerEntity
+@interface PoporImageEntity : PoporImageBrowerEntity
 
 @property (nonatomic, getter=isIgnore) BOOL ignore;  // 是否忽略,用于NSObject+PickImage
 

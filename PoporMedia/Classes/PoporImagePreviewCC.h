@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PoporMediaImageEntity.h"
+#import "PoporImageEntity.h"
 
-@interface BurstShotImagePreviewCC : UICollectionViewCell
+@interface PoporImagePreviewCC : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView * iconIV;
 @property (nonatomic, strong) UIButton    * selectBT;
-@property (nonatomic, weak  ) PoporMediaImageEntity * weakEntity;
+@property (nonatomic, weak  ) PoporImageEntity * weakEntity;
 
-- (void)setImageEntity:(PoporMediaImageEntity *)entity;
+- (void)setImageEntity:(PoporImageEntity *)entity;
 
 @end
