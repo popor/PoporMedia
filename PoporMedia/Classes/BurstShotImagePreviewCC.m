@@ -65,8 +65,10 @@
 }
 
 - (void)setImageEntity:(PoporMediaImageEntity *)entity {
-    self.weakEntity        = entity;
-    self.iconIV.image      = entity.smallImage;
+    if (self.weakEntity != entity) {
+        self.weakEntity        = entity;
+        self.iconIV.image      = entity.smallImage;
+    }
     self.selectBT.selected = !entity.isIgnore;
 }
 

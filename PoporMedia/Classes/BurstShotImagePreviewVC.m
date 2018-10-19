@@ -40,7 +40,7 @@
         self.toolBarColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.7];
     }
     
-    //[self setupBlockEvent];
+    [self setupBlockEvent];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self delaySetCustomeUI];
     });
@@ -82,7 +82,6 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    NSLog(@"预览 3");
     
     CGFloat naviBarHeight      = [UIDeviceScreen isIphoneXScreen] ? 88:64;
 

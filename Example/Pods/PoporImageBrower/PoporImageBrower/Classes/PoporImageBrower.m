@@ -227,24 +227,23 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
     if (self.scrollBlock) {
         self.scrollBlock(self, self.index);
     }
-    // POPOR 感觉这里不需要执行.
-    //    return;
-    //    // MARK: 滑动,索取父视图图片
-    //    UIImageView *imageView = self.originImageBlock(self, index);
-    //    if (imageView) {
-    //        [self.originalImageViews enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, UIImageView*  _Nonnull imgV, BOOL * _Nonnull stop) {
-    //            imgV.image = [self.originalImages objectForKey:key];
-    //        }];
-    //        [self.originalImageViews removeAllObjects];
-    //        [self.originalImages removeAllObjects];
-    //        NSString *key = [NSString stringWithFormat:@"%ld",(long)index];
-    //        if(imageView.image){
-    //            [self.originalImages setObject:imageView.image forKey:key];
-    //        }
-    //        imageView.image = nil;
-    //        [self.originalImageViews setObject:imageView forKey:key];
-    //        _normalImageViewSize = imageView.frame.size;
-    //    }
+    // MARK: 滑动,索取父视图图片
+    // 有时候取值会失败,这里有一次挽留的机会.注意问题1的前提
+    UIImageView *imageView = self.originImageBlock(self, index);
+    if (imageView) {
+        [self.originalImageViews enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, UIImageView*  _Nonnull imgV, BOOL * _Nonnull stop) {
+            imgV.image = [self.originalImages objectForKey:key];
+        }];
+        [self.originalImageViews removeAllObjects];
+        [self.originalImages removeAllObjects];
+        NSString *key = [NSString stringWithFormat:@"%ld",(long)index];
+        if(imageView.image){
+            [self.originalImages setObject:imageView.image forKey:key];
+        }
+        imageView.image = nil;
+        [self.originalImageViews setObject:imageView forKey:key];
+        _normalImageViewSize = imageView.frame.size;
+    }
 }
 
 //隐藏状态栏
@@ -362,10 +361,6 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
     NSIndexPath *visibleIndexPath = self.collectionView.indexPathsForVisibleItems.lastObject;
     _index = visibleIndexPath.item;
     
-    // MARK: 销毁
-    if (self.disappearBlock) {
-        self.disappearBlock(self, _index);
-    }
     PoporImageBrowerCell *cell = (PoporImageBrowerCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_index inSection:0]];
     self.tempImageView.image = cell.imagView.image;
     CGRect fromRect = [cell.imagView.superview convertRect:cell.imagView.frame toCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
@@ -376,6 +371,11 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
     [fromView addSubview:self.tempImageView];
     
     UIImageView *imageView = self.originImageBlock(self, self.index);
+    if (!imageView) {
+        // 有时候取值会失败,这里有一次挽留的机会.注意答案1
+        NSString *key = [NSString stringWithFormat:@"%ld",(long)index];
+        imageView = [self.originalImageViews objectForKey:key];
+    }
     _normalImageViewSize = imageView.frame.size;
     CGRect convertFrame  = [imageView.superview convertRect:imageView.frame toCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
     CGFloat duration     = SWPhotoBrowerAnimationDuration;
@@ -401,6 +401,11 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
         //旋转屏幕至原来的状态
         [[UIDevice currentDevice] setValue:@(self.originalOrientation) forKey:@"orientation"];
     } completion:^(BOOL finished) {
+        // MARK: 销毁
+        if (self.disappearBlock) {
+            self.disappearBlock(self, self.index);
+        }
+        
         [fromView removeFromSuperview];
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
         self.photoBrowerControllerStatus = PoporImageBrowerDidHide;

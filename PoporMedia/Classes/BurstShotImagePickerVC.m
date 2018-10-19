@@ -253,7 +253,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
     PoporMediaImageEntity * entity   = self.imageArray[indexPath.row];
-    NSLog(@"cell index: %i", (int)indexPath.row);
+    NSLog(@"cell index: %i, 小hash:%li, 大hash:%li", (int)indexPath.row, entity.smallImage.hash, entity.bigImage.hash);
     [cell setImageEntity:entity];
     return cell;
 }
@@ -282,21 +282,29 @@
         __strong typeof(weakCV) strongCV = weakCV;
         
         NSIndexPath * ip = [NSIndexPath indexPathForItem:index inSection:0];
-        //[strongCV scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        [strongCV scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
         BurstShotImagePreviewCC *cell = (BurstShotImagePreviewCC *)[strongCV cellForItemAtIndexPath:ip];
-        //NSLog(@"weakSelf %@", weakSelf);
-        //NSLog(@"weakCV %@", weakCV);
-        //NSLog(@"cell %@", cell);
-        //NSLog(@"");
-        
+        // 这里的cell会在关闭的block中返回nil,找不到原因.
         return cell.iconIV;
         
     } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {
         
-        [weakCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-        //collectionView必须要layoutIfNeeded，否则cellForItemAtIndexPath,有可能获取到的是nil，
-        [weakCV layoutIfNeeded];
+        // 下面的执行会出现紊乱,不清楚原因,暂且屏蔽.
+        //        [weakCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        //        //collectionView必须要layoutIfNeeded，否则cellForItemAtIndexPath,有可能获取到的是nil，
+        //        [weakCV layoutIfNeeded];
+        
+        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //            [weakCV reloadData];
+        //        });
+
         [weakCV reloadData];
+        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //            [weakCV layoutIfNeeded];
+        //        });
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //            [weakCV reloadData];
+        //        });
         
     } placeholderImageBlock:^UIImage *(PoporImageBrower *browerController) {
         //return [UIImage imageNamed:@"placeholder"];
