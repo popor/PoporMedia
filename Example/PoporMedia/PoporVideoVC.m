@@ -7,6 +7,7 @@
 //
 
 #import "PoporVideoVC.h"
+#import "VideoEntity.h"
 
 #import <Masonry/Masonry.h>
 
@@ -18,11 +19,12 @@
 #import <PoporUI/UIImage+Tool.h>
 #import <PoporFoundation/PrefixFun.h>
 #import <PoporImageBrower/PoporImageBrower.h>
+#import <PoporAVPlayer/PoporAVPlayerVCRouter.h>
 
 @interface PoporVideoVC ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * cv;
-@property (nonatomic, strong) NSMutableArray<PoporMediaImageEntity *> * videoArray;
+@property (nonatomic, strong) NSMutableArray<VideoEntity *> * videoArray;
 @property (nonatomic        ) CGSize         ccSize;
 
 @property (nonatomic, strong) PoporMedia * poporMedia;
@@ -54,8 +56,14 @@
     }
     self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
-    [self.poporMedia showVideoACTitle:@"添加视频" message:nil vc:self videoIconSize:self.ccSize block:^(NSString *videoPath, NSData *imageData, UIImage *image, PHAsset *phAsset, CGFloat time, CGFloat videoSize) {
-        
+    [self.poporMedia showVideoACTitle:@"添加视频" message:nil vc:self videoIconSize:self.ccSize qualityType:UIImagePickerControllerQualityType640x480 block:^(NSURL * videoURL, NSString *videoPath, NSData *imageData, UIImage *image, PHAsset *phAsset, CGFloat time, CGFloat videoSize) {
+        VideoEntity * entity = [VideoEntity new];
+        entity.videoImage     = image;
+        entity.videoImageData = imageData;
+        entity.videoURL       = videoURL;
+        entity.videoPath      = videoPath;
+        [weakSelf.videoArray addObject:entity];
+        [weakSelf.cv reloadData];
     }];
 }
 
@@ -114,9 +122,14 @@
     BurstShotImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
     cell.selectBT.hidden = YES;
     
-    PoporMediaImageEntity * entity = self.videoArray[indexPath.row];
+    VideoEntity * entity = self.videoArray[indexPath.row];
     NSLog(@"cell index: %i", (int)indexPath.row);
-    [cell setImageEntity:entity];
+    if (entity.videoImage) {
+        cell.iconIV.image = entity.videoImage;
+    }else if (entity.videoImageData) {
+        cell.iconIV.image = [UIImage imageWithData:entity.videoImageData];
+    }
+    
     return cell;
 }
 
@@ -137,13 +150,11 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self showVideoDisplayVC:collectionView indexPath:indexPath];
-}
-
-- (void)showVideoDisplayVC:(UICollectionView *)collectionView indexPath:(NSIndexPath *)indexPath {
+    VideoEntity * entity = self.videoArray[indexPath.row];
+    UIViewController * vc = [PoporAVPlayerVCRouter vcWithDic:@{@"title":@"视频", @"videoURL":entity.videoURL, @"showLockRotateBT":@(NO)}];
+    vc.hidesBottomBarWhenPushed = YES;
     
-    
+    [self.navigationController pushViewController:vc animated:YES];
 }
-
 
 @end

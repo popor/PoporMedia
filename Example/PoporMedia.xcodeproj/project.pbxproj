@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		076FFF43FCD6C5217CB9004F /* Pods_PoporMedia_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C11C8977098EC5DB7EEC32 /* Pods_PoporMedia_Tests.framework */; };
 		189788B121797C9800DDB622 /* PoporVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189788B021797C9800DDB622 /* PoporVideoVC.m */; };
+		189788B72179A35800DDB622 /* VideoEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 189788B62179A35800DDB622 /* VideoEntity.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -42,6 +43,11 @@
 		10E0186C12C6A5A54BD88D04 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		189788AF21797C9800DDB622 /* PoporVideoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoporVideoVC.h; sourceTree = "<group>"; };
 		189788B021797C9800DDB622 /* PoporVideoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoporVideoVC.m; sourceTree = "<group>"; };
+		189788B221799F4A00DDB622 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		189788B321799F4A00DDB622 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		189788B421799F4B00DDB622 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		189788B52179A35800DDB622 /* VideoEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoEntity.h; sourceTree = "<group>"; };
+		189788B62179A35800DDB622 /* VideoEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoEntity.m; sourceTree = "<group>"; };
 		475065D384BE37F67DB01D69 /* Pods-PoporMedia_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoporMedia_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* PoporMedia_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoporMedia_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -164,6 +170,8 @@
 				6003F5A6195388D20070C39A /* PoporImageVC.m */,
 				189788AF21797C9800DDB622 /* PoporVideoVC.h */,
 				189788B021797C9800DDB622 /* PoporVideoVC.m */,
+				189788B52179A35800DDB622 /* VideoEntity.h */,
+				189788B62179A35800DDB622 /* VideoEntity.m */,
 			);
 			name = "Example for PoporMedia";
 			path = PoporMedia;
@@ -275,6 +283,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
@@ -317,24 +326,32 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/KVOController/KVOController.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/PoporAVPlayer/PoporAVPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporFoundation/PoporFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporImageBrower/PoporImageBrower.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporMedia/PoporMedia.framework",
+				"${BUILT_PRODUCTS_DIR}/PoporOrientation/PoporOrientation.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveObjC/ReactiveObjC.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SKFCamera/SKFCamera.framework",
 				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KVOController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporAVPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporImageBrower.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporMedia.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporOrientation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporUI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveObjC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SKFCamera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
@@ -388,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* PoporMediaAppDelegate.m in Sources */,
+				189788B72179A35800DDB622 /* VideoEntity.m in Sources */,
 				189788B121797C9800DDB622 /* PoporVideoVC.m in Sources */,
 				6003F5A7195388D20070C39A /* PoporImageVC.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
@@ -417,6 +435,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F597195388D20070C39A /* en */,
+				189788B321799F4A00DDB622 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -425,6 +444,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
+				189788B421799F4B00DDB622 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -433,6 +453,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				71719F9E1E33DC2100824A3D /* Base */,
+				189788B221799F4A00DDB622 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -444,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -484,6 +506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

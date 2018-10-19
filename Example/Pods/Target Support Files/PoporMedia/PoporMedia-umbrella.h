@@ -13,11 +13,10 @@
 #import "BurstShotImagePickerVC.h"
 #import "BurstShotImagePreviewCC.h"
 #import "BurstShotImagePreviewVC.h"
-#import "ImageProvider.h"
 #import "PHAsset+data.h"
 #import "PoporMedia.h"
 #import "PoporMediaImageEntity.h"
-#import "VPImageCropperVC.h"
+#import "PoporVideoProvider.h"
 
 FOUNDATION_EXPORT double PoporMediaVersionNumber;
 FOUNDATION_EXPORT const unsigned char PoporMediaVersionString[];

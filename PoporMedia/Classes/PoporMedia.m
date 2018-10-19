@@ -8,7 +8,7 @@
 
 #import "PoporMedia.h"
 
-#import "ImageProvider.h"
+#import "PoporVideoProvider.h"
 #import "BurstShotImagePickerVC.h"
 #import <TZImagePickerController/TZImagePickerController.h>
 #import <Photos/Photos.h>
@@ -74,11 +74,11 @@
 }
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size block:(PickVideoFinishBlock)block {
-    [self showVideoACTitle:title message:message vc:vc videoIconSize:size actions:nil block:block];
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PickVideoFinishBlock)block {
+    [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil block:block];
 }
 
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size actions:(NSArray *)actions block:(PickVideoFinishBlock)block{
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PickVideoFinishBlock)block{
     
     __weak typeof(vc) weakVC = vc;
     __weak typeof(self) weakSelf = self;
@@ -99,9 +99,9 @@
         [imagePickerVC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
             NSLog(@"1");
             
-            [PoporMedia iosVideoUrlWithPHAsset:asset block:^(NSString *fileUrl, NSString *fileTitle) {
+            [PoporMedia iosVideoUrlWithPHAsset:asset block:^(NSURL *fileURL, NSString *fileTitle) {
                 NSLog(@"2");
-                NSLog(@"fileUrl:%@, fileTitle:%@", fileUrl, fileTitle);
+                NSLog(@"fileUrl:%@, fileTitle:%@", fileURL.absoluteString, fileTitle);
                 
                 PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
                 option.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
@@ -112,7 +112,7 @@
                 option.synchronous = NO;
                 
                 [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                    [weakSelf feedbackVideoUrl:fileUrl imageData:imageData image:nil phAsset:asset block:block];
+                    [weakSelf feedbackVideoUrl:fileURL imageData:imageData image:nil phAsset:asset block:block];
                 }];
             }];
         }];
@@ -126,14 +126,13 @@
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
         if (!weakSelf.imageProvider) {
-            ImageProvider * imageProvider = [[ImageProvider alloc] init];
-            //imageProvider.isAutoImageFrame = YES;
-            [imageProvider setImageDelegate:nil superVC:weakVC];
-            [imageProvider setHasTakeVideo:^(NSString *videoPath) {
+            PoporVideoProvider * imageProvider = [[PoporVideoProvider alloc] init];
+            imageProvider.superVC = weakVC;
+            imageProvider.qualityType = qualityType;
+            [imageProvider setHasTakeVideo:^(NSURL * videoURL) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"拍摄 videoPath: %@", videoPath);
-                    UIImage * image = [PoporMedia thumbnailImageForVideo:[NSURL fileURLWithPath:videoPath] atTime:0.1];
-                    [weakSelf feedbackVideoUrl:videoPath imageData:nil image:image phAsset:nil block:block];
+                    UIImage * image = [PoporMedia thumbnailImageForVideo:videoURL atTime:0.1];
+                    [weakSelf feedbackVideoUrl:videoURL imageData:nil image:image phAsset:nil block:block];
                 });
             }];
             weakSelf.imageProvider = imageProvider;
@@ -154,32 +153,37 @@
     [vc presentViewController:oneAC animated:YES completion:nil];
 }
 
-- (void)feedbackVideoUrl:(NSString *)url imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PickVideoFinishBlock)block{
+- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PickVideoFinishBlock)block{
     if(block){
-        if ([url hasPrefix:@"file://"]) {
-            url = [url substringFromIndex:7];
-        }
-        if (!url) {
+        if (!videoURL) {
             AlertToastTitle(@"获取视频信息出错");
-            block(nil, nil, nil, nil, 0, 0);
+            block(nil, nil, nil, nil, nil, 0, 0);
             return;
         }
+        
+        NSString * videoPath;
+        if ([videoURL.absoluteString hasPrefix:@"file://"]) {
+            videoPath = [videoURL.absoluteString substringFromIndex:7];
+        }else{
+            videoPath = videoURL.absoluteString;
+        }
+        
         CGFloat time;
         CGFloat videoSize;
         {
-            videoSize = [[NSFileManager defaultManager] attributesOfItemAtPath:url error:nil].fileSize;
+            videoSize = [[NSFileManager defaultManager] attributesOfItemAtPath:videoPath error:nil].fileSize;
             // 视频长度
             NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-            AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:url] options:opts];
+            AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:videoURL options:opts];
             double second = urlAsset.duration.value / urlAsset.duration.timescale;
             time = (int)second;
         }
         videoSize = videoSize/1024.0f/1024.0f;
-        block(url, imageData, image, phAsset, time, videoSize);
+        block(videoURL, videoPath, imageData, image, phAsset, time, videoSize);
     }
 }
 
-+ (void)iosVideoUrlWithPHAsset:(PHAsset *)phAsset block:(void(^)(NSString *fileUrl, NSString *fileTitle))block
++ (void)iosVideoUrlWithPHAsset:(PHAsset *)phAsset block:(void(^)(NSURL *fileURL, NSString *fileTitle))block
 {
     [[PHImageManager defaultManager] requestAVAssetForVideo:phAsset options:nil resultHandler:^(AVAsset *avAsset, AVAudioMix *audioMix, NSDictionary *info) {
         // Use the AVAsset avAsset
@@ -190,7 +194,7 @@
         //NSLog(@"fileName: %@", [NSFileManager getFileName:urlAsset.URL.absoluteString]);
         
         if (block) {
-            block(urlAsset.URL.absoluteString, urlAsset.URL.absoluteString.lastPathComponent);
+            block(urlAsset.URL, urlAsset.URL.absoluteString.lastPathComponent);
         }
     }];
 }

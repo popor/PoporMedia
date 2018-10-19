@@ -12,14 +12,14 @@
 @class PHAsset;
 
 typedef void(^PickImageFinishBlock)(NSArray *images, NSArray *assets, BOOL origin);
-typedef void(^PickVideoFinishBlock)(NSString * videoPath, NSData *imageData, UIImage *image, PHAsset * phAsset, CGFloat time, CGFloat videoSize);
+typedef void(^PickVideoFinishBlock)(NSURL * videoURL, NSString * videoPath, NSData *imageData, UIImage *image, PHAsset * phAsset, CGFloat time, CGFloat videoSize);
 
-@class ImageProvider;
+@class PoporVideoProvider;
 
 @interface PoporMedia : NSObject
 
 @property (nonatomic, copy  ) PickImageFinishBlock pickImageFinishBlock;
-@property (nonatomic, strong) ImageProvider * imageProvider;
+@property (nonatomic, strong) PoporVideoProvider * imageProvider;
 
 #pragma mark - image
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PickImageFinishBlock)block;
@@ -27,8 +27,8 @@ typedef void(^PickVideoFinishBlock)(NSString * videoPath, NSData *imageData, UII
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PickImageFinishBlock)block;
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size block:(PickVideoFinishBlock)block;
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PickVideoFinishBlock)block;
 // 可以增加自定义actions
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size actions:(NSArray *)actions block:(PickVideoFinishBlock)block;
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PickVideoFinishBlock)block;
 
 @end
