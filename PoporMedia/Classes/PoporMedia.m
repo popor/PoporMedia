@@ -49,6 +49,8 @@
         imageVC.allowPickingVideo         = NO;
         imageVC.allowTakePicture          = NO;
         imageVC.allowPickingOriginalPhoto = origin;
+        //imageVC.showSelectBtn             = YES;
+        //imageVC.allowCrop                 = YES;
         
         [imageVC setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
             [weakSelf hasSelectImages:photos assets:assets origin:isSelectOriginalPhoto];

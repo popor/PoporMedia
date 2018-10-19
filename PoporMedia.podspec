@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.4'
+    s.version          = '0.0.05'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -35,6 +35,7 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'PoporUI/UIDeviceScreen'
         
         ss.ios.dependency 'PoporImageBrower'
+        #ss.ios.dependency 'PEPhotoCropEditor'
         
     end
 

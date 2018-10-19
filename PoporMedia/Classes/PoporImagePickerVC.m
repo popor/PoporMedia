@@ -252,8 +252,8 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PoporImagePreviewCC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
-    PoporImageEntity * entity   = self.imageArray[indexPath.row];
-    NSLog(@"cell index: %i, 小hash:%li, 大hash:%li", (int)indexPath.row, entity.smallImage.hash, entity.bigImage.hash);
+    PoporImageEntity * entity = self.imageArray[indexPath.row];
+    //NSLog(@"cell index: %i, 小hash:%li, 大hash:%li", (int)indexPath.row, entity.smallImage.hash, entity.bigImage.hash);
     [cell setImageEntity:entity];
     return cell;
 }
@@ -288,23 +288,7 @@
         return cell.iconIV;
         
     } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {
-        
-        // 下面的执行会出现紊乱,不清楚原因,暂且屏蔽.
-        //        [weakCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-        //        //collectionView必须要layoutIfNeeded，否则cellForItemAtIndexPath,有可能获取到的是nil，
-        //        [weakCV layoutIfNeeded];
-        
-        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //            [weakCV reloadData];
-        //        });
-
         [weakCV reloadData];
-        //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //            [weakCV layoutIfNeeded];
-        //        });
-        //        dispatch_async(dispatch_get_main_queue(), ^{
-        //            [weakCV reloadData];
-        //        });
         
     } placeholderImageBlock:^UIImage *(PoporImageBrower *browerController) {
         //return [UIImage imageNamed:@"placeholder"];
