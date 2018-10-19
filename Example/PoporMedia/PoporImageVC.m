@@ -6,7 +6,7 @@
 //  Copyright (c) 2018 wangkq. All rights reserved.
 //
 
-#import "PoporMediaViewController.h"
+#import "PoporImageVC.h"
 
 #import <Masonry/Masonry.h>
 
@@ -17,16 +17,9 @@
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
 #import <PoporFoundation/PrefixFun.h>
-
-//#define NSLogRect0(rect0)  NSLog(@"CGRect: = %@", NSStringFromCGRect(rect0))
-
-//#define NSLogRect1(rect) NSLog(@"CGRect:%s = {(%f,%f),(%f,%f)}", #rect, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
-//#define NSLogRect2(rect2)  NSLog(@"CGRect:%s = %@", #rect2, NSStringFromRect(rect2))
-//#define NSLogRect(rect)  NSLog(@"CGRect:%s = %@", #rect, NSStringFromRect(rect))
-
 #import <PoporImageBrower/PoporImageBrower.h>
 
-@interface PoporMediaViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface PoporImageVC () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * cv;
 @property (nonatomic, strong) NSMutableArray<PoporMediaImageEntity *> * imageArray;
@@ -35,18 +28,13 @@
 @property (nonatomic, strong) PoporMedia * poporMedia;
 @end
 
-@implementation PoporMediaViewController
+@implementation PoporImageVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"media";
+    self.title = @"图片";
     self.view.backgroundColor = [UIColor whiteColor];
-    {
-        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"self" style:UIBarButtonItemStylePlain target:self action:@selector(presentSelf)];
-        UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"close" style:UIBarButtonItemStylePlain target:self action:@selector(closeSelf)];
-        self.navigationItem.leftBarButtonItems = @[item1, item2];
-    }
     {
         UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"多张" style:UIBarButtonItemStylePlain target:self action:@selector(addImageNAction)];
         UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"单张" style:UIBarButtonItemStylePlain target:self action:@selector(addImage1Action)];
@@ -54,19 +42,6 @@
     }
     self.imageArray = [NSMutableArray new];
     self.cv         = [self addCV];
-    
-    //    UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
-    //    iv.backgroundColor = [UIColor redColor];
-    //    iv.frame = CGRectMake(100, 100, 40, 40);
-    //    [self.view addSubview:iv];
-}
-
-- (void)presentSelf {
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[PoporMediaViewController new]] animated:YES completion:nil];
-}
-
-- (void)closeSelf {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)addImage1Action {

@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		076FFF43FCD6C5217CB9004F /* Pods_PoporMedia_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C11C8977098EC5DB7EEC32 /* Pods_PoporMedia_Tests.framework */; };
+		189788B121797C9800DDB622 /* PoporVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189788B021797C9800DDB622 /* PoporVideoVC.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* PoporMediaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* PoporMediaAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* PoporMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* PoporMediaViewController.m */; };
+		6003F5A7195388D20070C39A /* PoporImageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* PoporImageVC.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		009236AB97D5DD55D162E09C /* PoporMedia.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PoporMedia.podspec; path = ../PoporMedia.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		10E0186C12C6A5A54BD88D04 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		189788AF21797C9800DDB622 /* PoporVideoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoporVideoVC.h; sourceTree = "<group>"; };
+		189788B021797C9800DDB622 /* PoporVideoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoporVideoVC.m; sourceTree = "<group>"; };
 		475065D384BE37F67DB01D69 /* Pods-PoporMedia_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoporMedia_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* PoporMedia_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoporMedia_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -50,8 +53,8 @@
 		6003F59B195388D20070C39A /* PoporMedia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PoporMedia-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* PoporMediaAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoporMediaAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* PoporMediaAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoporMediaAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* PoporMediaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoporMediaViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* PoporMediaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoporMediaViewController.m; sourceTree = "<group>"; };
+		6003F5A5195388D20070C39A /* PoporImageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoporImageVC.h; sourceTree = "<group>"; };
+		6003F5A6195388D20070C39A /* PoporImageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoporImageVC.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* PoporMedia_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PoporMedia_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -157,8 +160,10 @@
 			isa = PBXGroup;
 			children = (
 				189C060B20DCD45100AA03DE /* other */,
-				6003F5A5195388D20070C39A /* PoporMediaViewController.h */,
-				6003F5A6195388D20070C39A /* PoporMediaViewController.m */,
+				6003F5A5195388D20070C39A /* PoporImageVC.h */,
+				6003F5A6195388D20070C39A /* PoporImageVC.m */,
+				189788AF21797C9800DDB622 /* PoporVideoVC.h */,
+				189788B021797C9800DDB622 /* PoporVideoVC.m */,
 			);
 			name = "Example for PoporMedia";
 			path = PoporMedia;
@@ -383,7 +388,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* PoporMediaAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* PoporMediaViewController.m in Sources */,
+				189788B121797C9800DDB622 /* PoporVideoVC.m in Sources */,
+				6003F5A7195388D20070C39A /* PoporImageVC.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

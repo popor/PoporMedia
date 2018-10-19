@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface PoporMediaViewController : UIViewController
+@interface PoporImageVC : UIViewController
 
 @end
