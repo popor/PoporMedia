@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.05'
+    s.version          = '0.0.06'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -20,6 +20,8 @@ Pod::Spec.new do |s|
     
     s.subspec 'PoporMedia' do |ss|
         ss.source_files = 'PoporMedia/Classes/*.{h,m}'
+        
+        s.resource      = 'PoporMedia/Classes/PoporMedia.bundle'
         
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'

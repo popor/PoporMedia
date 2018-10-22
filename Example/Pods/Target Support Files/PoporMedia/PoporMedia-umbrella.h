@@ -16,6 +16,7 @@
 #import "PoporImagePreviewCC.h"
 #import "PoporImagePreviewVC.h"
 #import "PoporMedia.h"
+#import "PoporMediaPrefix.h"
 #import "PoporVideoProvider.h"
 
 FOUNDATION_EXPORT double PoporMediaVersionNumber;

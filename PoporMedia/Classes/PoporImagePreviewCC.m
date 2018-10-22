@@ -44,8 +44,8 @@
     self.selectBT = ({
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        UIImage *nImage = [UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"];
-        UIImage *sImage = [UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"];
+        UIImage *nImage = [UIImage imageNamed:@"PoporMedia.bundle/photo_def_previewVc"];
+        UIImage *sImage = [UIImage imageNamed:@"PoporMedia.bundle/photo_sel_photoPickerVc"];
         
         [button setImage:nImage forState:UIControlStateNormal];
         [button setImage:sImage forState:UIControlStateSelected];

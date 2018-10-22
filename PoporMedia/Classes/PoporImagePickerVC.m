@@ -126,7 +126,8 @@
 
 - (void)addViews {
     NSString * (^ bundleImageBlock)(NSString *) = ^(NSString *imageName){
-        return [NSString stringWithFormat:@"Frameworks/SKFCamera.framework/SKFCamera.bundle/%@", imageName];
+        //return [NSString stringWithFormat:@"Frameworks/PoporMedia.framework/icon.bundle/%@", imageName];
+        return [NSString stringWithFormat:@"PoporMedia.bundle/%@", imageName];
     };
     
     //拍照按钮
