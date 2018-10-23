@@ -192,7 +192,7 @@
 }
 
 - (void)backButtonAction {
-    NSLog(@"WKQ 返回事件");
+    //NSLog(@"WKQ 返回事件");
     dispatch_async(dispatch_get_main_queue(), ^{
         [self close];
     });

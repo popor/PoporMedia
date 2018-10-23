@@ -51,7 +51,7 @@ static int GLControllIndex = 1;
 
 - (void)dealloc {
     [self.present removeKVO];
-    NSLog(@"PoporAVPlayerVC dealloc, work well.");
+    //NSLog(@"PoporAVPlayerVC dealloc, work well.");
 }
 
 - (instancetype)initWithDic:(NSDictionary *)dic {

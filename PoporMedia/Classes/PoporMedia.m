@@ -42,7 +42,7 @@
 #endif
     }];
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"使用相册");
+        //NSLog(@"使用相册");
         
         TZImagePickerController *imageVC = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
         imageVC.allowPickingImage         = YES;
@@ -90,7 +90,7 @@
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"使用相册");
+        //NSLog(@"使用相册");
         // 视频目前只能单独选择
         TZImagePickerController *imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
         imagePickerVC.allowPickingImage         = NO;
@@ -99,11 +99,11 @@
         imagePickerVC.allowPickingOriginalPhoto = NO;
         
         [imagePickerVC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
-            NSLog(@"1");
+            //NSLog(@"1");
             
             [PoporMedia iosVideoUrlWithPHAsset:asset block:^(NSURL *fileURL, NSString *fileTitle) {
-                NSLog(@"2");
-                NSLog(@"fileUrl:%@, fileTitle:%@", fileURL.absoluteString, fileTitle);
+                //NSLog(@"2");
+                //NSLog(@"fileUrl:%@, fileTitle:%@", fileURL.absoluteString, fileTitle);
                 
                 PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
                 option.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
@@ -214,7 +214,7 @@
     thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
     
     if(!thumbnailImageRef){
-        NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
+        //NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
     }
     UIImage*thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
     

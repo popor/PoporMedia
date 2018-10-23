@@ -328,7 +328,7 @@
     }];
     
     [self.camera setOnError:^(LLSimpleCamera *camera, NSError *error) {
-        NSLog(@"Camera error: %@", error);
+        NSLog(@"PoporMedia Camera error: %@", error);
         if([error.domain isEqualToString:LLSimpleCameraErrorDomain]) {
             if(error.code == LLSimpleCameraErrorCodeCameraPermission) {
                 if(weakSelf.errorLabel) {
@@ -392,7 +392,7 @@
     if (self.maxNum == 1) {
         // 去裁剪
         [self.camera capture:^(LLSimpleCamera *camera, UIImage *image, NSDictionary *metadata, NSError *error) {
-            NSLog(@"拍照结束");
+            //NSLog(@"拍照结束");
             if(!error) {
                 // 修正屏幕方向
                 image = [weakSelf correctImageOritation:image];
@@ -402,13 +402,13 @@
                 [weakSelf presentViewController:cropController animated:YES completion:nil];
             }
             else {
-                NSLog(@"An error has occured: %@", error);
+                NSLog(@"PoporMedia An error has occured: %@", error);
             }
         } exactSeenImage:YES];
     }else if (self.maxNum > 1) {
         __weak typeof(self) weakSelf = self;
         [self.camera capture:^(LLSimpleCamera *camera, UIImage *image, NSDictionary *metadata, NSError *error) {
-            NSLog(@"拍了一张照片");
+            //NSLog(@"拍了一张照片");
             if(!error) {
                 // 修正屏幕方向
                 image = [weakSelf correctImageOritation:image];
@@ -428,7 +428,7 @@
                     [weakSelf.previewCV selectItemAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.imageArray.count-1 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionRight];
                 });
             }else {
-                NSLog(@"An error has occured: %@", error);
+                NSLog(@"PoporMedia An error has occured: %@", error);
             }
         } exactSeenImage:YES];
     }
@@ -499,21 +499,21 @@
     if (fabs(y) >= fabs(x)) {
         if (y >= 0){
             // UIDeviceOrientationPortraitUpsideDown;
-            NSLog(@"UIDeviceOrientationPortraitUpsideDown");
+            //NSLog(@"UIDeviceOrientationPortraitUpsideDown");
             return UIDeviceOrientationPortraitUpsideDown;
         } else{
             // UIDeviceOrientationPortrait;
-            NSLog(@"UIDeviceOrientationPortrait");
+            //NSLog(@"UIDeviceOrientationPortrait");
             return UIDeviceOrientationPortrait;
         }
     } else {
         if (x >= 0){
             // UIDeviceOrientationLandscapeRight;
-            NSLog(@"UIDeviceOrientationLandscapeRight");
+            //NSLog(@"UIDeviceOrientationLandscapeRight");
             return UIDeviceOrientationLandscapeRight;
         } else{
             // UIDeviceOrientationLandscapeLeft;
-            NSLog(@"UIDeviceOrientationLandscapeLeft");
+            //NSLog(@"UIDeviceOrientationLandscapeLeft");
             return UIDeviceOrientationLandscapeLeft;
         }
     }
