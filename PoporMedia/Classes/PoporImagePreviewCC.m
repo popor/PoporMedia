@@ -9,6 +9,7 @@
 #import "PoporImagePreviewCC.h"
 #import <Masonry/Masonry.h>
 #import <PoporUI/UIView+Extension.h>
+#import "PoporMediaPrefix.h"
 
 @implementation PoporImagePreviewCC
 
@@ -44,8 +45,8 @@
     self.selectBT = ({
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        UIImage *nImage = [UIImage imageNamed:@"PoporMedia.bundle/photo_def_previewVc"];
-        UIImage *sImage = [UIImage imageNamed:@"PoporMedia.bundle/photo_sel_photoPickerVc"];
+        UIImage *nImage = [PoporMediaImageBundle imageBundleNamed:@"photo_def_previewVc"];
+        UIImage *sImage = [PoporMediaImageBundle imageBundleNamed:@"photo_sel_photoPickerVc"];
         
         [button setImage:nImage forState:UIControlStateNormal];
         [button setImage:sImage forState:UIControlStateSelected];

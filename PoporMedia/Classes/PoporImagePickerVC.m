@@ -34,6 +34,7 @@
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+Tool.h>
 #import <PoporFoundation/PrefixSize.h>
+#import "PoporMediaPrefix.h"
 
 @import CoreMotion;
 
@@ -130,7 +131,7 @@
         self.snapButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.snapButton.clipsToBounds = YES;
         self.snapButton.layer.cornerRadius =75 / 2.0f;
-        [self.snapButton setImage:[UIImage imageNamed:@"PoporMedia.bundle/cameraButton"] forState:UIControlStateNormal];
+        [self.snapButton setImage:[PoporMediaImageBundle imageBundleNamed:@"cameraButton"] forState:UIControlStateNormal];
         [self.snapButton addTarget:self action:@selector(snapButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.snapButton];
     }
@@ -141,21 +142,21 @@
         
         self.flashButton.tintColor = [UIColor whiteColor];
         
-        [self.flashButton setImage:[UIImage imageNamed:@"PoporMedia.bundle/camera-flash"] forState:UIControlStateNormal];
+        [self.flashButton setImage:[PoporMediaImageBundle imageBundleNamed:@"camera-flash"] forState:UIControlStateNormal];
         self.flashButton.imageEdgeInsets = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         [self.flashButton addTarget:self action:@selector(flashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.flashButton];
         
         
     }
-    UIImage * backImage = [UIImage imageNamed:@"PoporMedia.bundle/closeButton"];
+    UIImage * backImage = [PoporMediaImageBundle imageBundleNamed:@"closeButton"];
     if (!self.backButton) {
         if([LLSimpleCamera isFrontCameraAvailable] && [LLSimpleCamera isRearCameraAvailable]) {
             //摄像头转换按钮
             self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
             
             // self.switchButton.tintColor = [UIColor whiteColor];
-            [self.switchButton setImage:[UIImage imageNamed:@"PoporMedia.bundle/swapButton"] forState:UIControlStateNormal];
+            [self.switchButton setImage:[PoporMediaImageBundle imageBundleNamed:@"swapButton"] forState:UIControlStateNormal];
             [self.switchButton addTarget:self action:@selector(switchButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:self.switchButton];
             //返回按钮

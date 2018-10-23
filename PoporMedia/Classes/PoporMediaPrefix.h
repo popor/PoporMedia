@@ -1,12 +1,14 @@
 //
 //  PoporMediaPrefix.h
-//  Pods
+//  PoporMedia
 //
-//  Created by apple on 2018/10/22.
+//  Created by popor on 2017/1/4.
+//  Copyright © 2017年 PoporMedia. All rights reserved.
 //
 
 #ifndef PoporMediaPrefix_h
 #define PoporMediaPrefix_h
 
+#import "PoporMediaImageBundle.h"
 
 #endif /* PoporMediaPrefix_h */
