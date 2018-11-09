@@ -15,7 +15,7 @@
 #import <PoporMedia/PoporImagePreviewCC.h>
 #import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
-#import <PoporUI/UIImage+Tool.h>
+#import <PoporUI/UIImage+create.h>
 #import <PoporFoundation/PrefixFun.h>
 #import <PoporImageBrower/PoporImageBrower.h>
 

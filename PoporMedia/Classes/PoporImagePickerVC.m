@@ -32,7 +32,7 @@
 #import "PoporImagePreviewVC.h"
 
 #import <PoporUI/UIView+Extension.h>
-#import <PoporUI/UIImage+Tool.h>
+#import <PoporUI/UIImage+create.h>
 #import <PoporFoundation/PrefixSize.h>
 #import "PoporMediaPrefix.h"
 
@@ -415,7 +415,7 @@
                 
                 PoporImageEntity * entity = [PoporImageEntity new];
                 entity.bigImage   = image;
-                entity.smallImage = [UIImage imageFromImage:image size:CGSizeMake(weakSelf.ccSize.width * 2, weakSelf.ccSize.height * 2)];
+                entity.smallImage = [UIImage imageFromImage:image size:weakSelf.ccSize];
                 entity.ignore     = NO;
                 
                 [weakSelf.imageArray addObject:entity];

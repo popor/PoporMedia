@@ -24,9 +24,9 @@ PODS:
   - PoporImageBrower (0.0.20):
     - MBProgressHUD
     - SDWebImage
-  - PoporMedia (0.0.08):
-    - PoporMedia/PoporMedia (= 0.0.08)
-  - PoporMedia/PoporMedia (0.0.08):
+  - PoporMedia (0.0.09):
+    - PoporMedia/PoporMedia (= 0.0.09)
+  - PoporMedia/PoporMedia (0.0.09):
     - Masonry
     - PoporFoundation/NSFileManager
     - PoporFoundation/PrefixCore
@@ -40,22 +40,22 @@ PODS:
     - TZImagePickerController
   - PoporOrientation (0.0.3):
     - PoporFoundation/NSObject
-  - PoporUI/BlockView (0.0.20)
-  - PoporUI/IToast (0.0.20):
+  - PoporUI/BlockView (0.0.28)
+  - PoporUI/IToast (0.0.28):
     - PoporFoundation/NSString
-  - PoporUI/Tool (0.0.20):
+  - PoporUI/Tool (0.0.28):
     - PoporFoundation/NSString
     - PoporUI/BlockView
     - PoporUI/IToast
-  - PoporUI/UIDeviceScreen (0.0.20)
-  - PoporUI/UIImage (0.0.20)
-  - PoporUI/UIView (0.0.20)
+  - PoporUI/UIDeviceScreen (0.0.28)
+  - PoporUI/UIImage (0.0.28)
+  - PoporUI/UIView (0.0.28)
   - ReactiveObjC (3.1.0)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
   - SKFCamera (1.3.2)
-  - TZImagePickerController (3.0.9)
+  - TZImagePickerController (3.1.1)
 
 DEPENDENCIES:
   - PoporAVPlayer
@@ -87,13 +87,13 @@ SPEC CHECKSUMS:
   PoporAVPlayer: 827529f3ad1b9d33edaafe3611b79191cfec519b
   PoporFoundation: bca1071cd750888f2dac9e5f5bb0857d4f76e92b
   PoporImageBrower: afdf63bd0625bc40d1d943fa5f761e7e47cc7f8d
-  PoporMedia: ff276ba6452e7e1540cb04eec2db678b8bcf2184
+  PoporMedia: bd2b8d4437b338aa89994cfadb6ac12ca9d4dfb4
   PoporOrientation: 92216eb28427bc152e897c5edf6725aaa1c766cf
-  PoporUI: b4c780eec637e1123bdc9d6a55d0a555968c8773
+  PoporUI: 514ac126199f3e579a11a7f9dbe2ff1ac2e4896c
   ReactiveObjC: 2a38ea15335de4119d8b17caf1db1484f61db902
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SKFCamera: d63fa8ca23eb5ec51ade911fcbe736ffc5b37b4d
-  TZImagePickerController: ea3e906af8caa7088f612ad673feb73cc6aa6bfc
+  TZImagePickerController: b33cb21ea66c1ed4c56443a0e8c84494c44be560
 
 PODFILE CHECKSUM: bfa1cf54b429e09eb7b32bd1c179cb5778aadf57
 
