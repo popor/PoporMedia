@@ -56,7 +56,7 @@
     }
     self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
-    [self.poporMedia showVideoACTitle:@"添加视频" message:nil vc:self videoIconSize:self.ccSize qualityType:UIImagePickerControllerQualityType640x480 block:^(NSURL * videoURL, NSString *videoPath, NSData *imageData, UIImage *image, PHAsset *phAsset, CGFloat time, CGFloat videoSize) {
+    [self.poporMedia showVideoACTitle:@"添加视频" message:nil vc:self videoIconSize:self.ccSize qualityType:UIImagePickerControllerQualityType640x480 finish:^(NSURL * videoURL, NSString *videoPath, NSData *imageData, UIImage *image, PHAsset *phAsset, CGFloat time, CGFloat videoSize) {
         VideoEntity * entity = [VideoEntity new];
         entity.videoImage     = image;
         entity.videoImageData = imageData;

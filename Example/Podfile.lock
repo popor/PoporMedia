@@ -24,9 +24,9 @@ PODS:
   - PoporImageBrower (0.0.20):
     - MBProgressHUD
     - SDWebImage
-  - PoporMedia (0.0.09):
-    - PoporMedia/PoporMedia (= 0.0.09)
-  - PoporMedia/PoporMedia (0.0.09):
+  - PoporMedia (0.0.10):
+    - PoporMedia/PoporMedia (= 0.0.10)
+  - PoporMedia/PoporMedia (0.0.10):
     - Masonry
     - PoporFoundation/NSFileManager
     - PoporFoundation/PrefixCore
@@ -87,7 +87,7 @@ SPEC CHECKSUMS:
   PoporAVPlayer: 827529f3ad1b9d33edaafe3611b79191cfec519b
   PoporFoundation: bca1071cd750888f2dac9e5f5bb0857d4f76e92b
   PoporImageBrower: afdf63bd0625bc40d1d943fa5f761e7e47cc7f8d
-  PoporMedia: bd2b8d4437b338aa89994cfadb6ac12ca9d4dfb4
+  PoporMedia: 92c6d45b31adb0ec2e4e1afc6cb52161b34c047c
   PoporOrientation: 92216eb28427bc152e897c5edf6725aaa1c766cf
   PoporUI: 514ac126199f3e579a11a7f9dbe2ff1ac2e4896c
   ReactiveObjC: 2a38ea15335de4119d8b17caf1db1484f61db902
@@ -97,4 +97,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bfa1cf54b429e09eb7b32bd1c179cb5778aadf57
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.5.3

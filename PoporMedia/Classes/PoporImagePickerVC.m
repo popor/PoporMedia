@@ -108,6 +108,10 @@
         self.completeBT.center = CGPointMake(CGRectGetMaxX(self.backButton.frame) + 20 + self.completeBT.frame.size.width/2, self.backButton.center.y);
         self.previewCV.bottom = self.snapButton.y - 15;
     }
+    if (self.coverBlock) {
+        CGRect rect = CGRectMake(0, self.flashButton.bottom, self.view.width, self.snapButton.top-self.flashButton.bottom);
+        self.coverBlock(self.view, rect);
+    }
 }
 
 - (void)viewDidLoad {
@@ -191,7 +195,6 @@
             self.previewCV.hidden = YES;
         }
     }
-    
 }
 
 - (UICollectionView *)addCV {

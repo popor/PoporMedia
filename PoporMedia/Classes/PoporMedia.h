@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PHAsset+data.h"
+#import "PoporMediaPrefix.h"
 
 @class PHAsset;
 
@@ -21,14 +22,18 @@ typedef void(^PoporVideoFinishBlock)(NSURL * videoURL, NSString * videoPath, NSD
 @property (nonatomic, copy  ) PoporImageFinishBlock PoporImageFinishBlock;
 @property (nonatomic, strong) PoporVideoProvider * imageProvider;
 
+// 拍摄的时候增加一个浮层使用,只针对单拍使用.
+
 #pragma mark - image
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PoporImageFinishBlock)block;
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin finish:(PoporImageFinishBlock)finish;
 // 可以增加自定义actions
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PoporImageFinishBlock)block;
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish;
+
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish cover:(PoporImagePickerCoverBlock)cover;
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PoporVideoFinishBlock)block;
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType finish:(PoporVideoFinishBlock)finish;
 // 可以增加自定义actions
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PoporVideoFinishBlock)block;
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions finish:(PoporVideoFinishBlock)finish;
 
 @end

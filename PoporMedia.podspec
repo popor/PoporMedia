@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.09'
+    s.version          = '0.0.10'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'

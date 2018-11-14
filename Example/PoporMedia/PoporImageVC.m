@@ -58,7 +58,7 @@
     }
     self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
-    [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
+    [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES actions:nil finish:^(NSArray *images, NSArray *assets, BOOL origin) {
         if (assets) {
             // 可以使用原图上传的情况
             for (int i = 0; i<images.count; i++) {
@@ -89,6 +89,11 @@
         }
         
         [weakSelf.cv reloadData];
+    } cover:^(UIView *view, CGRect availableRect) {
+        // UIImageView * iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bd_ocr_id_card_locator_front"]];
+        // iv.frame = availableRect;
+        // iv.backgroundColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.2 alpha:0.3];
+        // [view addSubview:iv];
     }];
     
 }

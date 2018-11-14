@@ -9,6 +9,9 @@
 #ifndef PoporMediaPrefix_h
 #define PoporMediaPrefix_h
 
+#import <UIKit/UIKit.h>
 #import "PoporMediaImageBundle.h"
+
+typedef void(^PoporImagePickerCoverBlock)(UIView * view, CGRect availableRect);
 
 #endif /* PoporMediaPrefix_h */

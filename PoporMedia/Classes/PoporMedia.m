@@ -17,15 +17,19 @@
 
 @implementation PoporMedia
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PoporImageFinishBlock)block {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil block:block];
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin finish:(PoporImageFinishBlock)finish {
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish];
 }
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PoporImageFinishBlock)block
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish {
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish cover:nil];
+}
+
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish cover:(PoporImagePickerCoverBlock)cover
 {
-    __weak typeof(vc) weakVC      = vc;
-    __weak typeof(self) weakSelf  = self;
-    weakSelf.PoporImageFinishBlock = block;
+    __weak typeof(vc) weakVC       = vc;
+    __weak typeof(self) weakSelf   = self;
+    weakSelf.PoporImageFinishBlock = finish;
     
     UIAlertController * oneAC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -37,6 +41,9 @@
         PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
+        if (maxCount == 1) {
+            pickVC.coverBlock = cover;
+        }
         
         [weakVC presentViewController:pickVC animated:YES completion:nil];
 #endif
@@ -76,11 +83,11 @@
 }
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PoporVideoFinishBlock)block {
-    [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil block:block];
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType finish:(PoporVideoFinishBlock)finish {
+    [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil finish:finish];
 }
 
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PoporVideoFinishBlock)block{
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions finish:(PoporVideoFinishBlock)finish{
     
     __weak typeof(vc) weakVC = vc;
     __weak typeof(self) weakSelf = self;
@@ -114,7 +121,7 @@
                 option.synchronous = NO;
                 
                 [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                    [weakSelf feedbackVideoUrl:fileURL imageData:imageData image:nil phAsset:asset block:block];
+                    [weakSelf feedbackVideoUrl:fileURL imageData:imageData image:nil phAsset:asset finish:finish];
                 }];
             }];
         }];
@@ -134,7 +141,7 @@
             [imageProvider setHasTakeVideo:^(NSURL * videoURL) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIImage * image = [PoporMedia thumbnailImageForVideo:videoURL atTime:0.1];
-                    [weakSelf feedbackVideoUrl:videoURL imageData:nil image:image phAsset:nil block:block];
+                    [weakSelf feedbackVideoUrl:videoURL imageData:nil image:image phAsset:nil finish:finish];
                 });
             }];
             weakSelf.imageProvider = imageProvider;
@@ -155,11 +162,11 @@
     [vc presentViewController:oneAC animated:YES completion:nil];
 }
 
-- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PoporVideoFinishBlock)block{
-    if(block){
+- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset finish:(PoporVideoFinishBlock)finish{
+    if(finish){
         if (!videoURL) {
             AlertToastTitle(@"获取视频信息出错");
-            block(nil, nil, nil, nil, nil, 0, 0);
+            finish(nil, nil, nil, nil, nil, 0, 0);
             return;
         }
         
@@ -181,7 +188,7 @@
             time = (int)second;
         }
         videoSize = videoSize/1024.0f/1024.0f;
-        block(videoURL, videoPath, imageData, image, phAsset, time, videoSize);
+        finish(videoURL, videoPath, imageData, image, phAsset, time, videoSize);
     }
 }
 
