@@ -24,7 +24,6 @@
 
 #import "PoporImagePickerVC.h"
 #import "TOCropViewController.h"
-#import "LLSimpleCamera.h"
 #import "UIDevice+Tool.h"
 #import "UIDevice+SaveImage.h"
 #import "UIDevice+Permission.h"
@@ -39,23 +38,9 @@
 @import CoreMotion;
 
 @interface PoporImagePickerVC ()<TOCropViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
-@property (strong, nonatomic) LLSimpleCamera   *camera;
-@property (strong, nonatomic) UILabel          *errorLabel;
-@property (strong, nonatomic) UIButton         *snapButton;
-@property (strong, nonatomic) UIButton         *switchButton;
-@property (strong, nonatomic) UIButton         *flashButton;
-@property (strong, nonatomic) UIButton         *backButton;
-
-@property (nonatomic, strong) UIButton         *completeBT;
-
-@property (nonatomic, strong) NSMutableArray   *imageArray;// 针对连拍图片数组
-@property (nonatomic        ) int              maxNum;
-@property (nonatomic, strong) UICollectionView *previewCV;
-@property (nonatomic        ) CGSize           ccSize;
 
 // 获取当前设备方向
 @property (nonatomic, strong) CMMotionManager * motionManager;
-
 @property (nonatomic, copy  ) PoporImagePickerFinishBlock finishBlock;
 
 @end
@@ -108,9 +93,9 @@
         self.completeBT.center = CGPointMake(CGRectGetMaxX(self.backButton.frame) + 20 + self.completeBT.frame.size.width/2, self.backButton.center.y);
         self.previewCV.bottom = self.snapButton.y - 15;
     }
-    if (self.coverBlock) {
-        CGRect rect = CGRectMake(0, self.flashButton.bottom, self.view.width, self.snapButton.top-self.flashButton.bottom);
-        self.coverBlock(self.view, rect);
+    if (self.appearBlock) {
+        CGRect availableRect = CGRectMake(0, self.flashButton.bottom, self.view.width, self.snapButton.top-self.flashButton.bottom);
+        self.appearBlock(self, availableRect);
     }
 }
 

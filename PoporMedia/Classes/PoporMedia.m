@@ -9,8 +9,6 @@
 #import "PoporMedia.h"
 
 #import "PoporVideoProvider.h"
-#import "PoporImagePickerVC.h"
-#import <TZImagePickerController/TZImagePickerController.h>
 #import <Photos/Photos.h>
 #import "NSFileManager+Tool.h"
 #import <PoporUI/IToastKeyboard.h>
@@ -22,10 +20,10 @@
 }
 
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish cover:nil];
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish camera:nil album:nil];
 }
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish cover:(PoporImagePickerCoverBlock)cover
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish camera:(PoporImagePickerCameraBlock)cameraAppearBlock album:(PoporImagePickerAlbumBlock)albumAppearBlock
 {
     __weak typeof(vc) weakVC       = vc;
     __weak typeof(self) weakSelf   = self;
@@ -42,7 +40,7 @@
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
         if (maxCount == 1) {
-            pickVC.coverBlock = cover;
+            pickVC.appearBlock = cameraAppearBlock;
         }
         
         [weakVC presentViewController:pickVC animated:YES completion:nil];
@@ -56,8 +54,10 @@
         imageVC.allowPickingVideo         = NO;
         imageVC.allowTakePicture          = NO;
         imageVC.allowPickingOriginalPhoto = origin;
-        //imageVC.showSelectBtn             = YES;
-        //imageVC.allowCrop                 = YES;
+        
+        if (albumAppearBlock) {
+            albumAppearBlock(imageVC);
+        }
         
         [imageVC setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
             [weakSelf hasSelectImages:photos assets:assets origin:isSelectOriginalPhoto];

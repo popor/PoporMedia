@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "PHAsset+data.h"
 #import "PoporMediaPrefix.h"
+#import "PoporImagePickerVC.h"
+#import <TZImagePickerController/TZImagePickerController.h>
 
 @class PHAsset;
 
@@ -29,7 +31,15 @@ typedef void(^PoporVideoFinishBlock)(NSURL * videoURL, NSString * videoPath, NSD
 // 可以增加自定义actions
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish;
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish cover:(PoporImagePickerCoverBlock)cover;
+- (void)showImageACTitle:(NSString *)title
+                 message:(NSString *)message
+                      vc:(UIViewController *)vc
+                maxCount:(int)maxCount
+                  origin:(BOOL)origin
+                 actions:(NSArray *)actions
+                  finish:(PoporImageFinishBlock)finish
+                  camera:(PoporImagePickerCameraBlock)cameraAppearBlock
+                   album:(PoporImagePickerAlbumBlock)albumAppearBlock;
 
 #pragma mark - video
 - (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType finish:(PoporVideoFinishBlock)finish;

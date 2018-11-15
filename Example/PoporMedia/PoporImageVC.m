@@ -89,12 +89,12 @@
         }
         
         [weakSelf.cv reloadData];
-    } cover:^(UIView *view, CGRect availableRect) {
+    } camera:^(PoporImagePickerVC * vc, CGRect availableRect) {
         // UIImageView * iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bd_ocr_id_card_locator_front"]];
         // iv.frame = availableRect;
         // iv.backgroundColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.2 alpha:0.3];
-        // [view addSubview:iv];
-    }];
+        // [vc.view addSubview:iv];
+    } album:nil];
     
 }
 

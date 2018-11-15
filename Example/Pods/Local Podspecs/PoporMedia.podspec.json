@@ -1,6 +1,6 @@
 {
   "name": "PoporMedia",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "summary": "Contain select image video;play video;display image",
   "homepage": "https://github.com/popor/PoporMedia",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporMedia.git",
-    "tag": "0.0.10"
+    "tag": "0.0.11"
   },
   "platforms": {
     "ios": "8.0"

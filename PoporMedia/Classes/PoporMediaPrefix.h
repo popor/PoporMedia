@@ -11,7 +11,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PoporMediaImageBundle.h"
+@class PoporImagePickerVC;
+@class TZImagePickerController;
 
-typedef void(^PoporImagePickerCoverBlock)(UIView * view, CGRect availableRect);
+typedef void(^PoporImagePickerCameraBlock)(PoporImagePickerVC * vc, CGRect availableRect);
+typedef void(^PoporImagePickerAlbumBlock)(TZImagePickerController * vc);
 
 #endif /* PoporMediaPrefix_h */
