@@ -329,7 +329,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/KVOController/KVOController.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
@@ -362,7 +362,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoporMedia_Example/Pods-PoporMedia_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4E99C5D9CC2926E368E65020 /* [CP] Check Pods Manifest.lock */ = {

@@ -1,6 +1,6 @@
 {
   "name": "PoporMedia",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "summary": "Contain select image video;play video;display image",
   "homepage": "https://github.com/popor/PoporMedia",
   "license": {
@@ -12,11 +12,12 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporMedia.git",
-    "tag": "0.0.11"
+    "tag": "0.0.12"
   },
   "platforms": {
     "ios": "8.0"
   },
+  "prefix_header_file": "PoporMedia/Classes/PoporMediaPrefix.h",
   "resources": "PoporMedia/Classes/PoporMedia.bundle",
   "subspecs": [
     {
@@ -55,6 +56,9 @@
 
           ],
           "PoporImageBrower": [
+
+          ],
+          "ReactiveObjC": [
 
           ]
         }

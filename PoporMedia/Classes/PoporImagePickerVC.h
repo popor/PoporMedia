@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PoporMediaPrefix.h"
 #import <SKFCamera/LLSimpleCamera.h>
 
 typedef void(^PoporImagePickerFinishBlock) (NSArray * array);
@@ -28,10 +27,11 @@ typedef void(^PoporImagePickerFinishBlock) (NSArray * array);
 @property (nonatomic, strong) UICollectionView *previewCV;
 @property (nonatomic        ) CGSize           ccSize;
 
+@property (nonatomic, getter=isSingleOrigin) BOOL             singleOrigin;//单拍照片是否使用原图
+
 @property (nonatomic, copy  ) PoporImagePickerCameraBlock appearBlock;
 
-- (id)initWithFinishBlock:(PoporImagePickerFinishBlock)block; // 拍摄单张图片,开启了编辑图片功能,
-- (id)initWithMaxNum:(int)maxNum finishBlock:(PoporImagePickerFinishBlock)block; // 大于1张的话,不开启编辑图片功能.
-
+// 大于1张的话,不开启编辑图片功能.
+- (id)initWithMaxNum:(int)maxNum singleOrigin:(BOOL)singleOrigin finishBlock:(PoporImagePickerFinishBlock)block;
 
 @end

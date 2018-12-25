@@ -33,7 +33,6 @@
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIImage+create.h>
 #import <PoporFoundation/PrefixSize.h>
-#import "PoporMediaPrefix.h"
 
 @import CoreMotion;
 
@@ -47,16 +46,12 @@
 
 @implementation PoporImagePickerVC
 
-// 拍摄单张图片,开启了编辑图片功能
-- (id)initWithFinishBlock:(PoporImagePickerFinishBlock)block {
-    return [self initWithMaxNum:1 finishBlock:block];
-}
-
 // 大于1张的话,不开启编辑图片功能.
-- (id)initWithMaxNum:(int)maxNum finishBlock:(PoporImagePickerFinishBlock)block {
+- (id)initWithMaxNum:(int)maxNum singleOrigin:(BOOL)singleOrigin finishBlock:(PoporImagePickerFinishBlock)block {
     if (self = [super init]) {
-        _maxNum      = maxNum;
-        _finishBlock = block;
+        _maxNum       = maxNum;
+        _singleOrigin = singleOrigin;
+        _finishBlock  = block;
     }
     return self;
 }
@@ -261,26 +256,30 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark - 打开图片大图
-    __weak typeof(collectionView) weakCV = collectionView;
-    __weak typeof(self) weakSelf = self;
+    @weakify(self);
+    @weakify(collectionView);
     PoporImagePreviewVC *photoBrower = [[PoporImagePreviewVC alloc] initWithIndex:indexPath.item copyImageArray:nil weakImageArray:self.imageArray presentVC:self originImageBlock:^UIImageView *(PoporImageBrower *browerController, NSInteger index) {
-        __strong typeof(weakCV) strongCV = weakCV;
+        @strongify(self);
+        @strongify(collectionView);
         
         NSIndexPath * ip = [NSIndexPath indexPathForItem:index inSection:0];
-        [strongCV scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        PoporImagePreviewCC *cell = (PoporImagePreviewCC *)[strongCV cellForItemAtIndexPath:ip];
+        [collectionView scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        PoporImagePreviewCC *cell = (PoporImagePreviewCC *)[collectionView cellForItemAtIndexPath:ip];
         // 这里的cell会在关闭的block中返回nil,找不到原因.
         return cell.iconIV;
         
     } disappearBlock:^(PoporImageBrower *browerController, NSInteger index) {
-        [weakCV reloadData];
+        @strongify(collectionView);
+        
+        [collectionView reloadData];
         
     } placeholderImageBlock:^UIImage *(PoporImageBrower *browerController) {
         //return [UIImage imageNamed:@"placeholder"];
         return nil;
     }];
     photoBrower.completeBlock = ^{
-        [weakSelf multiImageCompleteEvent];
+        @strongify(self);
+        [self multiImageCompleteEvent];
     };
     [photoBrower show];
 }
@@ -298,29 +297,33 @@
     self.camera.fixOrientationAfterCapture = NO;
     
     // take the required actions on a device change
-    __weak typeof(self) weakSelf = self;
+    @weakify(self);
     [self.camera setOnDeviceChange:^(LLSimpleCamera *camera, AVCaptureDevice * device) {
+        @strongify(self);
+        
         //NSLog(@"Device changed.");
         // device changed, check if flash is available
         if([camera isFlashAvailable]) {
-            weakSelf.flashButton.hidden = NO;
+            self.flashButton.hidden = NO;
             
             if(camera.flash == LLCameraFlashOff) {
-                weakSelf.flashButton.selected = NO;
+                self.flashButton.selected = NO;
             } else {
-                weakSelf.flashButton.selected = YES;
+                self.flashButton.selected = YES;
             }
         } else {
-            weakSelf.flashButton.hidden = YES;
+            self.flashButton.hidden = YES;
         }
     }];
     
     [self.camera setOnError:^(LLSimpleCamera *camera, NSError *error) {
+        @strongify(self);
+        
         NSLog(@"PoporMedia Camera error: %@", error);
         if([error.domain isEqualToString:LLSimpleCameraErrorDomain]) {
             if(error.code == LLSimpleCameraErrorCodeCameraPermission) {
-                if(weakSelf.errorLabel) {
-                    [weakSelf.errorLabel removeFromSuperview];
+                if(self.errorLabel) {
+                    [self.errorLabel removeFromSuperview];
                 }
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
                 label.text = @"未获取相机权限";
@@ -332,8 +335,8 @@
                 label.textAlignment = NSTextAlignmentCenter;
                 [label sizeToFit];
                 label.center = CGPointMake(screenRect.size.width / 2.0f, screenRect.size.height / 2.0f);
-                weakSelf.errorLabel = label;
-                [weakSelf.view addSubview:weakSelf.errorLabel];
+                self.errorLabel = label;
+                [self.view addSubview:self.errorLabel];
             }
         }
     }];
@@ -376,44 +379,53 @@
 
 #pragma mark   -------------拍照--------------
 - (void)snapButtonPressed:(UIButton *)button {
-    __weak typeof(self) weakSelf = self;
+    @weakify(self);
     if (self.maxNum == 1) {
         // 去裁剪
         [self.camera capture:^(LLSimpleCamera *camera, UIImage *image, NSDictionary *metadata, NSError *error) {
+            @strongify(self);
+            
             //NSLog(@"拍照结束");
             if(!error) {
                 // 修正屏幕方向
-                image = [weakSelf correctImageOritation:image];
-                
-                TOCropViewController *cropController = [[TOCropViewController alloc] initWithImage:image];
-                cropController.delegate = self;
-                [weakSelf presentViewController:cropController animated:YES completion:nil];
+                image = [self correctImageOritation:image];
+                if (self.isSingleOrigin) {
+                    if (self.finishBlock) {
+                        self.finishBlock(@[image]);
+                    }
+                    // !!! 需要修改,单张的和多张的处理方式不一样.
+                    [self dismissViewControllerAnimated:NO completion:nil];
+                }else{
+                    TOCropViewController *cropController = [[TOCropViewController alloc] initWithImage:image];
+                    cropController.delegate = self;
+                    [self presentViewController:cropController animated:YES completion:nil];
+                }
             }
             else {
                 NSLog(@"PoporMedia An error has occured: %@", error);
             }
         } exactSeenImage:YES];
     }else if (self.maxNum > 1) {
-        __weak typeof(self) weakSelf = self;
         [self.camera capture:^(LLSimpleCamera *camera, UIImage *image, NSDictionary *metadata, NSError *error) {
+            @strongify(self);
             //NSLog(@"拍了一张照片");
             if(!error) {
                 // 修正屏幕方向
-                image = [weakSelf correctImageOritation:image];
+                image = [self correctImageOritation:image];
                 
                 PoporImageEntity * entity = [PoporImageEntity new];
                 entity.bigImage   = image;
-                entity.smallImage = [UIImage imageFromImage:image size:weakSelf.ccSize];
+                entity.smallImage = [UIImage imageFromImage:image size:self.ccSize];
                 entity.ignore     = NO;
                 
-                [weakSelf.imageArray addObject:entity];
+                [self.imageArray addObject:entity];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //NSLog(@"得到了刚刚拍摄的的图片.");
-                    weakSelf.completeBT.hidden = NO;
-                    weakSelf.previewCV.hidden  = NO;
-                    [weakSelf.previewCV reloadData];
+                    self.completeBT.hidden = NO;
+                    self.previewCV.hidden  = NO;
+                    [self.previewCV reloadData];
                     
-                    [weakSelf.previewCV selectItemAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.imageArray.count-1 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionRight];
+                    [self.previewCV selectItemAtIndexPath:[NSIndexPath indexPathForRow:self.imageArray.count-1 inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionRight];
                 });
             }else {
                 NSLog(@"PoporMedia An error has occured: %@", error);

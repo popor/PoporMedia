@@ -36,7 +36,7 @@
 #if TARGET_IPHONE_SIMULATOR//模拟器
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
-        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
+        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount singleOrigin:origin finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
         if (maxCount == 1) {

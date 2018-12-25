@@ -11,7 +11,6 @@
 
 #import <PoporUI/UIView+Extension.h>
 #import <PoporUI/UIDeviceScreen.h>
-#import "PoporMediaPrefix.h"
 
 @interface PoporImagePreviewVC ()
 

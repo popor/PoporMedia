@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.11'
+    s.version          = '0.0.12'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -17,6 +17,8 @@ Pod::Spec.new do |s|
     s.source           = { :git => 'https://github.com/popor/PoporMedia.git', :tag => s.version.to_s }
     
     s.ios.deployment_target = '8.0'
+    
+    s.prefix_header_file = 'PoporMedia/Classes/PoporMediaPrefix.h'
     
     s.subspec 'PoporMedia' do |ss|
         ss.source_files = 'PoporMedia/Classes/*.{h,m}'
@@ -38,6 +40,8 @@ Pod::Spec.new do |s|
         
         ss.ios.dependency 'PoporImageBrower'
         #ss.ios.dependency 'PEPhotoCropEditor'
+        
+        ss.ios.dependency 'ReactiveObjC' #为了Block安全, 其实在PoporAVPlayer已经包含了
         
     end
 

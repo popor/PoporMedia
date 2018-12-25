@@ -9,7 +9,6 @@
 #import "PoporImagePreviewCC.h"
 #import <Masonry/Masonry.h>
 #import <PoporUI/UIView+Extension.h>
-#import "PoporMediaPrefix.h"
 
 @implementation PoporImagePreviewCC
 

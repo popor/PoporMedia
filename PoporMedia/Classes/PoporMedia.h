@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "PHAsset+data.h"
-#import "PoporMediaPrefix.h"
 #import "PoporImagePickerVC.h"
 #import <TZImagePickerController/TZImagePickerController.h>
 

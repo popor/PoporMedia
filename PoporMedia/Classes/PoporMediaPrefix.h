@@ -11,6 +11,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PoporMediaImageBundle.h"
+
+#import <ReactiveObjC/ReactiveObjC.h>
+
 @class PoporImagePickerVC;
 @class TZImagePickerController;
 
