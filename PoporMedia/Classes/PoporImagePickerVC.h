@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SKFCamera/LLSimpleCamera.h>
+#import "PoporMediaPrefix.h"
 
 typedef void(^PoporImagePickerFinishBlock) (NSArray * array);
 

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.12'
+    s.version          = '0.0.13'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -18,12 +18,9 @@ Pod::Spec.new do |s|
     
     s.ios.deployment_target = '8.0'
     
-    s.prefix_header_file = 'PoporMedia/Classes/PoporMediaPrefix.h'
-    
     s.subspec 'PoporMedia' do |ss|
         ss.source_files = 'PoporMedia/Classes/*.{h,m}'
-        
-        s.resource      = 'PoporMedia/Classes/PoporMedia.bundle'
+        ss.resource = 'PoporMedia/Classes/PoporMedia.bundle'
         
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'

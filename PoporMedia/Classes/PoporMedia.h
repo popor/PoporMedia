@@ -10,6 +10,7 @@
 #import "PHAsset+data.h"
 #import "PoporImagePickerVC.h"
 #import <TZImagePickerController/TZImagePickerController.h>
+#import "PoporMediaPrefix.h"
 
 @class PHAsset;
 

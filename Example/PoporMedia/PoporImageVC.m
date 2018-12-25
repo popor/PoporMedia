@@ -58,7 +58,10 @@
     }
     self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
+    //@weakify(self);
     [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES actions:nil finish:^(NSArray *images, NSArray *assets, BOOL origin) {
+        //@strongify(self);
+        
         if (assets) {
             // 可以使用原图上传的情况
             for (int i = 0; i<images.count; i++) {
