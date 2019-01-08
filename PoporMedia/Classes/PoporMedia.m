@@ -20,7 +20,7 @@
 }
 
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish camera:nil album:nil];
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:actions finish:finish camera:nil album:nil];
 }
 
 - (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish camera:(PoporImagePickerCameraBlock)cameraAppearBlock album:(PoporImagePickerAlbumBlock)albumAppearBlock
