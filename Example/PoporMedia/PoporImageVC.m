@@ -15,7 +15,7 @@
 #import <PoporMedia/PoporImagePreviewCC.h>
 #import <PoporFoundation/PrefixSize.h>
 #import <PoporUI/UIView+Extension.h>
-#import <PoporUI/UIImage+Tool.h>
+#import <PoporUI/UIImage+create.h>
 #import <PoporFoundation/PrefixFun.h>
 #import <PoporImageBrower/PoporImageBrower.h>
 
@@ -58,7 +58,10 @@
     }
     self.poporMedia = [PoporMedia new];
     __weak typeof(self) weakSelf = self;
-    [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES block:^(NSArray *images, NSArray *assets, BOOL origin) {
+    //@weakify(self);
+    [self.poporMedia showImageACTitle:@"添加图片" message:nil vc:self maxCount:num origin:YES actions:nil finish:^(NSArray *images, NSArray *assets, BOOL origin) {
+        //@strongify(self);
+        
         if (assets) {
             // 可以使用原图上传的情况
             for (int i = 0; i<images.count; i++) {
@@ -89,7 +92,12 @@
         }
         
         [weakSelf.cv reloadData];
-    }];
+    } camera:^(PoporImagePickerVC * vc, CGRect availableRect) {
+        // UIImageView * iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bd_ocr_id_card_locator_front"]];
+        // iv.frame = availableRect;
+        // iv.backgroundColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.2 alpha:0.3];
+        // [vc.view addSubview:iv];
+    } album:nil];
     
 }
 

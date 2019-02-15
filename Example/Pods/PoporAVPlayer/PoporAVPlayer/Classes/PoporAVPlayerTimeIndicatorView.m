@@ -62,9 +62,9 @@ static const CGFloat ZBTimeIndicatorAutoFadeOutTimeInterval = 1.0;
     [super layoutSubviews];
     
     if (self.playState == AVPlayerTimeIndicatorRewind) {
-        [self.arrowImageView setImage:PoporAVImage(@"rewind")];
+        [self.arrowImageView setImage:[PoporAVPlayerBundle imageBundleNamed:@"rewind"]];
     } else {
-        [self.arrowImageView setImage:PoporAVImage(@"fastForward")];
+        [self.arrowImageView setImage:[PoporAVPlayerBundle imageBundleNamed:@"fastForward"]];
     }
 }
 

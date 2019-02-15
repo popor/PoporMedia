@@ -60,8 +60,11 @@
         // 清晰度
         //controller.videoQuality=UIImagePickerControllerQualityTypeIFrame1280x720;
         //controller.videoQuality = UIImagePickerControllerQualityTypeIFrame960x540;
-        controller.videoQuality = UIImagePickerControllerQualityType640x480;
-        
+        if (self.qualityType >= UIImagePickerControllerQualityTypeHigh) {
+            controller.videoQuality = self.qualityType;
+        }else{
+            controller.videoQuality = UIImagePickerControllerQualityType640x480;
+        }
         if ([self isRearCameraAvailable]) {
             controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;//设置使用哪个摄像头，这里设置为后置摄像头
         }
@@ -76,7 +79,7 @@
         
         controller.delegate = self;
         [self.superVC presentViewController:controller animated:YES completion:^(void){
-            NSLog(@"Picker View Controller is presented");
+            //NSLog(@"Picker View Controller is presented");
         }];
     }
 }
@@ -85,7 +88,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     if([mediaType isEqualToString:(NSString *)kUTTypeMovie]){//如果是录制视频
-        NSLog(@"video...");
+        //NSLog(@"video...");
         NSURL * url=[info objectForKey:UIImagePickerControllerMediaURL];//视频路径
         __weak typeof(self) weakSelf = self;
         [UIDevice isHaveSysPowerForAlbumAlert:NO block:^(BOOL isFirst, BOOL isHavePermission) {

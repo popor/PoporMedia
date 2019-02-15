@@ -51,7 +51,7 @@ static int GLControllIndex = 1;
 
 - (void)dealloc {
     [self.present removeKVO];
-    NSLog(@"PoporAVPlayerVC dealloc, work well.");
+    //NSLog(@"PoporAVPlayerVC dealloc, work well.");
 }
 
 - (instancetype)initWithDic:(NSDictionary *)dic {
@@ -227,8 +227,8 @@ static int GLControllIndex = 1;
     if (!playButton) {
         playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [playButton setImage:PoporAVImage(@"play") forState:UIControlStateNormal];
-        [playButton setImage:PoporAVImage(@"pause") forState:UIControlStateSelected];
+        [playButton setImage:[PoporAVPlayerBundle imageBundleNamed:@"play"] forState:UIControlStateNormal];
+        [playButton setImage:[PoporAVPlayerBundle imageBundleNamed:@"pause"] forState:UIControlStateSelected];
         playButton.bounds = CGRectMake(0, 0, GLVideoControlBarHeight, GLVideoControlBarHeight);
     }
     return playButton;
@@ -238,8 +238,8 @@ static int GLControllIndex = 1;
     if (!lockRotateBT) {
         lockRotateBT = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [lockRotateBT setImage:PoporAVImage(@"unlock") forState:UIControlStateNormal];
-        [lockRotateBT setImage:PoporAVImage(@"lock") forState:UIControlStateSelected];
+        [lockRotateBT setImage:[PoporAVPlayerBundle imageBundleNamed:@"unlock"] forState:UIControlStateNormal];
+        [lockRotateBT setImage:[PoporAVPlayerBundle imageBundleNamed:@"lock"] forState:UIControlStateSelected];
         lockRotateBT.bounds = CGRectMake(0, 0, GLVideoControlBarHeight, GLVideoControlBarHeight);
     }
     return lockRotateBT;
@@ -248,8 +248,8 @@ static int GLControllIndex = 1;
 - (UIButton *)rotateButton {
     if (!rotateButton) {
         rotateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [rotateButton setImage:PoporAVImage(@"fullscreen") forState:UIControlStateNormal];
-        [rotateButton setImage:PoporAVImage(@"shrinkscreen") forState:UIControlStateSelected];
+        [rotateButton setImage:[PoporAVPlayerBundle imageBundleNamed:@"fullscreen"] forState:UIControlStateNormal];
+        [rotateButton setImage:[PoporAVPlayerBundle imageBundleNamed:@"shrinkscreen"] forState:UIControlStateSelected];
         rotateButton.bounds = CGRectMake(0, 0, GLVideoControlBarHeight, GLVideoControlBarHeight);
     }
     return rotateButton;
@@ -258,7 +258,7 @@ static int GLControllIndex = 1;
 - (UISlider *)progressSlider {
     if (!progressSlider) {
         progressSlider = [[UISlider alloc] init];
-        [progressSlider setThumbImage:PoporAVImage(@"point") forState:UIControlStateNormal];
+        [progressSlider setThumbImage:[PoporAVPlayerBundle imageBundleNamed:@"point"] forState:UIControlStateNormal];
         [progressSlider setMinimumTrackTintColor:[UIColor whiteColor]];
         [progressSlider setMaximumTrackTintColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.4]];
         progressSlider.value = 0.f;
@@ -285,8 +285,7 @@ static int GLControllIndex = 1;
 - (UIButton *)backButton {
     if (!backButton) {
         backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, GLVideoControlBarHeight , GLVideoControlBarHeight)];
-        UIImage * image = PoporAVImage(@"back");
-        [backButton setImage:PoporAVImage(@"back") forState:UIControlStateNormal];
+        [backButton setImage:[PoporAVPlayerBundle imageBundleNamed:@"back"] forState:UIControlStateNormal];
         backButton.contentHorizontalAlignment =UIControlContentHorizontalAlignmentLeft;
         backButton.contentEdgeInsets = UIEdgeInsetsMake(5, 0, -5, 0);
         backButton.imageEdgeInsets = UIEdgeInsetsMake(6, 6, 6, 6);

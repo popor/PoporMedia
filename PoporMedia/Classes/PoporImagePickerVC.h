@@ -7,13 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SKFCamera/LLSimpleCamera.h>
+#import "PoporMediaPrefix.h"
 
-typedef void(^PoporImagePickerFinishBlock)    (NSArray * array);
+typedef void(^PoporImagePickerFinishBlock) (NSArray * array);
 
 @interface PoporImagePickerVC : UIViewController
 
-- (id)initWithFinishBlock:(PoporImagePickerFinishBlock)block; // 拍摄单张图片,开启了编辑图片功能,
-- (id)initWithMaxNum:(int)maxNum finishBlock:(PoporImagePickerFinishBlock)block; // 大于1张的话,不开启编辑图片功能.
+@property (nonatomic, strong) LLSimpleCamera   *camera;
+@property (strong, nonatomic) UILabel          *errorLabel;
+@property (strong, nonatomic) UIButton         *snapButton;
+@property (strong, nonatomic) UIButton         *switchButton;
+@property (strong, nonatomic) UIButton         *flashButton;
+@property (strong, nonatomic) UIButton         *backButton;
 
+@property (nonatomic, strong) UIButton         *completeBT;
+
+@property (nonatomic, strong) NSMutableArray   *imageArray;// 针对连拍图片数组
+@property (nonatomic        ) int              maxNum;
+@property (nonatomic, strong) UICollectionView *previewCV;
+@property (nonatomic        ) CGSize           ccSize;
+
+@property (nonatomic, getter=isSingleOrigin) BOOL             singleOrigin;//单拍照片是否使用原图
+
+@property (nonatomic, copy  ) PoporImagePickerCameraBlock appearBlock;
+
+// 大于1张的话,不开启编辑图片功能.
+- (id)initWithMaxNum:(int)maxNum singleOrigin:(BOOL)singleOrigin finishBlock:(PoporImagePickerFinishBlock)block;
 
 @end

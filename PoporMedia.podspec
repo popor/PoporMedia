@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.4'
+    s.version          = '0.0.14'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
     
     s.subspec 'PoporMedia' do |ss|
         ss.source_files = 'PoporMedia/Classes/*.{h,m}'
+        ss.resource = 'PoporMedia/Classes/PoporMedia.bundle'
         
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'
@@ -35,6 +36,9 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'PoporUI/UIDeviceScreen'
         
         ss.ios.dependency 'PoporImageBrower'
+        #ss.ios.dependency 'PEPhotoCropEditor'
+        
+        ss.ios.dependency 'ReactiveObjC' #为了Block安全, 其实在PoporAVPlayer已经包含了
         
     end
 

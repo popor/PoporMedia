@@ -9,23 +9,25 @@
 #import "PoporMedia.h"
 
 #import "PoporVideoProvider.h"
-#import "PoporImagePickerVC.h"
-#import <TZImagePickerController/TZImagePickerController.h>
 #import <Photos/Photos.h>
 #import "NSFileManager+Tool.h"
 #import <PoporUI/IToastKeyboard.h>
 
 @implementation PoporMedia
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin block:(PoporImageFinishBlock)block {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil block:block];
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin finish:(PoporImageFinishBlock)finish {
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish];
 }
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions block:(PoporImageFinishBlock)block
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish {
+    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:actions finish:finish camera:nil album:nil];
+}
+
+- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish camera:(PoporImagePickerCameraBlock)cameraAppearBlock album:(PoporImagePickerAlbumBlock)albumAppearBlock
 {
-    __weak typeof(vc) weakVC      = vc;
-    __weak typeof(self) weakSelf  = self;
-    weakSelf.PoporImageFinishBlock = block;
+    __weak typeof(vc) weakVC       = vc;
+    __weak typeof(self) weakSelf   = self;
+    weakSelf.PoporImageFinishBlock = finish;
     
     UIAlertController * oneAC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -34,21 +36,28 @@
 #if TARGET_IPHONE_SIMULATOR//模拟器
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
-        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount finishBlock:^(NSArray *array) {
+        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount singleOrigin:origin finishBlock:^(NSArray *array) {
             [weakSelf hasSelectImages:array assets:nil origin:origin];
         }];
+        if (maxCount == 1) {
+            pickVC.appearBlock = cameraAppearBlock;
+        }
         
         [weakVC presentViewController:pickVC animated:YES completion:nil];
 #endif
     }];
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"使用相册");
+        //NSLog(@"使用相册");
         
         TZImagePickerController *imageVC = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
         imageVC.allowPickingImage         = YES;
         imageVC.allowPickingVideo         = NO;
         imageVC.allowTakePicture          = NO;
         imageVC.allowPickingOriginalPhoto = origin;
+        
+        if (albumAppearBlock) {
+            albumAppearBlock(imageVC);
+        }
         
         [imageVC setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
             [weakSelf hasSelectImages:photos assets:assets origin:isSelectOriginalPhoto];
@@ -74,11 +83,11 @@
 }
 
 #pragma mark - video
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType block:(PoporVideoFinishBlock)block {
-    [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil block:block];
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType finish:(PoporVideoFinishBlock)finish {
+    [self showVideoACTitle:title message:message vc:vc videoIconSize:size qualityType:qualityType actions:nil finish:finish];
 }
 
-- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions block:(PoporVideoFinishBlock)block{
+- (void)showVideoACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc videoIconSize:(CGSize)size qualityType:(UIImagePickerControllerQualityType)qualityType actions:(NSArray *)actions finish:(PoporVideoFinishBlock)finish{
     
     __weak typeof(vc) weakVC = vc;
     __weak typeof(self) weakSelf = self;
@@ -88,7 +97,7 @@
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
     UIAlertAction * albumAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"使用相册");
+        //NSLog(@"使用相册");
         // 视频目前只能单独选择
         TZImagePickerController *imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:4 delegate:nil pushPhotoPickerVc:YES];
         imagePickerVC.allowPickingImage         = NO;
@@ -97,11 +106,11 @@
         imagePickerVC.allowPickingOriginalPhoto = NO;
         
         [imagePickerVC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
-            NSLog(@"1");
+            //NSLog(@"1");
             
             [PoporMedia iosVideoUrlWithPHAsset:asset block:^(NSURL *fileURL, NSString *fileTitle) {
-                NSLog(@"2");
-                NSLog(@"fileUrl:%@, fileTitle:%@", fileURL.absoluteString, fileTitle);
+                //NSLog(@"2");
+                //NSLog(@"fileUrl:%@, fileTitle:%@", fileURL.absoluteString, fileTitle);
                 
                 PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
                 option.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
@@ -112,7 +121,7 @@
                 option.synchronous = NO;
                 
                 [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                    [weakSelf feedbackVideoUrl:fileURL imageData:imageData image:nil phAsset:asset block:block];
+                    [weakSelf feedbackVideoUrl:fileURL imageData:imageData image:nil phAsset:asset finish:finish];
                 }];
             }];
         }];
@@ -132,7 +141,7 @@
             [imageProvider setHasTakeVideo:^(NSURL * videoURL) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIImage * image = [PoporMedia thumbnailImageForVideo:videoURL atTime:0.1];
-                    [weakSelf feedbackVideoUrl:videoURL imageData:nil image:image phAsset:nil block:block];
+                    [weakSelf feedbackVideoUrl:videoURL imageData:nil image:image phAsset:nil finish:finish];
                 });
             }];
             weakSelf.imageProvider = imageProvider;
@@ -153,11 +162,11 @@
     [vc presentViewController:oneAC animated:YES completion:nil];
 }
 
-- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset block:(PoporVideoFinishBlock)block{
-    if(block){
+- (void)feedbackVideoUrl:(NSURL *)videoURL imageData:(NSData *)imageData image:(UIImage *)image phAsset:(PHAsset *)phAsset finish:(PoporVideoFinishBlock)finish{
+    if(finish){
         if (!videoURL) {
             AlertToastTitle(@"获取视频信息出错");
-            block(nil, nil, nil, nil, nil, 0, 0);
+            finish(nil, nil, nil, nil, nil, 0, 0);
             return;
         }
         
@@ -179,7 +188,7 @@
             time = (int)second;
         }
         videoSize = videoSize/1024.0f/1024.0f;
-        block(videoURL, videoPath, imageData, image, phAsset, time, videoSize);
+        finish(videoURL, videoPath, imageData, image, phAsset, time, videoSize);
     }
 }
 
@@ -212,7 +221,7 @@
     thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
     
     if(!thumbnailImageRef){
-        NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
+        //NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
     }
     UIImage*thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
     

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PoporImageEntity.h"
+#import "PoporMediaPrefix.h"
 
 @interface PoporImagePreviewCC : UICollectionViewCell
 

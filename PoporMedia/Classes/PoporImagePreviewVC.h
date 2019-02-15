@@ -9,6 +9,7 @@
 #import <PoporImageBrower/PoporImageBrower.h>
 #import "PoporImageEntity.h"
 #import <PoporFoundation/PrefixBlock.h>
+#import "PoporMediaPrefix.h"
 
 // 预览
 @interface PoporImagePreviewVC : PoporImageBrower

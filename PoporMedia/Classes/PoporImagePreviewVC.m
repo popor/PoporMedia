@@ -129,7 +129,7 @@
     });
     self.backButton = ({
         UIButton * button = [[UIButton alloc] initWithFrame:CGRectZero];
-        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/navi_back"] forState:UIControlStateNormal];
+        [button setImage:[PoporMediaImageBundle imageBundleNamed:@"navi_back"] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
         
@@ -140,8 +140,8 @@
     
     self.selectButton = ({
         UIButton * button  = [[UIButton alloc] initWithFrame:CGRectZero];
-        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_def_previewVc"] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_sel_photoPickerVc"] forState:UIControlStateSelected];
+        [button setImage:[PoporMediaImageBundle imageBundleNamed:@"photo_def_previewVc"] forState:UIControlStateNormal];
+        [button setImage:[PoporMediaImageBundle imageBundleNamed:@"photo_sel_photoPickerVc"] forState:UIControlStateSelected];
         [button addTarget:self action:@selector(selectButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.naviBar addSubview:button];
@@ -171,7 +171,7 @@
     });
     
     self.numberImageView = ({
-        UIImageView * iv  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Frameworks/TZImagePickerController.framework/TZImagePickerController.bundle/photo_number_icon"]];
+        UIImageView * iv  = [[UIImageView alloc] initWithImage:[PoporMediaImageBundle imageBundleNamed:@"photo_number_icon"]];
         iv.backgroundColor = [UIColor clearColor];
         
         [self.toolBar addSubview:iv];
@@ -191,7 +191,7 @@
 }
 
 - (void)backButtonAction {
-    NSLog(@"WKQ 返回事件");
+    //NSLog(@"WKQ 返回事件");
     dispatch_async(dispatch_get_main_queue(), ^{
         [self close];
     });
