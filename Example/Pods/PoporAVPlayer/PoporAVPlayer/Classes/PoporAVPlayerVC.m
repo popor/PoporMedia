@@ -6,7 +6,8 @@
 //  Copyright © 2018年 popor. All rights reserved.
 
 #import "PoporAVPlayerVC.h"
-#import "PoporAVPlayerVCRouter.h"
+#import "PoporAVPlayerVCPresenter.h"
+#import "PoporAVPlayerVCInteractor.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <Masonry/Masonry.h>
 #import <PoporUI/UIView+Extension.h>
@@ -14,13 +15,13 @@
 
 #import "PoporAVPlayerBundle.h"
 
-static int GLViewIndex     = 0;
-static int GLControllIndex = 1;
+static int GLViewIndex0     = 0;
+static int GLControllIndex1 = 1;
 
 
 @interface PoporAVPlayerVC ()
 
-@property (nonatomic, strong) id<PoporAVPlayerVCEventHandler, PoporAVPlayerVCDataSource> present;
+@property (nonatomic, strong) PoporAVPlayerVCPresenter * present;
 
 @end
 
@@ -43,16 +44,13 @@ static int GLControllIndex = 1;
 
 @synthesize rotateButton;
 @synthesize timeIndicatorView;
+
+@synthesize deallocBlock, appStatusBarStyle, viewDidLoadBlock;
+
 @synthesize willAppearBlock;
 @synthesize willDisappearBlock;
 @synthesize lockRotateBT;
 @synthesize showLockRotateBT;
-
-
-- (void)dealloc {
-    [self.present removeKVO];
-    //NSLog(@"PoporAVPlayerVC dealloc, work well.");
-}
 
 - (instancetype)initWithDic:(NSDictionary *)dic {
     if (self = [super init]) {
@@ -61,21 +59,18 @@ static int GLControllIndex = 1;
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    if (!self.title) {
-        self.title = @"播放器";
+- (void)dealloc {
+    [self preDealloc];
+    //NSLog(@"PoporAVPlayerVC dealloc, work well.");
+}
+
+- (void)preDealloc {
+    [self.present removeKVO];
+    if (self.deallocBlock) {
+        self.deallocBlock();
+    } else {
+        [UIApplication sharedApplication].statusBarStyle = self.appStatusBarStyle;
     }
-    self.view.backgroundColor = [UIColor whiteColor];
-    if (!self.present) {
-        [PoporAVPlayerVCRouter setVCPresent:self];
-    }
-    
-    [self addViews];
-    [self masLayoutSubviews];
-    
-    [self.present setDefaultProgressTime];
-    [self.present setupVideoPlaybackForURL:self.videoURL];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,7 +82,7 @@ static int GLControllIndex = 1;
     if (self.willAppearBlock) {
         self.willAppearBlock();
     }else{
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
     }
     [self addNC:YES];
 }
@@ -97,7 +92,7 @@ static int GLControllIndex = 1;
     if (self.willDisappearBlock) {
         self.willDisappearBlock();
     }else{
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
     }
     [self addNC:NO];
 }
@@ -107,6 +102,30 @@ static int GLControllIndex = 1;
     
     // 恢复旋转锁.
     [PoporOrientation share].lock = NO;
+}
+
+- (void)viewDidLoad {
+    [self assembleViper];
+    [super viewDidLoad];
+    
+    if (!self.title) {
+        self.title = @"播放器";
+    }
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)assembleViper {
+    if (!self.present) {
+        PoporAVPlayerVCPresenter * present = [PoporAVPlayerVCPresenter new];
+        PoporAVPlayerVCInteractor * interactor = [PoporAVPlayerVCInteractor new];
+        
+        self.present = present;
+        [present setMyInteractor:interactor];
+        [present setMyView:self];
+        
+        [self addViews];
+        [self startEvent];
+    }
 }
 
 #pragma mark - views
@@ -119,13 +138,29 @@ static int GLControllIndex = 1;
         self.PoporAVPlayerlayer = [[PoporAVPlayerlayer alloc] init];
         self.PoporAVPlayerlayer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         
-        [self.view insertSubview:self.PoporAVPlayerlayer atIndex:GLViewIndex];
+        [self.view insertSubview:self.PoporAVPlayerlayer atIndex:GLViewIndex0];
         AVPlayerLayer * layer = (AVPlayerLayer *)self.PoporAVPlayerlayer.layer;
         [layer setPlayer:self.avPlayer];
     }
     [self addTopBottomBarViews];
     [self addTopBottomBarTargetAction];
     [self addGR];
+    [self masLayoutSubviews];
+    
+    if (self.viewDidLoadBlock) {
+        self.viewDidLoadBlock();
+    } else {
+        self.appStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }
+}
+
+// 开始执行事件,比如获取网络数据
+- (void)startEvent {
+    [self.present startEvent];
+    
+    [self.present setDefaultProgressTime];
+    [self.present setupVideoPlaybackForURL:self.videoURL];
 }
 
 - (void)addGR {
@@ -137,8 +172,8 @@ static int GLControllIndex = 1;
 - (void)addTopBottomBarViews {
     self.view.backgroundColor = [UIColor blackColor];
     
-    [self.view insertSubview:self.topBar atIndex:GLControllIndex];
-    [self.view insertSubview:self.bottomBar atIndex:GLControllIndex];
+    [self.view insertSubview:self.topBar    atIndex:GLControllIndex1];
+    [self.view insertSubview:self.bottomBar atIndex:GLControllIndex1];
     
     [self.bottomBar addSubview:self.playButton];
     [self.bottomBar addSubview:self.rotateButton];
@@ -146,13 +181,13 @@ static int GLControllIndex = 1;
     [self.bottomBar addSubview:self.timeLabel];
     
     // 返回按钮
-    [self.topBar addSubview:self.backButton];
+    [self.topBar    addSubview:self.backButton];
     // 缓冲进度条
     [self.bottomBar insertSubview:self.bufferProgressView belowSubview:self.progressSlider];
     // 快进、快退指示器
-    [self.view addSubview:self.timeIndicatorView];
+    [self.view      addSubview:self.timeIndicatorView];
     // 标题
-    [self.topBar addSubview:self.titleLabel];
+    [self.topBar    addSubview:self.titleLabel];
     // 方向锁
     if (self.showLockRotateBT) {
         [self.topBar addSubview:self.lockRotateBT];
@@ -160,9 +195,9 @@ static int GLControllIndex = 1;
 }
 
 - (void)addTopBottomBarTargetAction {
-    [self.playButton addTarget:self.present action:@selector(playButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
-    [self.rotateButton addTarget:self.present action:@selector(rotateAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backButton addTarget:self.present action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.playButton       addTarget:self.present action:@selector(playButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
+    [self.rotateButton     addTarget:self.present action:@selector(rotateAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backButton       addTarget:self.present action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
     if (self.showLockRotateBT) {
         [self.lockRotateBT addTarget:self.present action:@selector(lockRotateAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -186,16 +221,6 @@ static int GLControllIndex = 1;
         
     }
 }
-
-#pragma mark -
-#pragma mark - Action Code
-
-
-#pragma mark -
-#pragma mark - getters and setters
-
-#pragma mark - 设置播放进度时间为0
-
 
 #pragma mark - getter
 - (void)setTitle:(NSString *)title {

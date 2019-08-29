@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "11B046EA2C837F5A3D15CE1334CD1FB3"
+               BlueprintIdentifier = "79BFEE24BDA715C459390BEF93511D7B"
+               BuildableName = "SKFCamera.framework"
                BlueprintName = "SKFCamera"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "SKFCamera.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -19,7 +19,7 @@
 #import <PoporUI/UIImage+Tool.h>
 #import <PoporFoundation/PrefixFun.h>
 #import <PoporImageBrower/PoporImageBrower.h>
-#import <PoporAVPlayer/PoporAVPlayerVCRouter.h>
+#import <PoporAVPlayer/PoporAVPlayerVC.h>
 
 @interface PoporVideoVC ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -151,7 +151,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     VideoEntity * entity = self.videoArray[indexPath.row];
-    UIViewController * vc = [PoporAVPlayerVCRouter vcWithDic:@{@"title":@"视频", @"videoURL":entity.videoURL, @"showLockRotateBT":@(NO)}];
+    NSDictionary * dic = @{@"title":@"视频", @"videoURL":entity.videoURL, @"showLockRotateBT":@(NO)};
+    UIViewController * vc = [[PoporAVPlayerVC alloc] initWithDic:dic];
     vc.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:vc animated:YES];

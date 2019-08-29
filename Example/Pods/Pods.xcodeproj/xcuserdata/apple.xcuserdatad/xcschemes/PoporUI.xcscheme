@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B918CBA557A33FBA6423BD2EEC336DE0"
+               BlueprintIdentifier = "817833671E949B1C5DDEDB675875A7BE"
+               BuildableName = "PoporUI.framework"
                BlueprintName = "PoporUI"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "PoporUI.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

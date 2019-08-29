@@ -12,6 +12,7 @@
 
 #import "NSAssistant.h"
 #import "NSFileManager+Tool.h"
+#import "NSObject+assign.h"
 #import "NSObject+performSelector.h"
 #import "NSObject+Swizzling.h"
 #import "NSString+email.h"

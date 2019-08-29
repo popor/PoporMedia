@@ -6,6 +6,8 @@
 //  Copyright © 2018年 popor. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 #ifndef PrefixBlock_h
 #define PrefixBlock_h
 
@@ -18,6 +20,7 @@
 typedef void(^BlockPVoid)             (void);
 typedef void(^BlockPInt)              (int number);
 typedef void(^BlockPInteger)          (NSInteger number);
+typedef void(^BlockPFloat)            (CGFloat number);
 typedef void(^BlockPBool)             (BOOL value);
 typedef void(^BlockPString)           (NSString * string);
 typedef void(^BlockPDic)              (NSDictionary * dic);

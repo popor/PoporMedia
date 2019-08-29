@@ -15,12 +15,9 @@
 #import "PoporAVPlayerPrifix.h"
 #import "PoporAVPlayerTimeIndicatorView.h"
 #import "PoporAVPlayerVC.h"
-#import "PoporAVPlayerVCDataSource.h"
-#import "PoporAVPlayerVCEventHandler.h"
 #import "PoporAVPlayerVCInteractor.h"
 #import "PoporAVPlayerVCPresenter.h"
 #import "PoporAVPlayerVCProtocol.h"
-#import "PoporAVPlayerVCRouter.h"
 
 FOUNDATION_EXPORT double PoporAVPlayerVersionNumber;
 FOUNDATION_EXPORT const unsigned char PoporAVPlayerVersionString[];
