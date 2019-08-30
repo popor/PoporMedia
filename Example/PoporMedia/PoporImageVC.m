@@ -13,10 +13,10 @@
 #import <PoporMedia/PoporMedia.h>
 
 #import <PoporMedia/PoporImagePreviewCC.h>
-#import <PoporFoundation/PrefixSize.h>
-#import <PoporUI/UIView+Extension.h>
-#import <PoporUI/UIImage+create.h>
-#import <PoporFoundation/PrefixFun.h>
+#import <PoporFoundation/Size+pPrefix.h>
+#import <PoporUI/UIView+pExtension.h>
+#import <PoporUI/UIImage+pCreate.h>
+#import <PoporFoundation/Fun+pPrefix.h>
 #import <PoporImageBrower/PoporImageBrower.h>
 
 @interface PoporImageVC () <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -104,7 +104,7 @@
 - (UICollectionView *)addCV {
     float gap   = 10;
     int colume  = 4;
-    float width = (ScreenSize.width - gap*(colume-1))/colume;
+    float width = (PSCREEN_SIZE.width - gap*(colume-1))/colume;
     self.ccSize = CGSizeMake(width, width);
     
     //1.初始化layout

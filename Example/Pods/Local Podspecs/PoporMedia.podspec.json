@@ -1,6 +1,6 @@
 {
   "name": "PoporMedia",
-  "version": "0.0.15",
+  "version": "1.01",
   "summary": "Contain select image video;play video;display image",
   "homepage": "https://github.com/popor/PoporMedia",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporMedia.git",
-    "tag": "0.0.15"
+    "tag": "1.01"
   },
   "platforms": {
     "ios": "8.0"
@@ -36,7 +36,7 @@
           "PoporFoundation/NSFileManager": [
 
           ],
-          "PoporFoundation/PrefixCore": [
+          "PoporFoundation/Prefix": [
 
           ],
           "PoporUI/UIView": [

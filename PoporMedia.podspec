@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporMedia'
-    s.version          = '0.0.15'
+    s.version          = '1.01'
     s.summary          = 'Contain select image video;play video;display image'
     
     s.homepage         = 'https://github.com/popor/PoporMedia'
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
         ss.ios.dependency 'SKFCamera'
         
         ss.ios.dependency 'PoporFoundation/NSFileManager'
-        ss.ios.dependency 'PoporFoundation/PrefixCore'
+        ss.ios.dependency 'PoporFoundation/Prefix'
         
         ss.ios.dependency 'PoporUI/UIView'
         ss.ios.dependency 'PoporUI/UIImage'
