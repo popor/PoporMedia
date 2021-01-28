@@ -9,7 +9,7 @@
 #ifndef Fun_pPrefix_h
 #define Fun_pPrefix_h
 
-// 异步执行
+#pragma mark - 异步执行
 #ifndef dispatch_main_async_safe_sd
 #define dispatch_main_async_safe_sd(block)\
 if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
@@ -19,16 +19,14 @@ dispatch_async(dispatch_get_main_queue(), block);\
 }
 #endif
 
-#define WeakSelf(weakSelf) __weak __typeof(self)weakSelf = self
-
-// 标记开发状态
+#pragma mark - 标记开发状态
 #ifndef __OPTIMIZE__
 #define PIsDebugVersion                     YES
 #else
 #define PIsDebugVersion                     NO
 #endif
 
-// 特殊输入日志
+#pragma mark - 特殊输入日志
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
 
@@ -45,10 +43,30 @@ dispatch_async(dispatch_get_main_queue(), block);\
 //#define NSLogInfo2(FORMAT, ...) printf("\nfunction:%s line:%d content:%s\n", __FUNCTION__, __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 //#define NSLog2(format, ...) printf("func:%s:\n%s\n---------------------\n\n", __PRETTY_FUNCTION__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
 
-#define NSLogRect(rect)		NSLog(@"CGRect:%s \t= %@", #rect, NSStringFromCGRect(rect));
-#define NSLogSize(size)		NSLog(@"CGSize:%s \t= %@", #size, NSStringFromCGSize(size));
-#define NSLogPoint(point)	NSLog(@"CGPoint:%s \t= %@", #point, NSStringFromCGPoint(point));
-#define NSLogRange(range)	NSLog(@"NSRange:%s \t= %@", #range, NSStringFromRange(range));
+// fun 0
+#define NSLogRect(rect)         NSLog(@"‼️ CGRect : %s = %@"   , #rect,   NSStringFromCGRect(rect));
+#define NSLogSize(size)         NSLog(@"‼️ CGSize : %s = %@"   , #size,   NSStringFromCGSize(size));
+#define NSLogPoint(point)       NSLog(@"‼️ CGPoint : %s = %@"  , #point,  NSStringFromCGPoint(point));
+#define NSLogRange(range)       NSLog(@"‼️ NSRange : %s = %@"  , #range,  NSStringFromRange(range));
+#define NSLogInset(inset)       NSLog(@"‼️ Inset : %s = %@"    , #inset,  NSStringFromUIEdgeInsets(inset));
+
+#define NSLogString(string)     NSLog(@"‼️ String : %s = %@"   , #string, string);
+#define NSLogFloat(value)       NSLog(@"‼️ Float : %s = %f"    , #value,  value);
+#define NSLogInt(value)         NSLog(@"‼️ Int : %s = %i"      , #value,  value);
+#define NSLogInteger(value)     NSLog(@"‼️ Integer : %s = %li" , #value,  value);
+
+// fun 1
+#define NSLogRectTitle(rect, title)         NSLog(@"‼️ CGRect  %@ : %s = %@"   , title, #rect,   NSStringFromCGRect(rect));
+#define NSLogSizeTitle(size, title)         NSLog(@"‼️ CGSize  %@ : %s = %@"   , title, #size,   NSStringFromCGSize(size));
+#define NSLogPointTitle(point, title)       NSLog(@"‼️ CGPoint %@ : %s = %@"   , title, #point,  NSStringFromCGPoint(point));
+#define NSLogRangeTitle(range, title)       NSLog(@"‼️ NSRange %@ : %s = %@"   , title, #range,  NSStringFromRange(range));
+#define NSLogInsetTitle(inset, title)       NSLog(@"‼️ Inset %@ : %s = %@"     , title, #inset,  NSStringFromUIEdgeInsets(inset));
+
+#define NSLogStringTitle(string, title)     NSLog(@"‼️ String  %@ : %s = %@"   , title, #string, string);
+#define NSLogFloatTitle(value, title)       NSLog(@"‼️ Float   %@ : %s = %f"   , title, #value,  value);
+#define NSLogIntTitle(value, title)         NSLog(@"‼️ Int     %@ : %s = %i"   , title, #value,  value);
+#define NSLogIntegerTitle(value, title)     NSLog(@"‼️ Integer %@ : %s = %li"  , title, #value,  value);
+
 
 #else
 
@@ -61,18 +79,33 @@ dispatch_async(dispatch_get_main_queue(), block);\
 #define NSPrintInfo(FORMAT, ...) {}
 #define NSLogInfo(FORMAT, ...) ()
 
-#define NSLogRect(rect) {}
-#define NSLogSize(size) {}
-#define NSLogPoint(point) {}
-#define NSLogRange(range) {}
+// fun 0
+#define NSLogRect(rect)     {}
+#define NSLogSize(size)     {}
+#define NSLogPoint(point)   {}
+#define NSLogRange(range)   {}
+#define NSLogInset(inset)   {}
+
+#define NSLogString(string) {}
+#define NSLogFloat(value)   {}
+#define NSLogInt(value)     {}
+#define NSLogInteger(value) {}
+
+// fun 1
+#define NSLogRectTitle(rect, title)         {}
+#define NSLogSizeTitle(size, title)         {}
+#define NSLogPointTitle(point, title)       {}
+#define NSLogRangeTitle(range, title)       {}
+#define NSLogInsetTitle(inset, title)       {}
+
+#define NSLogStringTitle(string, title)     {}
+#define NSLogFloatTitle(value, title)       {}
+#define NSLogIntTitle(value, title)         {}
+#define NSLogIntegerTitle(value, title)     {}
 
 #endif
 
-#define PIsIphoneDevice (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define PIsIpadDevice   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-
-// -----------------------------------------------------------------------------
-#pragma mark - iOS
+#pragma mark - NSValue
 #if TARGET_OS_IOS || TARGET_OS_TV || TARGET_OS_WATCH
 #import <UIKit/UIKit.h>
 
@@ -84,11 +117,22 @@ dispatch_async(dispatch_get_main_queue(), block);\
 #define NSValueInsets(insets)       [NSValue valueWithUIEdgeInsets:insets]
 #define NSValueOffset(insets)       [NSValue valueWithUIOffset:insets]
 
-#pragma mark - macOS
 #elif TARGET_OS_MAC
 #import <AppKit/AppKit.h>
 
-
 #endif
+
+// --- 其他小函数 ----------------------------------------------------------------
+#pragma mark - NSIndexPath
+#undef  PIndexPath
+#define PIndexPath(section, row)  [NSIndexPath indexPathForRow:row inSection:section]
+
+#pragma mark - 图片
+#undef  PImageNamed
+#define PImageNamed(imageName)    [UIImage imageNamed:imageName]
+
+#pragma mark - 设备型号
+#define PIsIphoneDevice (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define PIsIpadDevice   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #endif /* Fun+pPrefix_h */

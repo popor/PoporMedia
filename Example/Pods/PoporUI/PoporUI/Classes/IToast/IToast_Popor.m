@@ -136,7 +136,7 @@ static iToastSettingsPopor *sharedSettings = nil;
                 point = CGPointMake(window.frame.size.width / 2, window.frame.size.height - 45);
             } else if (theSettings.gravity == iToastGravityPoporCenter) {
 #pragma mark - 王凯庆更改,假如键盘弹开了,那么在键盘上面.
-                point = CGPointMake(window.frame.size.width/2, (window.frame.size.height - self.itool.keyboardH)/2);
+                point = CGPointMake(window.frame.size.width/2, (window.frame.size.height - MAX(self.itool.keyboardH, self.itool.bottom))/2);
             } else {
                 point = theSettings.postition;
             }
@@ -148,8 +148,8 @@ static iToastSettingsPopor *sharedSettings = nil;
         {
             //showBT.transform = CGAffineTransformMakeRotation(M_PI);
             
-            float width = window.frame.size.width;
-            float height = window.frame.size.height;
+            CGFloat width = window.frame.size.width;
+            CGFloat height = window.frame.size.height;
             
             if (theSettings.gravity == iToastGravityPoporTop) {
                 point = CGPointMake(width / 2, height - 45);
@@ -211,7 +211,7 @@ static iToastSettingsPopor *sharedSettings = nil;
     
     showBT.center = point;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((float)theSettings.duration/1000 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((CGFloat)theSettings.duration/1000 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self hideToast];
     });
     

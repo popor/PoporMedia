@@ -27,6 +27,30 @@ pod 'PoporFoundation'
 更新日志
 0.0.36: 之后不再对 filrUrl 进行toUrlEncode, 因为发现 AVAudioPlayer 使用本地url不能将汉字转换为 urlCode .
 
+1.10
+增加NSString+pSwizzling
+
+1.11
+NSDictionary+pSwizzling setSafeObject: forKey: 增加对key的判断
+
+1.13
+增加:  NSString.NSMutableAttributedString 生成具有间隔的att, 例如身份证、电话号码、银行卡、金钱数等
+
+1.14
+增加NSTimer, (从<<Effective Objective-C 2.0>>截取),解决了NSTimer循环引用的问题,简化使用.
+
+1.15
+适配swift: int > NSInteger,  float > CGFloat
+
+1.16
+NSAssistant 增加 paraNameOf: equal:, 可以获得某个参数的名称, 避免一部分硬代码.
+
+1.20
+整理NSMutableAttributedString+pAtt 和 NSMutableParagraphStyle+pAtt, 增加了链式编程代码.
+
+1.21
+NSAttributedString (pAtt) 整理
+
 ## Author
 
 popor, 908891024@qq.com

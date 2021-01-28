@@ -52,7 +52,28 @@ UIViewController : UIViewController (AC: iPad弹出UIAlertControl sheet 模式�
 #### 0.0.46
 UINavigationController 增加静态方法 statusBarHeight
 
+#### 1.11
+UIButton+pLayoutCustom: 取消该class方法.
+至少在iOS13的虚拟机无法正确运行,所以取消这里的方法了.(不适用category, 使用单独定义的UIButton可以正常运行)
 
+#### 1.13
+更新UILabel+pFormat, UITextField+pFormat
+
+1.15
+适配swift: int > NSInteger,  float > CGFloat
+
+1.16
+摘自:https://github.com/wode0weiyi/MethodChaining
+增加了UIAlertController的链式编程.
+
+1.18
+更新UIButton的UIButton+pUIEdgeInsets.
+
+1.19
+UIButton+pUIEdgeInsets 可以处理NSAttributedString.
+
+1.22
+适配xcode12, ios和macOS兼容的问题.
 
 ## Author
 

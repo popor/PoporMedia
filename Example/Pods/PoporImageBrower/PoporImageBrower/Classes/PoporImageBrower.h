@@ -25,9 +25,9 @@ typedef NS_ENUM(NSUInteger, PoporImageBrowerStatus) {
 
 extern NSTimeInterval const SWPhotoBrowerAnimationDuration;
 
-typedef UIImageView *(^PoporImageBrowerIVBlock)(PoporImageBrower *browerController, NSInteger index);
-typedef UIImage *    (^PoporImageBrowerImageBlock)(PoporImageBrower *browerController);
-typedef void         (^PoporImageBrowerVoidBlock)(PoporImageBrower *browerController, NSInteger index);
+typedef UIImageView * _Nullable (^PoporImageBrowerIVBlock)   (PoporImageBrower * _Nonnull browerController, NSInteger index);
+typedef UIImage *     _Nullable (^PoporImageBrowerImageBlock)(PoporImageBrower * _Nonnull browerController);
+typedef void                    (^PoporImageBrowerVoidBlock) (PoporImageBrower * _Nonnull browerController, NSInteger index);
 
 @interface PoporImageBrower : UIViewController<UIViewControllerTransitioningDelegate,UIViewControllerAnimatedTransitioning>
 
@@ -51,33 +51,45 @@ typedef void         (^PoporImageBrowerVoidBlock)(PoporImageBrower *browerContro
  */
 @property (nonatomic, readonly) NSInteger index;
 
-@property (nonatomic, readonly,copy) NSArray<PoporImageBrowerEntity *> * myImageArray;
-@property (nonatomic, weak) NSArray<PoporImageBrowerEntity *> * weakImageArray;
+@property (nonatomic, readonly, copy) NSMutableArray<PoporImageBrowerEntity *> * myImageArray;
+@property (nonatomic, weak          ) NSMutableArray<PoporImageBrowerEntity *> * weakImageArray;
 /**
  小图的大小
  */
 @property (nonatomic, readonly) CGSize normalImageViewSize;
 
+// 关闭的时候, 是否恢复之前的方向, 默认为NO; 推荐使用APP自己控制的方向.
+@property (nonatomic        ) BOOL autoResumePresentedVcOrientation;
+
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
         placeholderImageBlock:(PoporImageBrowerImageBlock _Nullable)placeholderImageBlock;
 
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 // weakImageArray, 用于第二次开发,传递weakImageArray的时候,就不需要copyImageArray了
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-               weakImageArray:(NSArray<PoporImageBrowerEntity *> *)weakImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+               weakImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)weakImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
         placeholderImageBlock:(PoporImageBrowerImageBlock _Nullable)placeholderImageBlock;
 
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-               weakImageArray:(NSArray<PoporImageBrowerEntity *> *)weakImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+               weakImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)weakImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
            willDisappearBlock:(PoporImageBrowerVoidBlock _Nullable)willDisappearBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
@@ -89,15 +101,18 @@ typedef void         (^PoporImageBrowerVoidBlock)(PoporImageBrower *browerContro
 
 /**
  显示图片浏览器
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
  */
 - (void)show;
+
+- (void)showFinish:(void (^ _Nullable)(void))finish;
 
 - (void)close;
 
 // 不推荐使用的接口
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil NS_UNAVAILABLE;
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder __unavailable;
+- (instancetype)initWithCoder:(NSCoder * _Nullable)aDecoder __unavailable;
 
 - (instancetype)init NS_UNAVAILABLE;
 

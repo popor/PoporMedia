@@ -54,9 +54,12 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
 
 @implementation PoporImageBrower
 
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
         placeholderImageBlock:(PoporImageBrowerImageBlock _Nullable)placeholderImageBlock
@@ -70,11 +73,14 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
          placeholderImageBlock:placeholderImageBlock];
 }
 
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 // weakImageArray, 用于第二次开发
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-               weakImageArray:(NSArray<PoporImageBrowerEntity *> *)weakImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+               weakImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)weakImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
         placeholderImageBlock:(PoporImageBrowerImageBlock _Nullable)placeholderImageBlock {
@@ -89,10 +95,13 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
          placeholderImageBlock:placeholderImageBlock];
 }
 
+/*
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 - (instancetype)initWithIndex:(NSInteger)index
-               copyImageArray:(NSArray<PoporImageBrowerEntity *> *)copyImageArray
-               weakImageArray:(NSArray<PoporImageBrowerEntity *> *)weakImageArray
-                    presentVC:(UIViewController *)presentVC
+               copyImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)copyImageArray
+               weakImageArray:(NSMutableArray<PoporImageBrowerEntity *> * _Nullable)weakImageArray
+                    presentVC:(UIViewController * _Nonnull)presentVC
              originImageBlock:(PoporImageBrowerIVBlock _Nonnull)originImageBlock
            willDisappearBlock:(PoporImageBrowerVoidBlock _Nullable)willDisappearBlock
                disappearBlock:(PoporImageBrowerVoidBlock _Nullable)disappearBlock
@@ -105,7 +114,7 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
         //保存原来的屏幕旋转状态
         self.originalOrientation = [[presentVC valueForKey:@"interfaceOrientation"] integerValue];
         _index                   = index;
-        _myImageArray            = copyImageArray;
+        _myImageArray            = [copyImageArray mutableCopy];
         if (weakImageArray) {
             _weakImageArray      = weakImageArray;
         }else{
@@ -136,22 +145,31 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
             entity.bigImageUrl   = entity.bigImageUrl?:entity.smallImageUrl;
         }
     }
-    //获取小图
+    // 获取小图
     self.originalImageView  = self.originImageBlock(self, self.index);
     _normalImageViewSize    = self.originalImageView.frame.size;
     self.currentOrientation = [UIDevice currentDevice].orientation;
+    
     __weak typeof(self) weakSelf = self;
     //warning:在下拉屏幕的时候也会触发UIDeviceOrientationDidChangeNotification,所以如果当前屏幕旋转状态没有改变就不用刷新UI
     self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        if(!weakSelf.isViewLoaded) {
+        if (!weakSelf.isViewLoaded) {
             return;
         }
-        if([UIDevice currentDevice].orientation == weakSelf.currentOrientation) {
+        if ([UIDevice currentDevice].orientation == weakSelf.currentOrientation) {
             return;
+        } else {
+            UICollectionView * cv = weakSelf.collectionView;
+            weakSelf.currentOrientation = [UIDevice currentDevice].orientation;
+            [cv reloadData];
+            
+            NSIndexPath * ip = [NSIndexPath indexPathForItem:weakSelf.index inSection:0];
+            [cv scrollToItemAtIndexPath:ip atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+            
+            // 刷新显示CC, 防止小图切大图时候紊乱.
+            PoporImageBrowerCell * cc = (PoporImageBrowerCell *)[cv cellForItemAtIndexPath:ip];
+            [weakSelf collectionView:cv didEndDisplayingCell:cc forItemAtIndexPath:ip];
         }
-        weakSelf.currentOrientation = [UIDevice currentDevice].orientation;
-        [weakSelf.collectionView reloadData];
-        [weakSelf.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     }];
 }
 
@@ -254,12 +272,17 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
         self.scrollBlock(self, self.index);
     }
     // MARK: 滑动,索取父视图图片
+    
+    // 要把之前的图片恢复过来
+    [self.originalImageViews enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, UIImageView*  _Nonnull imgV, BOOL * _Nonnull stop) {
+        if (imgV && !imgV.image) {
+            imgV.image = [self.originalImages objectForKey:key];
+        }
+    }];
+    
     // 有时候取值会失败,这里有一次挽留的机会.注意问题1的前提
     UIImageView *imageView = self.originImageBlock(self, index);
     if (imageView) {
-        [self.originalImageViews enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, UIImageView*  _Nonnull imgV, BOOL * _Nonnull stop) {
-            imgV.image = [self.originalImages objectForKey:key];
-        }];
         [self.originalImageViews removeAllObjects];
         [self.originalImages removeAllObjects];
         NSString *key = [NSString stringWithFormat:@"%ld",(long)index];
@@ -313,7 +336,10 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
 - (void)doPresentAnimation:(id<UIViewControllerContextTransitioning>)transitionContext {
     self.photoBrowerControllerStatus = PoporImageBrowerWillShow;
     UIView *containerView = [transitionContext containerView];
-    containerView.backgroundColor = [UIColor blackColor];
+    
+    //containerView.backgroundColor = [UIColor blackColor];
+    containerView.backgroundColor = [UIColor clearColor];
+    
     self.containerView = containerView;
     UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
     toView.backgroundColor = [UIColor clearColor];
@@ -347,6 +373,8 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
     //计算临时图片放大之后的frame
     CGRect toFrame = [self getTempImageViewFrameWithImage:image];
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        containerView.backgroundColor = [UIColor blackColor];
+        
         self.tempImageView.frame = toFrame;
         //更新状态栏,iphoneX不要隐藏状态栏
         if(![self isIPhoneXSeries]){
@@ -403,8 +431,9 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
         imageView = [self.originalImageViews objectForKey:key];
     }
     _normalImageViewSize = imageView.frame.size;
-    CGRect convertFrame  = [imageView.superview convertRect:imageView.frame toCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
+    CGRect  convertFrame = [imageView.superview convertRect:imageView.frame toCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
     CGFloat duration     = SWPhotoBrowerAnimationDuration;
+    BOOL    animation    = YES;
     
     PoporImageBrowerEntity * entity = self.weakImageArray[_index];
     if (entity.isUseImage) {
@@ -412,23 +441,29 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
     }else{
         if(![[SDImageCache sharedImageCache] imageFromCacheForKey:entity.bigImageUrl.absoluteString] &&
            ![[SDImageCache sharedImageCache] imageFromCacheForKey:entity.smallImageUrl.absoluteString]){
-            duration = 0;
+            animation = NO;
         }
     }
     
     if(CGRectEqualToRect(convertFrame, CGRectZero)){
-        duration = 0;
+        animation = NO;
     }
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         if (self.willDisappearBlock) {
             self.willDisappearBlock(self, self.index);
         }
-        if(duration != 0){
+        if (animation) {
             self.tempImageView.frame = convertFrame;
+        } else {
+            self.tempImageView.alpha = 0;
         }
         containerView.backgroundColor = [UIColor clearColor];
+        
         //旋转屏幕至原来的状态
-        [[UIDevice currentDevice] setValue:@(self.originalOrientation) forKey:@"orientation"];
+        if (self.autoResumePresentedVcOrientation) {
+            [[UIDevice currentDevice] setValue:@(self.originalOrientation) forKey:@"orientation"];
+        }
+        
     } completion:^(BOOL finished) {
         // MARK: 销毁
         if (self.disappearBlock) {
@@ -498,7 +533,15 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
 }
 
 #pragma mark - 打开关闭
+/**
+ 显示图片浏览器
+ 注意: PoporImageBrower.modalPresentationStyle = UIModalPresentationCustom; 全局修改vc.modalPresentationStyle, 别忘了单独处理本接口.
+ */
 - (void)show {
+    [self showFinish:nil];
+}
+
+- (void)showFinish:(void (^ _Nullable)(void))finish {
     if(self.photoBrowerControllerStatus != PoporImageBrowerUnShow) {
         return;
     }
@@ -506,7 +549,15 @@ NSTimeInterval const SWPhotoBrowerAnimationDuration = 0.3f;
         {
             self.transitioningDelegate = self;
             self.modalPresentationStyle = UIModalPresentationCustom;
-            [self.presentVC presentViewController:self animated:YES completion:nil];
+            __weak typeof(self) weakSelf = self;
+            [self.presentVC presentViewController:self animated:YES completion:^{
+                if (weakSelf.modalPresentationStyle != UIModalPresentationCustom) {
+                    NSLog(@"❌❌❌ %s PoporImageBrower.modalPresentationStyle != UIModalPresentationCustom, 可能会发生显示异常. ❌❌❌", __func__);
+                }
+                if (finish) {
+                    finish();
+                }
+            }];
         }
     });
 }

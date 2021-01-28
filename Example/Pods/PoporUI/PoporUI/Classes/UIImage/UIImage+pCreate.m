@@ -20,7 +20,7 @@
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color size:(CGSize)size corner:(CGFloat)corner borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
-    return [UIImage imageFromColor:color size:size corner:corner corners:UIRectCornerAllCorners borderWidth:borderWidth borderColor:nil borderInset:UIEdgeInsetsZero scale:-1];
+    return [UIImage imageFromColor:color size:size corner:corner corners:UIRectCornerAllCorners borderWidth:borderWidth borderColor:borderColor borderInset:UIEdgeInsetsZero scale:-1];
 }
 
 #pragma mark - 制定圆角
@@ -52,14 +52,22 @@
     CGRect rect;
     
     // UIEdgeInsetsZero的情况
-    rect = CGRectMake( borderWidth*0.5 + borderInset.left, // 加上左边的set
-                      borderWidth*0.5 + borderInset.top,  // 加上上面的set
-                      w - borderWidth - borderInset.left - borderInset.right,   // 减去左边右边的set
-                      h - borderWidth - borderInset.top  - borderInset.bottom);// 减去上边下边的set
+    // rect = CGRectMake(borderWidth*scale/2.0 + borderInset.left, // 加上左边的set
+    //                   borderWidth*scale/2.0 + borderInset.top,  // 加上上面的set
+    //                   w - borderWidth*scale - borderInset.left - borderInset.right,   // 减去左边右边的set
+    //                   h - borderWidth*scale - borderInset.top  - borderInset.bottom);// 减去上边下边的set
     
-    float radii = corner-borderWidth;
-    path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:CGSizeMake(radii, radii)];
+    rect = CGRectMake(borderWidth + borderInset.left, // 加上左边的set
+                      borderWidth + borderInset.top,  // 加上上面的set
+                      w - borderWidth*2 - borderInset.left - borderInset.right,   // 减去左边右边的set
+                      h - borderWidth*2 - borderInset.top  - borderInset.bottom);// 减去上边下边的set
     
+    CGFloat radii = corner-borderWidth;
+    if (radii > 0) {
+        path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:CGSizeMake(radii, radii)];
+    } else {
+        path = [UIBezierPath bezierPathWithRect:rect];
+    }
     
     // 设置描边宽度（为了让描边看上去更清楚）
     [path setLineWidth:borderWidth];
@@ -106,7 +114,7 @@
     return [self imageFromImage:image size:size imageDrawRect:CGRectZero bgColor:[UIColor clearColor] corner:0 borderWidth:0 borderColor:nil scale:-1];
 }
 
-+ (UIImage *)imageFromImage:(UIImage *)image size:(CGSize)size corner:(float)corner {
++ (UIImage *)imageFromImage:(UIImage *)image size:(CGSize)size corner:(CGFloat)corner {
     return [self imageFromImage:image size:size imageDrawRect:CGRectZero bgColor:[UIColor clearColor] corner:corner borderWidth:0 borderColor:nil scale:-1];
 }
 
@@ -122,12 +130,12 @@
     
     if (CGRectEqualToRect(imageDrawRect, CGRectZero)) {
         // 图片要居中显示
-        float ImageOW = image.size.width;
-        float ImageOH = image.size.height;
-        float ImageMinScale = MIN(ImageOW/size.width, ImageOH/size.height);
+        CGFloat ImageOW = image.size.width;
+        CGFloat ImageOH = image.size.height;
+        CGFloat ImageMinScale = MIN(ImageOW/size.width, ImageOH/size.height);
         
-        float ImageSW = ImageOW/ImageMinScale;
-        float ImageSH = ImageOH/ImageMinScale;
+        CGFloat ImageSW = ImageOW/ImageMinScale;
+        CGFloat ImageSH = ImageOH/ImageMinScale;
         
         imageDrawRect = CGRectMake(-(ImageSW-size.width)/2, -(ImageSH-size.height)/2, ImageSW, ImageSH);
     }
@@ -135,12 +143,15 @@
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
     
     UIBezierPath * path;
-    if (corner>0 && borderWidth>0) {
+    if (corner>0 || borderWidth>0) {
         // 添加圆到path
-        CGRect pathRect = CGRectMake(0, 0, size.width, size.height);
-        path = [UIBezierPath bezierPathWithRoundedRect:pathRect cornerRadius:corner-borderWidth];
+        CGRect pathRect = CGRectMake(borderWidth*scale/2.0, borderWidth*scale/2.0, size.width - borderWidth*scale, size.height - borderWidth*scale);
+        path = [UIBezierPath bezierPathWithRoundedRect:pathRect cornerRadius:corner-borderWidth*scale];
         [path addClip]; // 超出边界的,都会被忽略掉
-        [path setLineWidth:borderWidth];
+        
+        if (borderColor > 0) {
+            [path setLineWidth:borderWidth];
+        }
     }
     
     if (path) {
@@ -239,12 +250,12 @@
     CGRect drawRect;
     {
         // 图片要居中显示
-        float ImageOW = baseImage.size.width;
-        float ImageOH = baseImage.size.height;
-        float ImageMinScale = MIN(ImageOW/size.width, ImageOH/size.height);
+        CGFloat ImageOW = baseImage.size.width;
+        CGFloat ImageOH = baseImage.size.height;
+        CGFloat ImageMinScale = MIN(ImageOW/size.width, ImageOH/size.height);
         
-        float ImageSW = ImageOW/ImageMinScale;
-        float ImageSH = ImageOH/ImageMinScale;
+        CGFloat ImageSW = ImageOW/ImageMinScale;
+        CGFloat ImageSH = ImageOH/ImageMinScale;
         
         drawRect = CGRectMake(-(ImageSW-size.width)/2, -(ImageSH-size.height)/2, ImageSW, ImageSH);
     }
@@ -276,6 +287,17 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
++ (UIImage *)imageFromLayer:(CALayer *)layer {
+    UIGraphicsBeginImageContextWithOptions(layer.frame.size, NO, 0);
+    
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 #pragma mark - 图片压缩

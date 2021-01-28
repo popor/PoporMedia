@@ -25,7 +25,7 @@
     return iPhoneX;
 }
 
-+ (int)statusBarHeight {
++ (CGFloat)statusBarHeight {
     if (@available(iOS 11.0, *)) {
         UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
         return mainWindow.safeAreaInsets.top;
@@ -40,6 +40,33 @@
     }else{
         return 0;
     }
+}
+
++ (UIEdgeInsets)safeAreaInsets {
+    if (@available(iOS 11.0, *)) {
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        return mainWindow.safeAreaInsets;
+    } else {
+        return UIEdgeInsetsZero;
+    }
+}
+
++ (CGFloat)portainWidth {
+    static CGFloat width;
+    if (width == 0) {
+        CGSize size = [[UIScreen mainScreen] bounds].size;
+        width = MIN(size.width, size.height);
+    }
+    return width;
+}
+
++ (CGFloat)portainHeight {
+    static CGFloat height;
+    if (height == 0) {
+        CGSize size = [[UIScreen mainScreen] bounds].size;
+        height = MAX(size.width, size.height);
+    }
+    return height;
 }
 
 @end

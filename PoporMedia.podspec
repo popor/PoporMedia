@@ -7,20 +7,20 @@
 #
 
 Pod::Spec.new do |s|
-    s.name             = 'PoporMedia'
-    s.version          = '1.03'
-    s.summary          = 'Contain select image video;play video;display image'
+    s.name     = 'PoporMedia'
+    s.version  = '1.03'
+    s.summary  = 'Contain select image video;play video;display image'
     
-    s.homepage         = 'https://github.com/popor/PoporMedia'
-    s.license          = { :type => 'MIT', :file => 'LICENSE' }
-    s.author           = { 'popor' => '908891024@qq.com' }
-    s.source           = { :git => 'https://github.com/popor/PoporMedia.git', :tag => s.version.to_s }
+    s.homepage = 'https://github.com/popor/PoporMedia'
+    s.license  = { :type => 'MIT', :file => 'LICENSE' }
+    s.author   = { 'popor' => '908891024@qq.com' }
+    s.source   = { :git => 'https://github.com/popor/PoporMedia.git', :tag => s.version.to_s }
     
     s.ios.deployment_target = '8.0'
     
     s.subspec 'PoporMedia' do |ss|
         ss.source_files = 'PoporMedia/Classes/*.{h,m}'
-        ss.resource = 'PoporMedia/Classes/PoporMedia.bundle'
+        ss.resource     = 'PoporMedia/Classes/PoporMedia.bundle'
         
         ss.ios.dependency 'Masonry'
         ss.ios.dependency 'TZImagePickerController'
