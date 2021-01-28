@@ -30,15 +30,12 @@ typedef void(^PoporVideoFinishBlock)(NSURL * videoURL, NSString * videoPath, NSD
 // 拍摄的时候增加一个浮层使用,只针对单拍使用.
 
 #pragma mark - image
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin finish:(PoporImageFinishBlock)finish;
-// 可以增加自定义actions
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish;
-
 - (void)showImageACTitle:(NSString *)title
                  message:(NSString *)message
                       vc:(UIViewController *)vc
                 maxCount:(int)maxCount
-                  origin:(BOOL)origin
+             albumOrigin:(BOOL)albumOrigin  // 相册图片原始
+            cameraOrigin:(BOOL)cameraOrigin // 相机是否使用原始图片, 而非编辑
                  actions:(NSArray *)actions
                   finish:(PoporImageFinishBlock)finish
                   camera:(PoporImagePickerCameraBlock)cameraAppearBlock

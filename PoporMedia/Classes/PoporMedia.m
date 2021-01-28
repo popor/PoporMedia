@@ -22,15 +22,16 @@
     return self;
 }
 
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin finish:(PoporImageFinishBlock)finish {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:nil finish:finish];
-}
-
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish {
-    [self showImageACTitle:title message:message vc:vc maxCount:maxCount origin:origin actions:actions finish:finish camera:nil album:nil];
-}
-
-- (void)showImageACTitle:(NSString *)title message:(NSString *)message vc:(UIViewController *)vc maxCount:(int)maxCount origin:(BOOL)origin actions:(NSArray *)actions finish:(PoporImageFinishBlock)finish camera:(PoporImagePickerCameraBlock)cameraAppearBlock album:(PoporImagePickerAlbumBlock)albumAppearBlock
+- (void)showImageACTitle:(NSString *)title
+                 message:(NSString *)message
+                      vc:(UIViewController *)vc
+                maxCount:(int)maxCount
+             albumOrigin:(BOOL)albumOrigin  // 相册图片原始
+            cameraOrigin:(BOOL)cameraOrigin // 相机是否使用原始图片, 而非编辑
+                 actions:(NSArray *)actions
+                  finish:(PoporImageFinishBlock)finish
+                  camera:(PoporImagePickerCameraBlock)cameraAppearBlock
+                   album:(PoporImagePickerAlbumBlock)albumAppearBlock
 {
     __weak typeof(vc) weakVC       = vc;
     __weak typeof(self) weakSelf   = self;
@@ -39,12 +40,12 @@
     UIAlertController * oneAC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction * camerAction = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 #if TARGET_IPHONE_SIMULATOR//模拟器
         AlertToastTitle(@"禁止启动");
 #elif TARGET_OS_IPHONE//真机
-        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount singleOrigin:origin finishBlock:^(NSArray *array) {
-            [weakSelf hasSelectImages:array assets:nil origin:origin];
+        PoporImagePickerVC * pickVC = [[PoporImagePickerVC alloc] initWithMaxNum:maxCount singleOrigin:cameraOrigin finishBlock:^(NSArray *array) {
+            [weakSelf hasSelectImages:array assets:nil origin:NO];
         }];
         if (maxCount == 1) {
             pickVC.appearBlock = cameraAppearBlock;
@@ -60,7 +61,7 @@
         imageVC.allowPickingImage         = YES;
         imageVC.allowPickingVideo         = NO;
         imageVC.allowTakePicture          = NO;
-        imageVC.allowPickingOriginalPhoto = origin;
+        imageVC.allowPickingOriginalPhoto = albumOrigin;
         
         if (albumAppearBlock) {
             albumAppearBlock(imageVC);
@@ -74,7 +75,7 @@
     }];
     
     [oneAC addAction:cancleAction];
-    [oneAC addAction:camerAction];
+    [oneAC addAction:cameraAction];
     [oneAC addAction:albumAction];
     for (UIAlertAction * oneAction in actions) {
         [oneAC addAction:oneAction];

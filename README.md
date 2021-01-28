@@ -26,6 +26,12 @@ viewController.modalPresentationStyle = UIModalPresentationFullScreen;
 
 ```
 
+1.04
+是否使用原始图片参数重新定义.
+相机的origin为是否编辑size的意思.
+相册的origin为是否使用原始图片的意思.(相册的pod仓库编辑效果很差).
+
+
 ## Author
 
 wangkq, 908891024@qq.com
